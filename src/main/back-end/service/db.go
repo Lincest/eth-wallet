@@ -22,7 +22,7 @@ func ConnectDB() {
 	if err != nil {
 		log.Fatalf("get sql DB failed: " + err.Error())
 	}
-	// 自动创建数据库
+	// 自动迁移(创建表)
 	// https://gorm.io/zh_CN/docs/migration.html
 	if err = db.AutoMigrate(model.Models...); err != nil {
 		log.Fatalf("auto migrate failed" + err.Error())

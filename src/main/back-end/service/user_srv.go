@@ -45,3 +45,12 @@ func (srv *userService) GetUserByName(name string) *model.User {
 	}
 	return ret
 }
+
+func (srv *userService) GetUserByNameAndPassWord(name string, password string) *model.User {
+	var ret = &model.User{Name: name, PassWord: password}
+	log.Print("Get user by name")
+	if err := db.Where(ret).First(ret).Debug().Error; err != nil {
+		return nil
+	}
+	return ret
+}

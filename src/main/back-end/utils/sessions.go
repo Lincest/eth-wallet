@@ -15,7 +15,7 @@ import (
 
 // SessionData represents the session.
 type SessionData struct {
-	UID   uint64 // user ID
+	UID   uint   // user ID
 	UName string // username
 }
 
@@ -45,7 +45,7 @@ func GetSession(c *gin.Context) *SessionData {
 
 	err := json.Unmarshal([]byte(sessionDataStr.(string)), ret)
 	if nil != err {
-		return ret
+		return ret // 此时ret为空的sessionData, 可以使用UID == 0鉴别
 	}
 
 	c.Set("session", ret)
