@@ -1,8 +1,8 @@
-## Eth wallet
+# eth-wallet
 
 一个以太坊钱包。
 
-## tech stack
+## tech stack 技术栈
 
 ### 前端
 
@@ -11,9 +11,16 @@
 
 ### 后端
 
-- 框架: `gin`
+- `gin`: [gin-gonic/gin](https://github.com/gin-gonic/gin)
+- `gorm`: [GORM - The fantastic ORM library for Golang, aims to be developer friendly.](https://gorm.io/)
+- `go-ethereum`: [ethereum/go-ethereum](https://github.com/ethereum/go-ethereum)
 
-## file structure
+### 调试
+
+- `ganache`: [Ganache | Overview - Truffle Suite](https://trufflesuite.com/docs/ganache/)
+- `geth`: [Go Ethereum](https://geth.ethereum.org/)
+
+## file structure 文件结构
 
 `./doc/*`: 开发过程的记录文档
 

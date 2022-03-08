@@ -25,8 +25,16 @@ func InitRoutes() {
 	router.Use(sessions.Sessions("eth-wallet-session", store))
 	// routes
 	v1 := router.Group("api/v1")
+	// 检查用户是否登录
 	{
 		v1.GET("/hello-world/:user", ctl.HelloWorldAction)
+		v1.POST("/register", ctl.RegisterAction)
+	}
+	// after auth group
+	authGroup := v1.Group("auth")
+	authGroup.Use(ctl.LoginCheck)
+	{
+
 	}
 	router.Run(":8080")
 }

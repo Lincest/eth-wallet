@@ -1,6 +1,9 @@
 package main
 
-import "back-end/router"
+import (
+	"back-end/router"
+	"back-end/service"
+)
 
 /**
     back_end
@@ -9,5 +12,6 @@ import "back-end/router"
 **/
 
 func main() {
-	router.InitRoutes()
+	service.ConnectDB() // 连接数据库
+	router.InitRoutes() // 初始化路由
 }
