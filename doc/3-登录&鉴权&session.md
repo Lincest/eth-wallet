@@ -135,3 +135,20 @@ authGroup.Use(ctl.LoginCheck) // auth中间件检查用户是否登录
 }
 ```
 
+### 用户密码的保存方式
+
+使用md5保存
+
+```go
+// 使用md5密文存储密码
+func (srv *userService) encode(x string) string {
+	md5Sum := md5.Sum([]byte(x))
+	return fmt.Sprintf("%x", md5Sum)
+}
+
+// ...when add or select
+if err := srv.AddUser(&model.User{Name: name, PassWord: srv.encode(password)}); err != nil {
+		return err
+}
+```
+
