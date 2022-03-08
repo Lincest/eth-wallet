@@ -2,6 +2,7 @@ package service
 
 import (
 	"back-end/model"
+	"crypto/md5"
 	"fmt"
 	"log"
 )
@@ -16,13 +17,19 @@ var User = &userService{}
 
 type userService struct{}
 
+// 使用md5密文存储密码
+func (srv *userService) encode(x string) string {
+	md5Sum := md5.Sum([]byte(x))
+	return fmt.Sprintf("%x", md5Sum)
+}
+
 func (srv *userService) AddUserByNameAndPassWord(name string, password string) error {
 	// 查询是否存在
 	if srv.GetUserByName(name) != nil {
 		return fmt.Errorf("用户已存在")
 	}
 	// 新增
-	if err := srv.AddUser(&model.User{Name: name, PassWord: password}); err != nil {
+	if err := srv.AddUser(&model.User{Name: name, PassWord: srv.encode(password)}); err != nil {
 		return err
 	}
 	return nil
@@ -47,7 +54,7 @@ func (srv *userService) GetUserByName(name string) *model.User {
 }
 
 func (srv *userService) GetUserByNameAndPassWord(name string, password string) *model.User {
-	var ret = &model.User{Name: name, PassWord: password}
+	var ret = &model.User{Name: name, PassWord: srv.encode(password)}
 	log.Print("Get user by name")
 	if err := db.Where(ret).First(ret).Debug().Error; err != nil {
 		return nil
