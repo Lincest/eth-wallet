@@ -17,14 +17,13 @@ import (
 func LoginAction(c *gin.Context) {
 	resp := utils.NewBasicResp()
 	defer c.JSON(http.StatusOK, resp)
-	name := c.PostForm("name")
-	password := c.PostForm("password")
-	if name == "" || password == "" {
+	var iuser model.User
+	if c.ShouldBind(&iuser) != nil {
 		resp.Code = model.CodeErr
 		resp.Msg = "用户名和密码不得为空"
 		return
 	}
-	user := service.User.GetUserByNameAndPassWord(name, password)
+	user := service.User.GetUserByNameAndPassWord(iuser.Name, iuser.PassWord)
 	if user == nil {
 		resp.Code = model.CodeErr
 		resp.Msg = "用户名或密码错误"

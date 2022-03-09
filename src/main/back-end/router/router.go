@@ -33,7 +33,8 @@ func InitRoutes() {
 	authGroup := v1.Group("auth")
 	authGroup.Use(ctl.LoginCheck) // auth中间件检查用户是否登录
 	{
-		authGroup.GET("/hello-world/:user", ctl.HelloWorldAction)
+		authGroup.GET("/hello-world", ctl.HelloWorldAction)
+		authGroup.POST("/logout", ctl.LogoutAction)
 	}
 	router.Run(":8080")
 }

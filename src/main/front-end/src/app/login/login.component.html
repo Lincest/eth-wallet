@@ -1,0 +1,10 @@
+<p>login works!</p>
+
+
+<h5>用户名</h5>
+<input type="text" pInputText [(ngModel)]="name">
+<h5>密码</h5>
+<p-password [(ngModel)]="password" [toggleMask]="true"></p-password>
+<p-button label="登录" icon="pi pi-check" (onClick)="logIn()"></p-button>
+
+<p-toast></p-toast>
