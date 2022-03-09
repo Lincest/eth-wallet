@@ -14,6 +14,7 @@ import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {MessageModule} from "primeng/message";
 import {MessagesModule} from "primeng/messages";
 import {ToastModule} from "primeng/toast";
+import {RippleModule} from "primeng/ripple";
 
 @NgModule({
   declarations: [
@@ -32,7 +33,8 @@ import {ToastModule} from "primeng/toast";
     PasswordModule,
     FormsModule,
     InputTextModule,
-    ButtonModule
+    ButtonModule,
+    RippleModule
   ],
   providers: [],
   bootstrap: [AppComponent]
