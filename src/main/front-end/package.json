@@ -6,7 +6,8 @@
     "start": "npx ng serve --proxy-config=proxy.conf.json",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test",
+    "postinstall": "patch-package"
   },
   "private": true,
   "dependencies": {
@@ -18,11 +19,21 @@
     "@angular/platform-browser": "~13.2.0",
     "@angular/platform-browser-dynamic": "~13.2.0",
     "@angular/router": "~13.2.0",
-    "primeicons": "^5.0.0",
+    "assert": "^2.0.0",
+    "bip39": "^3.0.4",
+    "cipher-base": "^1.0.4",
+    "crypto-browserify": "^3.12.0",
+    "https-browserify": "^1.0.0",
+    "next-tick": "^1.1.0",
+    "os-browserify": "^0.3.0",
+    "patch-package": "^6.4.7",
     "primeflex": "^3.1.0",
-    "prismjs": "^1.9.0",
+    "primeicons": "^5.0.0",
     "primeng": "^13.2.1",
+    "prismjs": "^1.9.0",
     "rxjs": "~7.5.0",
+    "stream-browserify": "^3.0.0",
+    "stream-http": "^3.2.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.11.4"
   },
