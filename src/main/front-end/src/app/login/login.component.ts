@@ -45,6 +45,13 @@ export class LoginComponent implements OnInit {
       const ok = res.code === Code.ok
       if (ok) {
         this.msgService.add({severity: 'success', summary: '注册成功'});
+        this.loginService.logIn(this.name, this.password).subscribe(res1 => {
+          if (res1.code === Code.ok) {
+            this.router.navigate(['/mnemonic']).then()
+          } else {
+            this.msgService.add({severity: 'error', summary: '登录失败', detail: res1.msg});
+          }
+        })
       } else {
         this.msgService.add({severity: 'error', summary: '注册失败', detail: res.msg});
       }
