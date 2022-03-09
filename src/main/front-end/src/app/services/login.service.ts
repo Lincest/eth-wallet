@@ -52,13 +52,17 @@ export class LoginService implements CanActivate {
   }
 
   // 登录
-  logIn(name: string, password: string): Observable<boolean> {
+  logIn(name: string, password: string): Observable<Resp> {
     return this.http.post<Resp>(BASE_URL + "/login", {name, password}).pipe(map(x => {
       if (x.code === Code.ok) {
-        localStorage.setItem("wallet-login", JSON.stringify(x.data))
-        return true;
+        localStorage.setItem("wallet-login", JSON.stringify(x.data));
       }
-      return false;
+      return x;
     }))
+  }
+
+  // 注册
+  register(name: string, password: string): Observable<Resp> {
+    return this.http.post<Resp>(BASE_URL + "/register", {name, password})
   }
 }

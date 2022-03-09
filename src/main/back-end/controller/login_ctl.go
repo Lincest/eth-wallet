@@ -20,7 +20,7 @@ func LoginAction(c *gin.Context) {
 	var iuser model.User
 	if c.ShouldBind(&iuser) != nil {
 		resp.Code = model.CodeErr
-		resp.Msg = "用户名和密码不得为空"
+		resp.Msg = "登录出错"
 		return
 	}
 	user := service.User.GetUserByNameAndPassWord(iuser.Name, iuser.PassWord)
