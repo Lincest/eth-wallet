@@ -24,6 +24,9 @@ import { TopbarComponent } from './home/topbar/topbar.component';
 import { MenuComponent } from './home/menu/menu.component';
 import { FooterComponent } from './home/footer/footer.component';
 import {MenuItemComponent} from "./home/menu/menu-item/menu-item.component";
+import {OverlayPanelModule} from 'primeng/overlaypanel';
+import {Menu, MenuModule} from 'primeng/menu';
+import {MenuItem} from 'primeng/api';
 
 @NgModule({
   declarations: [
@@ -52,7 +55,9 @@ import {MenuItemComponent} from "./home/menu/menu-item/menu-item.component";
     ButtonModule,
     RippleModule,
     ChipsModule,
-    ConfirmDialogModule
+    ConfirmDialogModule,
+    OverlayPanelModule,
+    MenuModule
   ],
   providers: [],
   bootstrap: [AppComponent],

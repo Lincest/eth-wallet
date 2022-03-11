@@ -9,17 +9,11 @@
   </a>
 
   <div class="layout-topbar-menu">
-    <a href="#" class="p-link layout-topbar-button">
-      <i class="pi pi-calendar"></i>
-      <span>Calendar</span>
-    </a>
-    <a href="#" class="p-link layout-topbar-button">
-      <i class="pi pi-cog"></i>
-      <span>Settings</span>
-    </a>
-    <a href="#" class="p-link layout-topbar-button">
+    <a class="p-link layout-topbar-button" (click)="menu.toggle($event)">
       <i class="pi pi-user"></i>
       <span>Profile</span>
     </a>
+    <p-menu #menu [popup]="true" [model]="items"></p-menu>
   </div>
 </div>
+<p-toast></p-toast>

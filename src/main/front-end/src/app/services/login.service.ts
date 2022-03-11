@@ -32,22 +32,18 @@ export class LoginService implements CanActivate {
   isLoggedIn(): Observable<boolean> {
     return this.http.get<Resp>(AUTH_URL + "/hello-world").pipe(
       map(x => {
-        if (x.code === Code.ok) {
-          localStorage.setItem("wallet-login", JSON.stringify(x.data))
-        }
         return x.code === Code.ok
       })
     )
   }
 
   // 登出
-  logOut(): Observable<boolean> {
+  logOut(): Observable<Resp> {
     return this.http.post<Resp>(AUTH_URL + "/logout", {}).pipe(map(x => {
       if (x.code === Code.ok) {
         localStorage.removeItem("wallet-login");
-        return true;
       }
-      return false;
+      return x;
     }));
   }
 
@@ -55,7 +51,7 @@ export class LoginService implements CanActivate {
   logIn(name: string, password: string): Observable<Resp> {
     return this.http.post<Resp>(BASE_URL + "/login", {name, password}).pipe(map(x => {
       if (x.code === Code.ok) {
-        localStorage.setItem("wallet-login", JSON.stringify(x.data));
+        localStorage.setItem("wallet-login", JSON.stringify({name, password}));
       }
       return x;
     }))
