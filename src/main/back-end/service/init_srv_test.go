@@ -1,6 +1,7 @@
 package service
 
 import (
+	"back-end/conf"
 	"fmt"
 	"os"
 	"testing"
@@ -21,6 +22,7 @@ func TestMain(m *testing.M) {
 
 func setup() {
 	fmt.Println("开始初始化测试环境..")
+	conf.LoadConfigForTest()
 	ConnectDB()
 }
 

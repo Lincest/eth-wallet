@@ -45,3 +45,14 @@ func LoadConfig() {
 		log.Fatal("fail to yaml unmarshal:", err)
 	}
 }
+func LoadConfigForTest() {
+	file, err := ioutil.ReadFile("../config.yml")
+	if err != nil {
+		log.Fatal("fail to read file:", err)
+	}
+
+	err = yaml.Unmarshal(file, &Config)
+	if err != nil {
+		log.Fatal("fail to yaml unmarshal:", err)
+	}
+}

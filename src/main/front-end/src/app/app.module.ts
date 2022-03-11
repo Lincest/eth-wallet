@@ -20,6 +20,10 @@ import { NewMnemonicComponent } from './mnemonic/new-mnemonic/new-mnemonic.compo
 import { LoadMnemonicComponent } from './mnemonic/load-mnemonic/load-mnemonic.component';
 import {ChipsModule} from "primeng/chips";
 import {ConfirmDialogModule} from "primeng/confirmdialog";
+import { TopbarComponent } from './home/topbar/topbar.component';
+import { MenuComponent } from './home/menu/menu.component';
+import { FooterComponent } from './home/footer/footer.component';
+import {MenuItemComponent} from "./home/menu/menu-item/menu-item.component";
 
 @NgModule({
   declarations: [
@@ -28,7 +32,11 @@ import {ConfirmDialogModule} from "primeng/confirmdialog";
     LoginComponent,
     MnemonicComponent,
     NewMnemonicComponent,
-    LoadMnemonicComponent
+    LoadMnemonicComponent,
+    TopbarComponent,
+    MenuComponent,
+    FooterComponent,
+    MenuItemComponent
   ],
   imports: [
     BrowserModule,

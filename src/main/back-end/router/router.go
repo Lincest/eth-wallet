@@ -39,7 +39,7 @@ func InitRoutes() {
 		authGroup.GET("/hello-world", ctl.HelloWorldAction)
 		authGroup.POST("/logout", ctl.LogoutAction)
 	}
-	err := router.Run(":8080")
+	err := router.Run(":8765")
 	if err != nil {
 		log.Fatalf("服务器启动失败, error: %v", err)
 	}

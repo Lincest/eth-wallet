@@ -2,9 +2,6 @@ package conf
 
 import (
 	"fmt"
-	"gopkg.in/yaml.v3"
-	"io/ioutil"
-	"log"
 	"testing"
 )
 
@@ -15,15 +12,7 @@ import (
 **/
 
 func TestLoadConfig(t *testing.T) {
-	file, err := ioutil.ReadFile("../config.yml")
-	if err != nil {
-		log.Fatal("fail to read file:", err)
-	}
-
-	err = yaml.Unmarshal(file, &Config)
-	if err != nil {
-		log.Fatal("fail to yaml unmarshal:", err)
-	}
+	LoadConfigForTest()
 	t.Logf("%#v", Config)
 	// 1 - mysql config
 	dbConf := Config.DB

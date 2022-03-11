@@ -1,1 +1,12 @@
-<p>home works!</p>
+<div class="layout-wrapper" [ngClass]="{ 'layout-static': true, 'layout-static-sidebar-inactive': menuActive}">
+  <app-topbar></app-topbar>
+  <div class="layout-sidebar">
+    <app-menu></app-menu>
+  </div>
+  <div class="layout-main-container">
+    <div class="layout-main">
+      <router-outlet></router-outlet>
+    </div>
+    <app-footer></app-footer>
+  </div>
+</div>
