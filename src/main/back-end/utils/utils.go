@@ -7,11 +7,13 @@ package utils
 **/
 
 type (
-	IRand   byte
-	IWallet byte
+	IRand    byte
+	IWallet  byte
+	IEncrypt byte
 )
 
 var (
-	Rand   IRand
-	Wallet IWallet
+	Rand    IRand
+	Wallet  IWallet
+	Encrypt IEncrypt
 )

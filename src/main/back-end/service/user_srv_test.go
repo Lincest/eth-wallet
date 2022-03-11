@@ -14,6 +14,12 @@ func TestUserService_GetUserByName(t *testing.T) {
 	}
 }
 
+func TestUserService_GetUserByName2(t *testing.T) {
+	if User.GetUserByName("aabbccNilNameNotExitaabbcc") != nil {
+		t.Fail()
+	}
+}
+
 func TestUserService_AddUserByNameAndPassWord(t *testing.T) {
 	if User.GetUserByNameAndPassWord("Mike", "123").Name != "Mike" {
 		t.Fail()

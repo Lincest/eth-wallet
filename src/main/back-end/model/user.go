@@ -10,6 +10,6 @@ package model
 type User struct {
 	Model
 
-	Name     string `gorm:"size:32" json:"name"`
-	PassWord string `gorm:"size:255" json:"password"`
+	Name     string `gorm:"size:255" json:"name" form:"name"`
+	PassWord string `gorm:"size:255" json:"password" form:"password"`
 }

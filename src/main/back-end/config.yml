@@ -1,0 +1,14 @@
+# mysql相关配置
+mysql:
+  host: 127.0.0.1
+  user: root
+  password: root
+  port: 3306
+  max_idle: 10  # 空闲连接池连接最大数量
+  max_active: 50  # 打开数据库链接最大数量
+  max_life_time: 30  # 可复用连接最大时间(单位: s)
+
+# session相关配置
+session:
+  secret: skqiswkdjcaqwedj
+  name: eth-wallet

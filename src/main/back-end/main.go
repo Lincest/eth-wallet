@@ -1,6 +1,7 @@
 package main
 
 import (
+	"back-end/conf"
 	"back-end/router"
 	"back-end/service"
 )
@@ -12,6 +13,10 @@ import (
 **/
 
 func main() {
-	service.ConnectDB() // 连接数据库
-	router.InitRoutes() // 初始化路由
+	// 加载配置文件config.yml
+	conf.LoadConfig()
+	// 连接数据库
+	service.ConnectDB()
+	// 初始化路由, 启动服务
+	router.InitRoutes()
 }

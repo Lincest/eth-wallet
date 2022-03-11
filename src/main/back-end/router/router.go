@@ -7,11 +7,13 @@ package router
 **/
 
 import (
+	"back-end/conf"
 	ctl "back-end/controller"
 	"github.com/gin-contrib/cors"
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-contrib/sessions/cookie"
 	"github.com/gin-gonic/gin"
+	"log"
 )
 
 func InitRoutes() {
@@ -21,8 +23,9 @@ func InitRoutes() {
 	router.Use(gin.Logger(), gin.Recovery(), cors.Default())
 	// session
 	// store := cookie.NewStore([]byte(utils.Rand.String(16))) // use 16 random string as secret of session, 这样会导致每次服务器重启之前的用户session失效
-	store := cookie.NewStore([]byte("skqiswkdjcaqwedj")) // 可以手动指定一串secret防止重启服务器cookie失效, 但是这种secret不应该出现在源代码中, 这里为了简化就直接把密钥写死
-	router.Use(sessions.Sessions("eth-wallet-session", store))
+	sessionConf := conf.Config.Session                   // session config
+	store := cookie.NewStore([]byte(sessionConf.Secret)) // 可以手动指定一串secret防止重启服务器cookie失效, 但是这种secret不应该出现在源代码中, 这里为了简化就直接把密钥写死
+	router.Use(sessions.Sessions(sessionConf.Name, store))
 	// routes
 	v1 := router.Group("api/v1")
 	{
@@ -36,5 +39,8 @@ func InitRoutes() {
 		authGroup.GET("/hello-world", ctl.HelloWorldAction)
 		authGroup.POST("/logout", ctl.LogoutAction)
 	}
-	router.Run(":8080")
+	err := router.Run(":8080")
+	if err != nil {
+		log.Fatalf("服务器启动失败, error: %v", err)
+	}
 }
