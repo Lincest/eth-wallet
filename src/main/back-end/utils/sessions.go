@@ -15,8 +15,9 @@ import (
 
 // SessionData represents the session.
 type SessionData struct {
-	UID   uint   // user ID
-	UName string // username
+	UID       uint   // user ID
+	UName     string // username
+	UPassword string // user password
 }
 
 // Save saves the current session of the specified context.

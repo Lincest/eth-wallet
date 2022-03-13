@@ -27,6 +27,8 @@ import {MenuItemComponent} from "./home/menu/menu-item/menu-item.component";
 import {OverlayPanelModule} from 'primeng/overlaypanel';
 import {Menu, MenuModule} from 'primeng/menu';
 import {MenuItem} from 'primeng/api';
+import {ChipModule} from "primeng/chip";
+import {CardModule} from "primeng/card";
 
 @NgModule({
   declarations: [
@@ -57,7 +59,9 @@ import {MenuItem} from 'primeng/api';
     ChipsModule,
     ConfirmDialogModule,
     OverlayPanelModule,
-    MenuModule
+    MenuModule,
+    ChipModule,
+    CardModule
   ],
   providers: [],
   bootstrap: [AppComponent],
