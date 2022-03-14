@@ -66,7 +66,7 @@ func UpdateNetworkAction(c *gin.Context) {
 	}
 	if req.UID != session.UID {
 		resp.Code = model.CodeErr
-		resp.Msg = "没有权限删除"
+		resp.Msg = "没有权限"
 		return
 	}
 	if err := service.Wallet.UpdateNetWork(req); err != nil {

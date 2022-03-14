@@ -48,6 +48,10 @@ func (srv *walletService) AddOrUpdateNetWork(network model.Network) error {
 	err := db.First(&existNetwork, network.ID).Error
 	//  err == nil说明找到了
 	if err == nil {
+		if existNetwork.UID != network.UID {
+			return fmt.Errorf("没有权限修改")
+		}
+		fmt.Printf("%d uid -- uid %d", existNetwork.UID, network.UID)
 		if err := Wallet.UpdateNetWork(network); err != nil {
 			return err
 		}

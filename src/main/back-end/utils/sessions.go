@@ -18,6 +18,7 @@ type SessionData struct {
 	UID       uint   // user ID
 	UName     string // username
 	UPassword string // user password
+	NetworkID uint   // current net-work id
 }
 
 // Save saves the current session of the specified context.
