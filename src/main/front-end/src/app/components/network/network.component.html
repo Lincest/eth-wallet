@@ -1,7 +1,7 @@
 <p-card>
   <h4>网络</h4>
   <p-divider align="right">
-    <p-button label="添加网络" icon="pi pi-plus" styleClass="p-button-outlined"></p-button>
+    <p-button label="添加网络" icon="pi pi-plus" styleClass="p-button-outlined" (onClick)="addNet()"></p-button>
   </p-divider>
   <p-accordion [multiple]="true">
     <p-accordionTab *ngFor="let item of items; let i = index;" header="{{i + 1}} - {{item.name}}">
@@ -10,21 +10,53 @@
           <p-chip label="网络名称" icon="pi pi-info"></p-chip>
         </div>
         <div class="col-12">
-          <input pInputText type="text" placeholder="name" [value]="item.name"/>
+          <input pInputText type="text" placeholder="name" [value]="item.name" [disabled]="true"/>
         </div>
         <div class="col-12">
           <p-chip label="网络 RPC URL" icon="pi pi-info"></p-chip>
         </div>
         <div class="col-12">
-          <input pInputText type="text" placeholder="url" [value]="item.url"/>
+          <input pInputText type="text" placeholder="url" [value]="item.url" [disabled]="true"/>
         </div>
         <div class="col-12">
-          <p-chip label="网络 链 ID" icon="pi pi-info"></p-chip>
+          <p-chip label="链 ID" icon="pi pi-info"></p-chip>
         </div>
         <div class="col-12">
-          <input pInputText type="text" placeholder="chain id" [value]="item.chain_id"/>
+          <input pInputText type="text" placeholder="chain id" [value]="item.chain_id" [disabled]="true"/>
         </div>
+      </div>
+      <div class="flex justify-content-center">
+        <button pButton pRipple type="button" label="修改" class="p-button-rounded mr-2 mb-2 w-3"
+                (click)="modify(item)"></button>
+        <button pButton pRipple type="button" label="删除" class="p-button-danger p-button-rounded mr-2 mb-2 w-3"
+                (click)="delete(item)"></button>
       </div>
     </p-accordionTab>
   </p-accordion>
 </p-card>
+
+<p-dialog [(visible)]="modifyDialogVisible">
+  <div class="grid p-fluid">
+    <div class="col-12">
+      <p-chip label="网络名称" icon="pi pi-info"></p-chip>
+    </div>
+    <div class="col-12">
+      <input pInputText type="text" placeholder="name" [(ngModel)]="this.newNet.name" [required]="true"/>
+    </div>
+    <div class="col-12">
+      <p-chip label="网络 RPC URL" icon="pi pi-info"></p-chip>
+    </div>
+    <div class="col-12">
+      <input pInputText type="text" placeholder="url" [(ngModel)]="this.newNet.url" [required]="true"/>
+    </div>
+    <div class="col-12">
+      <p-chip label="链 ID" icon="pi pi-info"></p-chip>
+    </div>
+    <div class="col-12">
+      <input pInputText type="text" placeholder="chain id" [(ngModel)]="this.newNet.chain_id" [required]="true"/>
+    </div>
+    <div class="col-6">
+      <button pButton pRipple type="button" label="保存" class="p-button-rounded mr-2 mb-2" (click)="saveModification()"></button>
+    </div>
+  </div>
+</p-dialog>

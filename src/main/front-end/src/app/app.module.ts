@@ -29,6 +29,7 @@ import {CardModule} from "primeng/card";
 import {NetworkComponent} from './components/network/network.component';
 import {AccordionModule} from "primeng/accordion";
 import {DividerModule} from "primeng/divider";
+import {DialogModule} from "primeng/dialog";
 
 @NgModule({
   declarations: [
@@ -63,7 +64,8 @@ import {DividerModule} from "primeng/divider";
     CardModule,
     AccordionModule,
     DividerModule,
-    InputTextModule
+    InputTextModule,
+    DialogModule
   ],
   providers: [],
   bootstrap: [AppComponent],

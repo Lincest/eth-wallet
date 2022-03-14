@@ -1,7 +1,6 @@
 import {AfterViewInit, Component, OnInit} from '@angular/core';
 import {WalletService} from "../services/wallet.service";
 import {ConfirmationService, MessageService} from "primeng/api";
-import {errorPop, successPop} from "../models/global";
 
 @Component({
   selector: 'app-home',

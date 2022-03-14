@@ -21,7 +21,7 @@ type walletService struct{}
 func (srv *walletService) IsValidUrlWithChainId(rawurl string, chainId string) error {
 	client, err := ethclient.Dial(rawurl)
 	if err != nil {
-		return fmt.Errorf("链接失败")
+		return fmt.Errorf("建立连接失败, 请确认url的正确性")
 	}
 	iChainId, err := client.ChainID(context.Background())
 	if iChainId == nil || err != nil {
@@ -42,8 +42,33 @@ func (srv *walletService) GetAllNetWorkByUid(uid uint) ([]model.Network, error) 
 	return networks, nil
 }
 
-func (srv *walletService) AddNetWork(network model.Network) error {
+func (srv *walletService) AddOrUpdateNetWork(network model.Network) error {
+	// 如果数据库中存在该id, 直接更新
+	existNetwork := &model.Network{}
+	err := db.First(&existNetwork, network.ID).Error
+	//  err == nil说明找到了
+	if err == nil {
+		if err := Wallet.UpdateNetWork(network); err != nil {
+			return err
+		}
+		return nil
+	}
+	// 如果数据库中不存在, 就新增
 	if err := db.Create(&network).Error; err != nil {
+		return err
+	}
+	return nil
+}
+
+func (srv *walletService) DeleteNetWork(network model.Network) error {
+	if err := db.Delete(&network).Error; err != nil {
+		return err
+	}
+	return nil
+}
+
+func (srv *walletService) UpdateNetWork(network model.Network) error {
+	if err := db.Save(&network).Error; err != nil {
 		return err
 	}
 	return nil

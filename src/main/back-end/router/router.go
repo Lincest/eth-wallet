@@ -41,6 +41,9 @@ func InitRoutes() {
 		authGroup.POST("/logout", ctl.LogoutAction)
 		authGroup.POST("/mnemonic", ctl.MnemonicAction)
 		authGroup.GET("/network", ctl.GetNetworkAction)
+		authGroup.DELETE("/network", ctl.DeleteNetworkAction)
+		authGroup.POST("/network", ctl.AddNetworkAction)
+		authGroup.PUT("/network", ctl.UpdateNetworkAction)
 	}
 	err := router.Run(":8765")
 	if err != nil {
