@@ -23,4 +23,5 @@ type Model struct {
 // Models 所有的model, 用于gorm的auto migrate, 需要手动填写在这里
 var Models = []interface{}{
 	&User{},
+	&Network{},
 }

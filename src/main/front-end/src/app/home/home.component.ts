@@ -1,10 +1,13 @@
 import {AfterViewInit, Component, OnInit} from '@angular/core';
 import {WalletService} from "../services/wallet.service";
+import {ConfirmationService, MessageService} from "primeng/api";
+import {errorPop, successPop} from "../models/global";
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
-  styleUrls: ['./home.component.scss']
+  styleUrls: ['./home.component.scss'],
+  providers: [MessageService, ConfirmationService]
 })
 export class HomeComponent implements AfterViewInit, OnInit {
 
@@ -13,7 +16,8 @@ export class HomeComponent implements AfterViewInit, OnInit {
   profileActive = false;
 
   constructor(
-    private wallet: WalletService
+    private wallet: WalletService,
+    private msgService: MessageService
   ) {
   }
 

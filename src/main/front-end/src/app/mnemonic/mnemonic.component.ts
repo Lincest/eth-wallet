@@ -2,7 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import {ConfirmationService, Message, MessageService} from "primeng/api";
 import {ActivatedRoute, Router} from "@angular/router";
 import {WalletService} from "../services/wallet.service";
-
+import {LoginService} from "../services/login.service";
+import {Code} from "../models/resp";
+import {errorPop, successPop} from "../models/global";
 @Component({
   selector: 'app-mnemonic',
   templateUrl: './mnemonic.component.html',
@@ -17,7 +19,8 @@ export class MnemonicComponent implements OnInit {
     private activeRoute: ActivatedRoute,
     private wallet: WalletService,
     private confirm: ConfirmationService,
-    private msgService: MessageService
+    private msgService: MessageService,
+    private loginService: LoginService
 ) { }
 
   ngOnInit(): void {
@@ -43,6 +46,16 @@ export class MnemonicComponent implements OnInit {
         console.log('acc');
         console.log(this.mnemonics);
         // TODO: 服务器记录助记词md5
+        this.loginService.updateMnemonic(this.mnemonics.join(' ')).subscribe(res => {
+          if (res.code === Code.ok) {
+            this.msgService.add(successPop);
+            setTimeout(() => {
+              this.router.navigate(['/home']).then();
+            }, 500)
+          } else {
+            this.msgService.add(errorPop);
+          }
+        })
       }
     })
   }

@@ -31,6 +31,7 @@ func InitRoutes() {
 	{
 		v1.POST("/register", ctl.RegisterAction)
 		v1.POST("/login", ctl.LoginAction)
+		v1.GET("/test-rpc", ctl.RpcTestAction)
 	}
 	// after auth group
 	authGroup := v1.Group("auth")
@@ -38,6 +39,8 @@ func InitRoutes() {
 	{
 		authGroup.GET("/hello-world", ctl.HelloWorldAction)
 		authGroup.POST("/logout", ctl.LogoutAction)
+		authGroup.POST("/mnemonic", ctl.MnemonicAction)
+		authGroup.GET("/network", ctl.GetNetworkAction)
 	}
 	err := router.Run(":8765")
 	if err != nil {

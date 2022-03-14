@@ -1,0 +1,30 @@
+<p-card>
+  <h4>网络</h4>
+  <p-divider align="right">
+    <p-button label="添加网络" icon="pi pi-plus" styleClass="p-button-outlined"></p-button>
+  </p-divider>
+  <p-accordion [multiple]="true">
+    <p-accordionTab *ngFor="let item of items; let i = index;" header="{{i + 1}} - {{item.name}}">
+      <div class="grid p-fluid">
+        <div class="col-12">
+          <p-chip label="网络名称" icon="pi pi-info"></p-chip>
+        </div>
+        <div class="col-12">
+          <input pInputText type="text" placeholder="name" [value]="item.name"/>
+        </div>
+        <div class="col-12">
+          <p-chip label="网络 RPC URL" icon="pi pi-info"></p-chip>
+        </div>
+        <div class="col-12">
+          <input pInputText type="text" placeholder="url" [value]="item.url"/>
+        </div>
+        <div class="col-12">
+          <p-chip label="网络 链 ID" icon="pi pi-info"></p-chip>
+        </div>
+        <div class="col-12">
+          <input pInputText type="text" placeholder="chain id" [value]="item.chain_id"/>
+        </div>
+      </div>
+    </p-accordionTab>
+  </p-accordion>
+</p-card>

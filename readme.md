@@ -28,4 +28,24 @@
 
 `./src/main/back-end`: 项目后端
 
- 
+ ## TODO | Feature
+
+### Base
+
+- [x] 用户注册, 登录
+
+### Wallet
+
+- [ ] 用户助记词管理
+- [ ] keystore 导入
+- [ ] keystore 导出
+- [ ] privatekey 导入
+- [ ] 查询交易历史
+- [ ] 交易
+- [ ] 查询账户余额
+- [ ] 网络切换
+
+
+
+
+

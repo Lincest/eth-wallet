@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import {ConfirmationService, MessageService} from "primeng/api";
 
 @Component({
   selector: 'app-menu',
   templateUrl: './menu.component.html',
+  providers: [MessageService, ConfirmationService]
 })
 export class MenuComponent implements OnInit {
 
@@ -14,11 +16,18 @@ export class MenuComponent implements OnInit {
       {
         label: 'Home',
         items:[
-          {label: '登录 / 注册',icon: 'pi pi-fw pi-check', routerLink: ['/login']},
+          // {label: '登录 / 注册',icon: 'pi pi-fw pi-check', routerLink: ['/login']},
           {label: '主页',icon: 'pi pi-fw pi-home', routerLink: ['/home']},
-        ]
+        ],
       },
-    ]
+      {
+        label: 'Applications',
+        items: [
+          {label: '网络', icon: 'pi pi-fw pi-cloud', routerLink: ['/home/network']}
+        ]
+      }
+
+  ]
   }
 
   onKeydown(event: KeyboardEvent) {

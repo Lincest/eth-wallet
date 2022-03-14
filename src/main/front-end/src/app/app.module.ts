@@ -16,19 +16,19 @@ import {MessagesModule} from "primeng/messages";
 import {ToastModule} from "primeng/toast";
 import {RippleModule} from "primeng/ripple";
 import {MnemonicComponent} from './mnemonic/mnemonic.component';
-import { NewMnemonicComponent } from './mnemonic/new-mnemonic/new-mnemonic.component';
-import { LoadMnemonicComponent } from './mnemonic/load-mnemonic/load-mnemonic.component';
 import {ChipsModule} from "primeng/chips";
 import {ConfirmDialogModule} from "primeng/confirmdialog";
-import { TopbarComponent } from './home/topbar/topbar.component';
-import { MenuComponent } from './home/menu/menu.component';
-import { FooterComponent } from './home/footer/footer.component';
+import {TopbarComponent} from './home/topbar/topbar.component';
+import {MenuComponent} from './home/menu/menu.component';
+import {FooterComponent} from './home/footer/footer.component';
 import {MenuItemComponent} from "./home/menu/menu-item/menu-item.component";
 import {OverlayPanelModule} from 'primeng/overlaypanel';
-import {Menu, MenuModule} from 'primeng/menu';
-import {MenuItem} from 'primeng/api';
+import {MenuModule} from 'primeng/menu';
 import {ChipModule} from "primeng/chip";
 import {CardModule} from "primeng/card";
+import {NetworkComponent} from './components/network/network.component';
+import {AccordionModule} from "primeng/accordion";
+import {DividerModule} from "primeng/divider";
 
 @NgModule({
   declarations: [
@@ -36,12 +36,11 @@ import {CardModule} from "primeng/card";
     HomeComponent,
     LoginComponent,
     MnemonicComponent,
-    NewMnemonicComponent,
-    LoadMnemonicComponent,
     TopbarComponent,
     MenuComponent,
     FooterComponent,
-    MenuItemComponent
+    MenuItemComponent,
+    NetworkComponent
   ],
   imports: [
     BrowserModule,
@@ -61,7 +60,10 @@ import {CardModule} from "primeng/card";
     OverlayPanelModule,
     MenuModule,
     ChipModule,
-    CardModule
+    CardModule,
+    AccordionModule,
+    DividerModule,
+    InputTextModule
   ],
   providers: [],
   bootstrap: [AppComponent],

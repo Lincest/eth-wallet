@@ -61,4 +61,9 @@ export class LoginService implements CanActivate {
   register(name: string, password: string): Observable<Resp> {
     return this.http.post<Resp>(BASE_URL + "/register", {name, password})
   }
+
+  // 注册助记词
+  updateMnemonic(mnemonic: string): Observable<Resp> {
+    return this.http.post<Resp>(AUTH_URL + "/mnemonic", {mnemonic})
+  }
 }

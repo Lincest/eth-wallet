@@ -14,3 +14,15 @@ func TestIEncrypt_Md5encode(t *testing.T) {
 		t.Fail()
 	}
 }
+
+func TestIEncrypt_Rc4encode(t *testing.T) {
+	origin := "hello world this is eth-wallet"
+	password := "123"
+	secret, _ := Encrypt.Rc4encode(origin, password)
+	secret1, _ := Encrypt.Rc4encode(secret, password)
+	t.Logf("加密后: %s", secret)
+	t.Logf("解密后: %s", secret1)
+	if secret1 != origin {
+		t.Fail()
+	}
+}
