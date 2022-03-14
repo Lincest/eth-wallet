@@ -4,12 +4,12 @@
     <span>区块链钱包</span>
   </a>
 
-  <a class="p-link layout-menu-button layout-topbar-button" href="#" (click)="home.toggleMenu($event)">
+  <a class="p-link layout-menu-button layout-topbar-button" href="#" (click)="home.toggleMenu($event);">
     <i class="pi pi-bars"></i>
   </a>
 
   <div class="layout-topbar-menu">
-    <a class="p-link layout-topbar-button" (click)="menu.toggle($event)">
+    <a class="p-link layout-topbar-button" (click)="menu.toggle($event); load()">
       <i class="pi pi-user"></i>
     </a>
     <p-menu #menu [popup]="true" [model]="items"></p-menu>

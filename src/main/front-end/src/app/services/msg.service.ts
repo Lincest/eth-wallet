@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {MessageService} from "primeng/api";
+import {ConfirmationService, MessageService} from "primeng/api";
 
 @Injectable({
   providedIn: 'root',
@@ -7,7 +7,8 @@ import {MessageService} from "primeng/api";
 export class MsgService {
 
   constructor(
-    public msgService: MessageService
+    public msgService: MessageService,
+    public confirmService: ConfirmationService
   ) { }
 
   addSuccess(detail?: string) {
@@ -18,5 +19,12 @@ export class MsgService {
   addError(detail?: string) {
     const res = {key: 'home-toast', severity: 'error', summary: '失败', detail};
     this.msgService.add(res);
+  }
+
+  confirm(msg: string, accFunc: Function) {
+    this.confirmService.confirm({
+      message: msg,
+      accept: () => accFunc()
+    })
   }
 }

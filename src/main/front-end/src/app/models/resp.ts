@@ -10,3 +10,9 @@ export enum Code {
   ok = 0,
   err = -1,
 }
+
+export interface Base {
+  ID: number,
+  CreatedAt: string,
+  DeletedAt: string,
+}

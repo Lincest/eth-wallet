@@ -44,3 +44,8 @@ func TestNetWorkNotExist(t *testing.T) {
 	t.Logf("%v", existNetwork)
 	t.Logf("is nil ? %v", existNetwork.ID == 0)
 }
+
+func TestWalletService_GetNetWorkByID(t *testing.T) {
+	res, _ := Wallet.GetNetWorkByID(16)
+	t.Logf("%v", res)
+}

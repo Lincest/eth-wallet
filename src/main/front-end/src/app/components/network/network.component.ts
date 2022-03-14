@@ -58,6 +58,17 @@ export class NetworkComponent implements OnInit {
     })
   }
 
+  // 更换网络
+  change(item: Network) {
+    this.networkService.setCurrentNetwork(item).subscribe(res => {
+      if (res.code === Code.ok) {
+        this.msgService.addSuccess("成功切换网络")
+      } else {
+        this.msgService.addError(res.msg)
+      }
+    })
+  }
+
   // 保存
   saveModification() {
     this.networkService.addNetwork(this.newNet).subscribe(res => {

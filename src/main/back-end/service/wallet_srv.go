@@ -60,6 +60,14 @@ func (srv *walletService) AddOrUpdateNetWork(network model.Network) error {
 	return nil
 }
 
+func (srv *walletService) GetNetWorkByID(id uint) (model.Network, error) {
+	network := model.Network{}
+	if err := db.First(&network, id).Error; err != nil {
+		return network, err
+	}
+	return network, nil
+}
+
 func (srv *walletService) DeleteNetWork(network model.Network) error {
 	if err := db.Delete(&network).Error; err != nil {
 		return err

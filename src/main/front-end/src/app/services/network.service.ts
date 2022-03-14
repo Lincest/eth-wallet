@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {Observable} from "rxjs";
+import {map, Observable} from "rxjs";
 import {Network} from "../models/network";
 import {AUTH_URL, BASE_URL} from "../models/global";
 import {Resp} from "../models/resp";
@@ -33,5 +33,19 @@ export class NetworkService {
   // add
   addNetwork(item: Network): Observable<Resp> {
     return this.http.post<Resp>(AUTH_URL + "/network", item)
+  }
+
+  // use
+  setCurrentNetwork(item: Network): Observable<Resp> {
+    return this.http.post<Resp>(AUTH_URL + "/current-network", item)
+  }
+
+  // get current network
+  getCurrentNetwork(): Observable<Network> {
+    return this.http.get<Resp>(AUTH_URL + "/current-network").pipe(
+      map(x => {
+        return x.data as Network
+      })
+    )
   }
 }

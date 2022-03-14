@@ -107,3 +107,33 @@ func RpcTestAction(c *gin.Context) {
 		resp.Msg = err.Error()
 	}
 }
+
+func GetCurrentNetworkAction(c *gin.Context) {
+	resp := utils.NewBasicResp()
+	defer c.JSON(http.StatusOK, resp)
+	session := utils.GetSession(c)
+	network, err := service.Wallet.GetNetWorkByID(session.NetworkID)
+	if err != nil {
+		resp.Code = model.CodeErr
+		resp.Msg = err.Error()
+		return
+	}
+	resp.Data = network
+}
+
+func SetCurrentNetworkAction(c *gin.Context) {
+	resp := utils.NewBasicResp()
+	defer c.JSON(http.StatusOK, resp)
+	session := utils.GetSession(c)
+	var req model.Network
+	if err := c.ShouldBind(&req); err != nil {
+		resp.Code = model.CodeErr
+		resp.Msg = err.Error()
+		return
+	}
+	session.NetworkID = req.ID
+	if err := session.Save(c); nil != err {
+		c.Status(http.StatusInternalServerError)
+		return
+	}
+}
