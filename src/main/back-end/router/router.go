@@ -46,6 +46,8 @@ func InitRoutes() {
 		authGroup.PUT("/network", ctl.UpdateNetworkAction)
 		authGroup.GET("/current-network", ctl.GetCurrentNetworkAction)
 		authGroup.POST("/current-network", ctl.SetCurrentNetworkAction)
+		authGroup.POST("/account", ctl.AddAccountAction)
+		authGroup.GET("/account", ctl.GetAccountAction)
 	}
 	err := router.Run(":8765")
 	if err != nil {

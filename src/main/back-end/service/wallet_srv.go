@@ -174,6 +174,14 @@ func (srv *walletService) AddNewAccount(uid uint) error {
 	return nil
 }
 
+func (srv *walletService) GetAllAccountsByUID(uid uint) ([]model.Account, error) {
+	var accountsRes []model.Account
+	if err := db.Where("uid = ?", uid).Find(&accountsRes).Error; err != nil {
+		return accountsRes, err
+	}
+	return accountsRes, nil
+}
+
 // GenerateNewAccount 由衍生路径和助记词创建新账户
 // 返回账户和账户私钥
 func (srv *walletService) GenerateNewAccount(mnemonic string, path string) (*accounts.Account, string, error) {
