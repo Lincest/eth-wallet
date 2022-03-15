@@ -112,7 +112,7 @@ func (srv *walletService) InitWallet(uid uint) error {
 	}
 	// 为用户新建钱包
 	basePath := fmt.Sprintf("%s/%d", conf.Config.Wallet.BasePath, 0)
-	account, err := srv.GenerateNewAccount(mnemonic, basePath)
+	account, privateKeyHex, err := srv.GenerateNewAccount(mnemonic, basePath)
 	if err != nil {
 		return err
 	}
@@ -123,7 +123,7 @@ func (srv *walletService) InitWallet(uid uint) error {
 		tx.Rollback()
 		return err
 	}
-	newAccount := model.Account{UID: uid, DerivationPath: basePath, Address: account.Address}
+	newAccount := model.Account{UID: uid, DerivationPath: basePath, Address: account.Address, PrivateKeyHex: privateKeyHex}
 	if err := tx.Create(&newAccount).Error; err != nil {
 		tx.Rollback()
 		return err
@@ -156,12 +156,12 @@ func (srv *walletService) AddNewAccount(uid uint) error {
 	if mnemonic == "" {
 		return fmt.Errorf("用户未创建助记词")
 	}
-	newAccount, err := srv.GenerateNewAccount(mnemonic, newPath)
+	newAccount, privateKeyHex, err := srv.GenerateNewAccount(mnemonic, newPath)
 	if err != nil {
 		return err
 	}
 	tx := db.Begin()
-	if err := tx.Create(&model.Account{UID: uid, DerivationPath: newPath, Address: newAccount.Address}).Error; err != nil {
+	if err := tx.Create(&model.Account{UID: uid, DerivationPath: newPath, Address: newAccount.Address, PrivateKeyHex: privateKeyHex}).Error; err != nil {
 		tx.Rollback()
 		return err
 	}
@@ -175,18 +175,23 @@ func (srv *walletService) AddNewAccount(uid uint) error {
 }
 
 // GenerateNewAccount 由衍生路径和助记词创建新账户
-func (srv *walletService) GenerateNewAccount(mnemonic string, path string) (*accounts.Account, error) {
+// 返回账户和账户私钥
+func (srv *walletService) GenerateNewAccount(mnemonic string, path string) (*accounts.Account, string, error) {
 	wallet, err := hdwallet.NewFromMnemonic(mnemonic)
 	if err != nil {
-		return nil, err
+		return nil, "", err
 	}
 	derivePath, err := hdwallet.ParseDerivationPath(path)
 	if err != nil {
-		return nil, err
+		return nil, "", err
 	}
 	account, err := wallet.Derive(derivePath, false)
 	if err != nil {
-		return nil, err
+		return nil, "", err
 	}
-	return &account, nil
+	privateKeyHex, err := wallet.PrivateKeyHex(account)
+	if err != nil {
+		return nil, "", err
+	}
+	return &account, privateKeyHex, nil
 }

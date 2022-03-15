@@ -3,6 +3,7 @@ package utils
 import (
 	"back-end/conf"
 	"fmt"
+	"github.com/ethereum/go-ethereum/crypto"
 	"github.com/shopspring/decimal"
 	"math/big"
 	"strconv"
@@ -59,6 +60,7 @@ func (*IWallet) Wei2Eth(ivalue interface{}) decimal.Decimal {
 	return result
 }
 
+// GetNewDerivationPath m/44'/60'/0'/0/0 => m/44'/60'/0'/0/1
 func (*IWallet) GetNewDerivationPath(lastPath string) (string, error) {
 	pathSplits := strings.Split(lastPath, "/")
 	lastAccountIndex, err := strconv.Atoi(pathSplits[len(pathSplits)-1])
@@ -66,4 +68,14 @@ func (*IWallet) GetNewDerivationPath(lastPath string) (string, error) {
 		return "", err
 	}
 	return fmt.Sprintf("%s/%d", conf.Config.Wallet.BasePath, lastAccountIndex+1), nil
+}
+
+// GetAddressFromPrivateKeyHex 根据私钥获取地址
+func (*IWallet) GetAddressFromPrivateKeyHex(privateKeyHex string) (string, error) {
+	ecdsaPrivatekey, err := crypto.HexToECDSA(privateKeyHex)
+	if err != nil {
+		return "", err
+	}
+	address := crypto.PubkeyToAddress(ecdsaPrivatekey.PublicKey)
+	return address.Hex(), nil
 }

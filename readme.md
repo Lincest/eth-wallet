@@ -14,6 +14,7 @@
 - `gin`: [gin-gonic/gin](https://github.com/gin-gonic/gin)
 - `gorm`: [GORM - The fantastic ORM library for Golang, aims to be developer friendly.](https://gorm.io/)
 - `go-ethereum`: [ethereum/go-ethereum](https://github.com/ethereum/go-ethereum)
+- `go-ethereum-hdwallet`: [miguelmota/go-ethereum-hdwallet: Ethereum HD Wallet derivations in Go (golang) (github.com)](https://github.com/miguelmota/go-ethereum-hdwallet)
 
 ### 调试
 
@@ -36,13 +37,12 @@
 
 ### Wallet
 
-- [ ] 用户助记词管理
+- [x] 用户助记词管理
+- [ ] 账户管理
+- [ ] 交易管理
 - [ ] keystore 导入
 - [ ] keystore 导出
 - [ ] privatekey 导入
-- [ ] 查询交易历史
-- [ ] 交易
-- [ ] 查询账户余额
 - [x] 网络切换
 
 

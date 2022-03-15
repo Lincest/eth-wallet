@@ -1,6 +1,8 @@
 package utils
 
 import (
+	"bytes"
+	"encoding/hex"
 	"github.com/shopspring/decimal"
 	"math/big"
 	"testing"
@@ -39,5 +41,21 @@ func TestIWallet_GetNewDerivationPath(t *testing.T) {
 	if err != nil {
 		t.Fail()
 	}
-	t.Logf("new of %s is %s", oldPath, derivivationPath.String())
+	t.Logf("new of %s is %s", oldPath, derivivationPath)
+}
+
+func TestIWallet_GetAddressFromPrivateKeyHex(t *testing.T) {
+	source := "ee6030fcdcb30fbc3459456e7ef820c4c5c78e24fac11a2c886edec0bf1fb46f"
+	target := "0xBCDF076CDFA11EEFC36F1EE07F668376E7756DE1"
+	res, err := Wallet.GetAddressFromPrivateKeyHex(source)
+	if err != nil {
+		t.Log(res)
+		t.Fail()
+	}
+	resHex, _ := hex.DecodeString(res)
+	targetHex, _ := hex.DecodeString(target)
+	if !bytes.Equal(resHex, targetHex) {
+		t.Fail()
+	}
+	t.Logf("source = %s, target = %s, res = %s\n", source, target, res)
 }
