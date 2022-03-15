@@ -4,8 +4,11 @@ import (
 	"back-end/utils"
 	"fmt"
 	"github.com/ethereum/go-ethereum/accounts/keystore"
+	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/crypto"
+	"io/ioutil"
 	"log"
+	"mime/multipart"
 	"strconv"
 	"time"
 )
@@ -72,6 +75,27 @@ func (srv *keystoreService) GenerateKeyStoreFiles(privateKeyList []string, passp
 		if err != nil {
 			return err
 		}
+	}
+	return nil
+}
+
+func (srv *keystoreService) AddOneAccountByKeyStoreFile(file *multipart.FileHeader, uid uint, passphrase string) error {
+	keystoreFile, err := file.Open()
+	if err != nil {
+		return err
+	}
+	keystoreBytes, err := ioutil.ReadAll(keystoreFile)
+	if err != nil {
+		return err
+	}
+	privateKey, addr, err := srv.LoadOneKeyStore(keystoreBytes, passphrase)
+	if err != nil {
+		return err
+	}
+	address := common.HexToAddress(addr)
+	err = Wallet.AddNewAccountByUIDAndAddressAndPrivateKey(uid, address, privateKey)
+	if err != nil {
+		return err
 	}
 	return nil
 }

@@ -8,6 +8,7 @@ import (
 	"errors"
 	"fmt"
 	"github.com/ethereum/go-ethereum/accounts"
+	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/ethclient"
 	hdwallet "github.com/miguelmota/go-ethereum-hdwallet"
 	"gorm.io/gorm"
@@ -171,6 +172,14 @@ func (srv *walletService) AddNewAccount(uid uint) error {
 		return err
 	}
 	tx.Commit()
+	return nil
+}
+
+func (srv *walletService) AddNewAccountByUIDAndAddressAndPrivateKey(uid uint, address common.Address, privateKey string) error {
+	account := model.Account{UID: uid, Address: address, PrivateKeyHex: privateKey}
+	if err := db.Create(&account).Error; err != nil {
+		return err
+	}
 	return nil
 }
 
