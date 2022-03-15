@@ -3,6 +3,7 @@ package utils
 import (
 	"back-end/conf"
 	"fmt"
+	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/crypto"
 	"github.com/shopspring/decimal"
 	"math/big"
@@ -70,12 +71,22 @@ func (*IWallet) GetNewDerivationPath(lastPath string) (string, error) {
 	return fmt.Sprintf("%s/%d", conf.Config.Wallet.BasePath, lastAccountIndex+1), nil
 }
 
-// GetAddressFromPrivateKeyHex 根据私钥获取地址
-func (*IWallet) GetAddressFromPrivateKeyHex(privateKeyHex string) (string, error) {
+// GetAddressHexFromPrivateKeyHex 根据私钥获取地址
+func (*IWallet) GetAddressHexFromPrivateKeyHex(privateKeyHex string) (string, error) {
 	ecdsaPrivatekey, err := crypto.HexToECDSA(privateKeyHex)
 	if err != nil {
 		return "", err
 	}
 	address := crypto.PubkeyToAddress(ecdsaPrivatekey.PublicKey)
 	return address.Hex(), nil
+}
+
+// GetAddressFromPrivateKeyHex 根据私钥获取地址
+func (*IWallet) GetAddressFromPrivateKeyHex(privateKeyHex string) (common.Address, error) {
+	ecdsaPrivatekey, err := crypto.HexToECDSA(privateKeyHex)
+	if err != nil {
+		return common.Address{}, err
+	}
+	address := crypto.PubkeyToAddress(ecdsaPrivatekey.PublicKey)
+	return address, nil
 }

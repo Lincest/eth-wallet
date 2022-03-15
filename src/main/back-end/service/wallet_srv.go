@@ -183,6 +183,17 @@ func (srv *walletService) AddNewAccountByUIDAndAddressAndPrivateKey(uid uint, ad
 	return nil
 }
 
+func (srv *walletService) AddNewAccountByUIDAndPrivateKey(uid uint, privateKey string) error {
+	address, err := utils.Wallet.GetAddressFromPrivateKeyHex(privateKey)
+	if err != nil {
+		return err
+	}
+	if err := srv.AddNewAccountByUIDAndAddressAndPrivateKey(uid, address, privateKey); err != nil {
+		return err
+	}
+	return nil
+}
+
 func (srv *walletService) GetAllAccountsByUID(uid uint) ([]model.Account, error) {
 	var accountsRes []model.Account
 	if err := db.Where("uid = ?", uid).Find(&accountsRes).Error; err != nil {

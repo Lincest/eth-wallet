@@ -40,7 +40,7 @@ func (srv *keystoreService) LoadOneKeyStore(keystoreFile []byte, passphrase stri
 	if err != nil {
 		return "", "", err
 	}
-	address, err := utils.Wallet.GetAddressFromPrivateKeyHex(privateKeyHex)
+	address, err := utils.Wallet.GetAddressHexFromPrivateKeyHex(privateKeyHex)
 	if err != nil {
 		return "", "", err
 	}
@@ -83,6 +83,7 @@ func (srv *keystoreService) GenerateKeyStoreFiles(privateKeyList []string, passp
 	return fileDir, nil
 }
 
+// AddOneAccountByKeyStoreFile 通过keystore文件和密钥添加一个账户
 func (srv *keystoreService) AddOneAccountByKeyStoreFile(file *multipart.FileHeader, uid uint, passphrase string) error {
 	keystoreFile, err := file.Open()
 	if err != nil {
