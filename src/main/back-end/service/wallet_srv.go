@@ -49,11 +49,20 @@ func (srv *walletService) GetAllNetWorkByUid(uid uint) ([]model.Network, error) 
 	return networks, nil
 }
 
+func (srv *walletService) GetNetWorkByID(id uint) (model.Network, error) {
+	network := model.Network{}
+	if err := db.First(&network, id).Error; err != nil {
+		return network, err
+	}
+	return network, nil
+}
+
 func (srv *walletService) AddOrUpdateNetWork(network model.Network) error {
 	// 如果数据库中存在该id, 直接更新
 	existNetwork := &model.Network{}
 	err := db.First(&existNetwork, network.ID).Error
-	if errors.Is(err, gorm.ErrRecordNotFound) {
+	// 出错且不是找不到错误
+	if err != nil && !errors.Is(err, gorm.ErrRecordNotFound) {
 		return err
 	}
 	//  err == nil说明找到了
@@ -61,7 +70,6 @@ func (srv *walletService) AddOrUpdateNetWork(network model.Network) error {
 		if existNetwork.UID != network.UID {
 			return fmt.Errorf("没有权限修改")
 		}
-		fmt.Printf("%d uid -- uid %d", existNetwork.UID, network.UID)
 		if err := Wallet.UpdateNetWork(network); err != nil {
 			return err
 		}
@@ -72,14 +80,6 @@ func (srv *walletService) AddOrUpdateNetWork(network model.Network) error {
 		return err
 	}
 	return nil
-}
-
-func (srv *walletService) GetNetWorkByID(id uint) (model.Network, error) {
-	network := model.Network{}
-	if err := db.First(&network, id).Error; err != nil {
-		return network, err
-	}
-	return network, nil
 }
 
 func (srv *walletService) DeleteNetWork(network model.Network) error {
@@ -133,6 +133,7 @@ func (srv *walletService) InitWallet(uid uint) error {
 	return nil
 }
 
+// AddNewAccount 根据wallet last account index衍生路径生成新的账户, 如果没有就新建钱包
 func (srv *walletService) AddNewAccount(uid uint) error {
 	wallet := model.Wallet{UID: uid}
 	// 没有钱包时, 首先新增钱包

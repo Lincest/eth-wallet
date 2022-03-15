@@ -55,7 +55,7 @@ func (srv *keystoreService) GenerateOneKeyStoreFile(privateKey string, passphras
 	ks := keystore.NewKeyStore(fileDir, keystore.LightScryptN, keystore.LightScryptP)
 	ecdsaPrivateKey, err := crypto.HexToECDSA(privateKey)
 	if err != nil {
-		log.Fatal(err)
+		return fileDir, err
 	}
 	_, err = ks.ImportECDSA(ecdsaPrivateKey, passphrase)
 	if err != nil {
@@ -73,7 +73,7 @@ func (srv *keystoreService) GenerateKeyStoreFiles(privateKeyList []string, passp
 	for _, privateKey := range privateKeyList {
 		ecdsaPrivateKey, err := crypto.HexToECDSA(privateKey)
 		if err != nil {
-			log.Fatal(err)
+			return fileDir, err
 		}
 		_, err = ks.ImportECDSA(ecdsaPrivateKey, passphrase)
 		if err != nil {
@@ -107,6 +107,7 @@ func (srv *keystoreService) AddOneAccountByKeyStoreFile(file *multipart.FileHead
 
 // GetAllKeyStoreFilesByUID 导出uid对应用户所有的私钥为keystore文件
 func (srv *keystoreService) GetAllKeyStoreFilesByUID(uid uint, passphrase string) (string, error) {
+	log.Printf("uid = %d 正在以密码 = %s导出keystore文件\n", uid, passphrase)
 	accountList, err := Wallet.GetAllAccountsByUID(uid)
 	if err != nil {
 		return "", err

@@ -28,10 +28,11 @@ func TestWalletService_GetAllNetWorkByUid(t *testing.T) {
 }
 
 func TestWalletService_AddNetWork(t *testing.T) {
-	//n1 := &model.Network{Name: "以太坊主网", Url: "https://mainnet.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161", ChainId: "1", UID: 0}
-	n2 := &model.Network{Name: "Mike测试网络", Url: "https://mainnet.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161", ChainId: "1", UID: 15}
-	//_ = Wallet.AddNetWork(*n1)
-	_ = Wallet.AddOrUpdateNetWork(*n2)
+	n1 := &model.Network{Name: "以太坊主网", Url: "https://mainnet.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161", ChainId: "1", UID: 0}
+	n1.ID = 1
+	//n2 := &model.Network{Name: "Mike测试网络", Url: "https://mainnet.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161", ChainId: "1", UID: 15}
+	_ = Wallet.AddOrUpdateNetWork(*n1)
+	//_ = Wallet.AddOrUpdateNetWork(*n2)
 }
 
 func TestNetWorkNotExist(t *testing.T) {

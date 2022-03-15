@@ -29,7 +29,7 @@ func LoginAction(c *gin.Context) {
 		resp.Msg = "用户名或密码错误"
 		return
 	}
-	session := &utils.SessionData{UID: user.ID, UName: user.Name, UPassword: user.PassWord, NetworkID: 1}
+	session := &utils.SessionData{UID: user.ID, UName: user.Name, UPassword: iuser.PassWord, NetworkID: 1}
 	if err := session.Save(c); nil != err {
 		c.Status(http.StatusInternalServerError)
 		return

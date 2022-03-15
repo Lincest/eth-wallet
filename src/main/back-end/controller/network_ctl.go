@@ -64,7 +64,13 @@ func UpdateNetworkAction(c *gin.Context) {
 		resp.Msg = err.Error()
 		return
 	}
-	if req.UID != session.UID {
+	network, err := service.Wallet.GetNetWorkByID(req.ID)
+	if err != nil {
+		resp.Code = model.CodeErr
+		resp.Msg = err.Error()
+		return
+	}
+	if network.UID != session.UID {
 		resp.Code = model.CodeErr
 		resp.Msg = "没有权限"
 		return
@@ -86,9 +92,15 @@ func DeleteNetworkAction(c *gin.Context) {
 		resp.Msg = err.Error()
 		return
 	}
-	if req.UID != session.UID {
+	network, err := service.Wallet.GetNetWorkByID(req.ID)
+	if err != nil {
 		resp.Code = model.CodeErr
-		resp.Msg = "没有权限删除"
+		resp.Msg = err.Error()
+		return
+	}
+	if network.UID != session.UID {
+		resp.Code = model.CodeErr
+		resp.Msg = "没有权限"
 		return
 	}
 	if err := service.Wallet.DeleteNetWork(req); err != nil {
