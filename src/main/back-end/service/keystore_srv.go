@@ -9,6 +9,8 @@ import (
 	"io/ioutil"
 	"log"
 	"mime/multipart"
+	"os"
+	"path/filepath"
 	"strconv"
 	"time"
 )
@@ -46,7 +48,8 @@ func (srv *keystoreService) LoadOneKeyStore(keystoreFile []byte, passphrase stri
 }
 
 // GenerateOneKeyStoreFile 根据私钥和密钥生成对应的一个keystore文件, 文件夹以当前时间戳命名
-func (srv *keystoreService) GenerateOneKeyStoreFile(privateKey string, passphrase string) error {
+// 返回文件夹路径
+func (srv *keystoreService) GenerateOneKeyStoreFile(privateKey string, passphrase string) (string, error) {
 	nowStampStr := strconv.FormatInt(time.Now().Unix(), 10)
 	fileDir := fmt.Sprintf("%s/%s", baseFileDir, nowStampStr)
 	ks := keystore.NewKeyStore(fileDir, keystore.LightScryptN, keystore.LightScryptP)
@@ -56,13 +59,14 @@ func (srv *keystoreService) GenerateOneKeyStoreFile(privateKey string, passphras
 	}
 	_, err = ks.ImportECDSA(ecdsaPrivateKey, passphrase)
 	if err != nil {
-		return err
+		return fileDir, err
 	}
-	return nil
+	return fileDir, nil
 }
 
 // GenerateKeyStoreFiles 根据一组私钥和密钥生成对应的多个keystore文件, 文件夹以当前时间戳命名
-func (srv *keystoreService) GenerateKeyStoreFiles(privateKeyList []string, passphrase string) error {
+// 返回文件夹路径
+func (srv *keystoreService) GenerateKeyStoreFiles(privateKeyList []string, passphrase string) (string, error) {
 	nowStampStr := strconv.FormatInt(time.Now().Unix(), 10)
 	fileDir := fmt.Sprintf("%s/%s", baseFileDir, nowStampStr)
 	ks := keystore.NewKeyStore(fileDir, keystore.LightScryptN, keystore.LightScryptP)
@@ -73,10 +77,10 @@ func (srv *keystoreService) GenerateKeyStoreFiles(privateKeyList []string, passp
 		}
 		_, err = ks.ImportECDSA(ecdsaPrivateKey, passphrase)
 		if err != nil {
-			return err
+			return fileDir, err
 		}
 	}
-	return nil
+	return fileDir, nil
 }
 
 func (srv *keystoreService) AddOneAccountByKeyStoreFile(file *multipart.FileHeader, uid uint, passphrase string) error {
@@ -98,4 +102,36 @@ func (srv *keystoreService) AddOneAccountByKeyStoreFile(file *multipart.FileHead
 		return err
 	}
 	return nil
+}
+
+// GetAllKeyStoreFilesByUID 导出uid对应用户所有的私钥为keystore文件
+func (srv *keystoreService) GetAllKeyStoreFilesByUID(uid uint, passphrase string) (string, error) {
+	accountList, err := Wallet.GetAllAccountsByUID(uid)
+	if err != nil {
+		return "", err
+	}
+	privateKeyList := make([]string, 0)
+	for _, account := range accountList {
+		privateKeyList = append(privateKeyList, account.PrivateKeyHex)
+	}
+	fileDir, err := srv.GenerateKeyStoreFiles(privateKeyList, passphrase)
+	if err != nil {
+		return "", err
+	}
+	tmpDir := os.TempDir()
+	zipFilePath := filepath.Join(tmpDir, "keystore.zip")
+	fmt.Printf("zipfilepath = %s", zipFilePath)
+	zipFile, err := utils.Zip.Create(zipFilePath)
+	if err != nil {
+		return "", err
+	}
+	err = zipFile.AddDirectory(".", fileDir)
+	if err != nil {
+		return "", err
+	}
+	if err := zipFile.Close(); err != nil {
+		return "", fmt.Errorf("zip failed, %s", err.Error())
+	}
+	os.RemoveAll(baseFileDir)
+	return zipFilePath, nil
 }
