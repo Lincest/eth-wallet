@@ -1,10 +1,16 @@
 package service
 
 import (
+	"back-end/conf"
 	"back-end/model"
+	"back-end/utils"
 	"context"
+	"errors"
 	"fmt"
+	"github.com/ethereum/go-ethereum/accounts"
 	"github.com/ethereum/go-ethereum/ethclient"
+	hdwallet "github.com/miguelmota/go-ethereum-hdwallet"
+	"gorm.io/gorm"
 )
 
 /**
@@ -46,6 +52,9 @@ func (srv *walletService) AddOrUpdateNetWork(network model.Network) error {
 	// 如果数据库中存在该id, 直接更新
 	existNetwork := &model.Network{}
 	err := db.First(&existNetwork, network.ID).Error
+	if errors.Is(err, gorm.ErrRecordNotFound) {
+		return err
+	}
 	//  err == nil说明找到了
 	if err == nil {
 		if existNetwork.UID != network.UID {
@@ -84,4 +93,100 @@ func (srv *walletService) UpdateNetWork(network model.Network) error {
 		return err
 	}
 	return nil
+}
+
+// InitWallet 为用户新建一个钱包
+func (srv *walletService) InitWallet(uid uint) error {
+	// 检查用户是否有助记词
+	mnemonic, err := Mnemonic.GetMnemonicByUid(uid)
+	if err != nil {
+		return err
+	}
+	if mnemonic == "" {
+		return fmt.Errorf("用户未创建助记词")
+	}
+	// 检查用户是否已经创建钱包
+	iwallet := &model.Wallet{UID: uid}
+	if err := db.Where(iwallet).First(iwallet).Error; err == nil {
+		return fmt.Errorf("用户已经创建钱包, 最新的衍生路径为 = %s", fmt.Sprintf("%s/%d", iwallet.BaseDerivationPath, iwallet.LastAccountIndex))
+	}
+	// 为用户新建钱包
+	basePath := fmt.Sprintf("%s/%d", conf.Config.Wallet.BasePath, 0)
+	account, err := srv.GenerateNewAccount(mnemonic, basePath)
+	if err != nil {
+		return err
+	}
+	newWallet := model.Wallet{UID: uid, BaseDerivationPath: conf.Config.Wallet.BasePath, LastAccountIndex: 0}
+	// 开启事务: 1. 新建钱包 2. 新增账户
+	tx := db.Begin()
+	if err := tx.Create(&newWallet).Error; err != nil {
+		tx.Rollback()
+		return err
+	}
+	newAccount := model.Account{UID: uid, DerivationPath: basePath, Address: account.Address}
+	if err := tx.Create(&newAccount).Error; err != nil {
+		tx.Rollback()
+		return err
+	}
+	tx.Commit()
+	return nil
+}
+
+func (srv *walletService) AddNewAccount(uid uint) error {
+	wallet := model.Wallet{UID: uid}
+	// 没有钱包时, 首先新增钱包
+	if err := db.First(&wallet).Error; err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			if err = srv.InitWallet(uid); err != nil {
+				return err
+			}
+			return nil
+		}
+	}
+	// 如果有钱包了, 就根据最新衍生路径新建账户
+	lastPath := fmt.Sprintf("%s/%d", wallet.BaseDerivationPath, wallet.LastAccountIndex)
+	newPath, err := utils.Wallet.GetNewDerivationPath(lastPath)
+	if err != nil {
+		return err
+	}
+	mnemonic, err := Mnemonic.GetMnemonicByUid(uid)
+	if err != nil {
+		return err
+	}
+	if mnemonic == "" {
+		return fmt.Errorf("用户未创建助记词")
+	}
+	newAccount, err := srv.GenerateNewAccount(mnemonic, newPath)
+	if err != nil {
+		return err
+	}
+	tx := db.Begin()
+	if err := tx.Create(&model.Account{UID: uid, DerivationPath: newPath, Address: newAccount.Address}).Error; err != nil {
+		tx.Rollback()
+		return err
+	}
+	wallet.LastAccountIndex += 1
+	if err := tx.Save(&wallet).Error; err != nil {
+		tx.Rollback()
+		return err
+	}
+	tx.Commit()
+	return nil
+}
+
+// GenerateNewAccount 由衍生路径和助记词创建新账户
+func (srv *walletService) GenerateNewAccount(mnemonic string, path string) (*accounts.Account, error) {
+	wallet, err := hdwallet.NewFromMnemonic(mnemonic)
+	if err != nil {
+		return nil, err
+	}
+	derivePath, err := hdwallet.ParseDerivationPath(path)
+	if err != nil {
+		return nil, err
+	}
+	account, err := wallet.Derive(derivePath, false)
+	if err != nil {
+		return nil, err
+	}
+	return &account, nil
 }

@@ -12,5 +12,5 @@ type Network struct {
 	Name    string `gorm:"not null" json:"name" form:"name"`
 	Url     string `gorm:"not null" json:"url" form:"url"`
 	ChainId string `gorm:"not null" json:"chain_id" form:"chain_id"`
-	UID     uint   `gorm:"not null" json:"uid"` // 用户uid
+	UID     uint   `gorm:"not null" json:"uid" form:"uid"` // 用户uid
 }

@@ -1,8 +1,12 @@
 package utils
 
 import (
+	"back-end/conf"
+	"fmt"
 	"github.com/shopspring/decimal"
 	"math/big"
+	"strconv"
+	"strings"
 )
 
 /**
@@ -53,4 +57,13 @@ func (*IWallet) Wei2Eth(ivalue interface{}) decimal.Decimal {
 	result := num.Div(mul)
 
 	return result
+}
+
+func (*IWallet) GetNewDerivationPath(lastPath string) (string, error) {
+	pathSplits := strings.Split(lastPath, "/")
+	lastAccountIndex, err := strconv.Atoi(pathSplits[len(pathSplits)-1])
+	if err != nil {
+		return "", err
+	}
+	return fmt.Sprintf("%s/%d", conf.Config.Wallet.BasePath, lastAccountIndex+1), nil
 }

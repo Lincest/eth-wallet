@@ -15,6 +15,7 @@ import (
 type Conf struct {
 	DB      MySQL   `yaml:"mysql"`
 	Session Session `yaml:"session"`
+	Wallet  Wallet  `yaml:"wallet"`
 }
 
 type MySQL struct {
@@ -30,6 +31,10 @@ type MySQL struct {
 type Session struct {
 	Secret string `yaml:"secret"`
 	Name   string `yaml:"name"`
+}
+
+type Wallet struct {
+	BasePath string `yaml:"base_path"`
 }
 
 var Config *Conf

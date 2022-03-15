@@ -32,3 +32,12 @@ func TestIWallet_Eth2Wei(t *testing.T) {
 		t.Fail()
 	}
 }
+
+func TestIWallet_GetNewDerivationPath(t *testing.T) {
+	oldPath := "m/44'/60'/0'/0/98"
+	derivivationPath, err := Wallet.GetNewDerivationPath(oldPath)
+	if err != nil {
+		t.Fail()
+	}
+	t.Logf("new of %s is %s", oldPath, derivivationPath.String())
+}

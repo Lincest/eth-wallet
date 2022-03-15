@@ -44,3 +44,11 @@ func (srv *mnemonicService) GetMnemonicByName(name string) (string, error) {
 	}
 	return ret.Mnemonic, nil
 }
+
+func (srv *mnemonicService) GetMnemonicByUid(uid uint) (string, error) {
+	ret := model.User{}
+	if err := db.First(&ret, uid).Error; err != nil {
+		return "", err
+	}
+	return ret.Mnemonic, nil
+}

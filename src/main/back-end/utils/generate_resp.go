@@ -1,6 +1,6 @@
 package utils
 
-import . "back-end/model"
+import "back-end/model"
 
 /**
     utils
@@ -9,18 +9,18 @@ import . "back-end/model"
 **/
 
 // NewBasicResp 生成一个基本返回值
-func NewBasicResp() *BasicResp {
-	return &BasicResp{
-		Code: CodeOK,
+func NewBasicResp() *model.BasicResp {
+	return &model.BasicResp{
+		Code: model.CodeOK,
 		Msg:  "success",
 		Data: nil,
 	}
 }
 
 // NewErrBasicResp 生成一个基本错误返回值
-func NewErrBasicResp() *BasicResp {
-	return &BasicResp{
-		Code: CodeErr,
+func NewErrBasicResp() *model.BasicResp {
+	return &model.BasicResp{
+		Code: model.CodeErr,
 		Msg:  "error",
 		Data: nil,
 	}

@@ -49,3 +49,17 @@ func TestWalletService_GetNetWorkByID(t *testing.T) {
 	res, _ := Wallet.GetNetWorkByID(16)
 	t.Logf("%v", res)
 }
+
+func TestWalletService_InitWallet(t *testing.T) {
+	err := Wallet.InitWallet(28)
+	if err != nil {
+		t.Error(err)
+	}
+}
+
+func TestWalletService_AddNewAccount(t *testing.T) {
+	err := Wallet.AddNewAccount(28)
+	if err != nil {
+		t.Error(err)
+	}
+}
