@@ -51,11 +51,19 @@ func GetAccountAction(c *gin.Context) {
 	resp := utils.NewBasicResp()
 	defer c.JSON(http.StatusOK, resp)
 	session := utils.GetSession(c)
+	// 查找账户列表
 	res, err := service.Wallet.GetAllAccountsByUID(session.UID)
 	if err != nil {
 		resp.Code = model.CodeErr
 		resp.Msg = err.Error()
 		return
 	}
-	resp.Data = res
+	// 查找账户余额
+	resWithBalance, err := service.Wallet.GenerateAccountRespWithBalance(res, session.NetworkID)
+	if err != nil {
+		resp.Code = model.CodeErr
+		resp.Msg = err.Error()
+		return
+	}
+	resp.Data = resWithBalance
 }

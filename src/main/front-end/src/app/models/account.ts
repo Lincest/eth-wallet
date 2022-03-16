@@ -4,4 +4,5 @@ export interface Account {
   derivation_path: string,
   address: string,
   private_key_hex: string
+  balance: string
 }

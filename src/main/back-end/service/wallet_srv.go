@@ -224,3 +224,46 @@ func (srv *walletService) GenerateNewAccount(mnemonic string, path string) (*acc
 	}
 	return &account, privateKeyHex, nil
 }
+
+// GetBalanceByAddress 通过网络ID和地址获取账户余额
+// 返回值单位为 ETH, 格式为string类型
+func (srv *walletService) GetBalanceByAddress(address common.Address, networkID uint) (string, error) {
+	network, err := srv.GetNetWorkByID(networkID)
+	if err != nil {
+		return "", err
+	}
+	client, err := ethclient.Dial(network.Url)
+	if err != nil {
+		return "", err
+	}
+	balance, err := client.BalanceAt(context.Background(), address, nil)
+	if err != nil {
+		return "", err
+	}
+	balanceETH := utils.Wallet.Wei2Eth(balance).String()
+	return balanceETH, nil
+}
+
+// GenerateAccountRespWithBalance 查询account的balance并添加balance字段
+func (srv *walletService) GenerateAccountRespWithBalance(accounts []model.Account, networkID uint) ([]model.AccountResp, error) {
+	accountsResp := make([]model.AccountResp, 0)
+	network, err := srv.GetNetWorkByID(networkID)
+	if err != nil {
+		return nil, err
+	}
+	client, err := ethclient.Dial(network.Url)
+	if err != nil {
+		return nil, err
+	}
+	for _, account := range accounts {
+		accountResp := model.Account2AccountResp(&account)
+		balance, err := client.BalanceAt(context.Background(), accountResp.Address, nil)
+		if err != nil {
+			return nil, err
+		}
+		balanceETH := utils.Wallet.Wei2Eth(balance).String()
+		accountResp.Balance = balanceETH
+		accountsResp = append(accountsResp, accountResp)
+	}
+	return accountsResp, nil
+}

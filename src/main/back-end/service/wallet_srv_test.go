@@ -2,6 +2,7 @@ package service
 
 import (
 	"back-end/model"
+	"github.com/ethereum/go-ethereum/common"
 	"testing"
 )
 
@@ -63,4 +64,13 @@ func TestWalletService_AddNewAccount(t *testing.T) {
 	if err != nil {
 		t.Error(err)
 	}
+}
+
+func TestWalletService_GetBalanceByAddress(t *testing.T) {
+	addr := common.HexToAddress("0xc06EbC7F2d398C156C811A16E89dB3D0ABa61D9e")
+	eth, err := Wallet.GetBalanceByAddress(addr, 2)
+	if err != nil {
+		t.Fail()
+	}
+	t.Logf("eth of %x is %s", addr, eth)
 }

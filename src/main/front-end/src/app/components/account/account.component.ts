@@ -29,7 +29,9 @@ export class AccountComponent implements OnInit {
   }
 
   load() {
+    this.loading = true;
     this.accountService.getAllAccounts().subscribe(resp => {
+      this.loading = false;
       if (resp.code === Code.ok) {
         this.accounts = resp.data as Account[];
       } else {

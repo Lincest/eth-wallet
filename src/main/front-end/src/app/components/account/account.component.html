@@ -1,5 +1,5 @@
+<p-progressBar  mode="indeterminate" [style]="{'height': '6px'}" [hidden]="!loading"></p-progressBar>
 <div class="grid">
-  <p-progressBar  mode="indeterminate" [style]="{'height': '6px'}" (show)="loading"></p-progressBar>
   <div class="col-12">
     <p-card header="账户管理">
       <p-toolbar>
@@ -30,6 +30,9 @@
             <th pSortableColumn="derivation_path">衍生地址
               <p-sortIcon field="derivation_path"></p-sortIcon>
             </th>
+            <th pSortableColumn="balance">账户余额
+              <p-sortIcon field="balance"></p-sortIcon>
+            </th>
             <th>查看私钥</th>
           </tr>
         </ng-template>
@@ -42,6 +45,7 @@
             </td>
             <td>{{product.address}}</td>
             <td>{{product.derivation_path}}</td>
+            <td>{{product.balance}} ETH</td>
             <td>123</td>
           </tr>
         </ng-template>
