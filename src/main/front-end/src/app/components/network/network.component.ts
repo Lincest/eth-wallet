@@ -32,7 +32,7 @@ export class NetworkComponent implements OnInit {
       if (res.code === Code.err) {
         this.msgService.addError('获取网络节点信息失败')
       } else {
-        this.msgService.addSuccess('获取网络节点信息成功')
+        // this.msgService.addSuccess('获取网络节点信息成功')
         this.items = res.data as Network[]
       }
     })

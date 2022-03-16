@@ -5,12 +5,14 @@ import {LoginComponent} from "./login/login.component";
 import {HomeComponent} from "./home/home.component";
 import {MnemonicComponent} from "./mnemonic/mnemonic.component";
 import {NetworkComponent} from "./components/network/network.component";
+import {AccountComponent} from "./components/account/account.component";
 
 const routes: Routes = [
   {path: 'login', component: LoginComponent},
   {
     path: 'home', component: HomeComponent, canActivate: [LoginService], children: [
-      {path: 'network', component: NetworkComponent}
+      {path: 'network', component: NetworkComponent},
+      {path: 'account', component: AccountComponent},
     ]
   },
   {path: 'mnemonic', component: MnemonicComponent, canActivate: [LoginService]},

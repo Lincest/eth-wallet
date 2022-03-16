@@ -30,6 +30,11 @@ import {NetworkComponent} from './components/network/network.component';
 import {AccordionModule} from "primeng/accordion";
 import {DividerModule} from "primeng/divider";
 import {DialogModule} from "primeng/dialog";
+import { AccountComponent } from './components/account/account.component';
+import {TableModule} from "primeng/table";
+import {ToolbarModule} from "primeng/toolbar";
+import {FileUpload, FileUploadModule} from "primeng/fileupload";
+import {ProgressBarModule} from "primeng/progressbar";
 
 @NgModule({
   declarations: [
@@ -41,32 +46,37 @@ import {DialogModule} from "primeng/dialog";
     MenuComponent,
     FooterComponent,
     MenuItemComponent,
-    NetworkComponent
+    NetworkComponent,
+    AccountComponent
   ],
-  imports: [
-    BrowserModule,
-    BrowserAnimationsModule,
-    MessageModule,
-    MessagesModule,
-    ToastModule,
-    HttpClientModule,
-    AppRoutingModule,
-    PasswordModule,
-    FormsModule,
-    InputTextModule,
-    ButtonModule,
-    RippleModule,
-    ChipsModule,
-    ConfirmDialogModule,
-    OverlayPanelModule,
-    MenuModule,
-    ChipModule,
-    CardModule,
-    AccordionModule,
-    DividerModule,
-    InputTextModule,
-    DialogModule
-  ],
+    imports: [
+        BrowserModule,
+        BrowserAnimationsModule,
+        MessageModule,
+        MessagesModule,
+        ToastModule,
+        HttpClientModule,
+        AppRoutingModule,
+        PasswordModule,
+        FormsModule,
+        InputTextModule,
+        ButtonModule,
+        RippleModule,
+        ChipsModule,
+        ConfirmDialogModule,
+        OverlayPanelModule,
+        MenuModule,
+        ChipModule,
+        CardModule,
+        AccordionModule,
+        DividerModule,
+        InputTextModule,
+        DialogModule,
+        TableModule,
+        ToolbarModule,
+        FileUploadModule,
+        ProgressBarModule
+    ],
   providers: [],
   bootstrap: [AppComponent],
 })

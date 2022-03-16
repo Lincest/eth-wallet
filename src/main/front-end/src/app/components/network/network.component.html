@@ -1,5 +1,4 @@
-<p-card>
-  <h4>网络</h4>
+<p-card header="网络">
   <p-divider align="right">
     <p-button label="添加网络" icon="pi pi-plus" styleClass="p-button-outlined" (onClick)="addNet()"></p-button>
   </p-divider>
@@ -37,7 +36,7 @@
   </p-accordion>
 </p-card>
 
-<p-dialog [(visible)]="modifyDialogVisible">
+<p-dialog [(visible)]="modifyDialogVisible" [modal]="true" header="添加网络">
   <div class="grid p-fluid">
     <div class="col-12">
       <p-chip label="网络名称" icon="pi pi-info"></p-chip>
