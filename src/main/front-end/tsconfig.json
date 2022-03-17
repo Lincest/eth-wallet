@@ -31,6 +31,7 @@
       "http": ["./node_modules/stream-http"],
       "https": ["./node_modules/https-browserify"],
       "os": ["./node_modules/os-browserify"],
+      "url": ["./node_modules/url"]
     }
   },
   "angularCompilerOptions": {

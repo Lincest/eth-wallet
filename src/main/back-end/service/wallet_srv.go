@@ -240,8 +240,9 @@ func (srv *walletService) GetBalanceByAddress(address common.Address, networkID 
 	if err != nil {
 		return "", err
 	}
-	balanceETH := utils.Wallet.Wei2Eth(balance).String()
-	return balanceETH, nil
+	//balanceETH := utils.Wallet.Wei2Eth(balance).String()
+	balanceWei := balance.String()
+	return balanceWei, nil
 }
 
 // GenerateAccountRespWithBalance 查询account的balance并添加balance字段
@@ -261,8 +262,9 @@ func (srv *walletService) GenerateAccountRespWithBalance(accounts []model.Accoun
 		if err != nil {
 			return nil, err
 		}
-		balanceETH := utils.Wallet.Wei2Eth(balance).String()
-		accountResp.Balance = balanceETH
+		//balanceETH := utils.Wallet.Wei2Eth(balance).String()
+		balanceWei := balance.String()
+		accountResp.Balance = balanceWei
 		accountsResp = append(accountsResp, accountResp)
 	}
 	return accountsResp, nil

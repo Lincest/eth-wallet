@@ -46,7 +46,7 @@
             <td>{{product.address}}</td>
             <td>{{product.derivation_path}}</td>
             <td>
-              <span class="balance-badge">{{product.balance}} ETH</span>
+              <span class="balance-badge">{{product.balance | ethWei: 'eth'}} ETH</span>
             </td>
             <td>123</td>
           </tr>

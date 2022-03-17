@@ -25,7 +25,7 @@ type AccountResp struct {
 	DerivationPath string         `json:"derivation_path" form:"derivation_path"` // 衍生路径 e.g. [m/44'/60'/0'/0/1]
 	Address        common.Address `json:"address" form:"address"`                 // 地址
 	PrivateKeyHex  string         `json:"private_key_hex" form:"private_key_hex"` // 私钥
-	Balance        string         `json:"balance" form:"balance"`                 // 用户余额 (单位: ETH)
+	Balance        string         `json:"balance" form:"balance"`                 // 用户余额 (单位: Wei)
 }
 
 func Account2AccountResp(account *Account) AccountResp {

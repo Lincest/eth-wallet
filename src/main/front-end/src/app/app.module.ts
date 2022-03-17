@@ -35,6 +35,7 @@ import {TableModule} from "primeng/table";
 import {ToolbarModule} from "primeng/toolbar";
 import {FileUpload, FileUploadModule} from "primeng/fileupload";
 import {ProgressBarModule} from "primeng/progressbar";
+import { EthWeiPipe } from './pipes/eth-wei.pipe';
 
 @NgModule({
   declarations: [
@@ -47,7 +48,8 @@ import {ProgressBarModule} from "primeng/progressbar";
     FooterComponent,
     MenuItemComponent,
     NetworkComponent,
-    AccountComponent
+    AccountComponent,
+    EthWeiPipe
   ],
     imports: [
         BrowserModule,
