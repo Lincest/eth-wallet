@@ -21,6 +21,7 @@ export class HomeComponent implements AfterViewInit, OnInit {
   }
 
   ngOnInit(): void {
+    // this.wallet.testAccountList()
   }
 
   ngAfterViewInit() {

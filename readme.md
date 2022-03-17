@@ -8,6 +8,8 @@
 
 - `angular`: [Angular](https://angular.cn/) `version: @angular/cli@13.2.5`
 - `primeng`: [PrimeNG (primefaces.org)](https://www.primefaces.org/primeng/#/theming) `version: 13.2.0`
+- `primeflex`: https://www.primefaces.org/primeflex
+- `web3.js`: [web3.utils — web3.js 1.0.0 documentation (web3js.readthedocs.io)](https://web3js.readthedocs.io/en/v1.7.1/web3-utils.html#tobn)
 
 ### 后端
 

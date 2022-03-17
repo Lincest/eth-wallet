@@ -24,7 +24,8 @@ export class MenuComponent implements OnInit {
         label: 'Applications',
         items: [
           {label: '网络', icon: 'pi pi-fw pi-cloud', routerLink: ['/home/network']},
-          {label: '账户', icon: 'pi pi-fw pi-users', routerLink: ['/home/account']}
+          {label: '账户', icon: 'pi pi-fw pi-users', routerLink: ['/home/account']},
+          {label: '交易', icon: 'pi pi-fw pi-money-bill', routerLink: ['/home/transaction']}
         ]
       },
   ]

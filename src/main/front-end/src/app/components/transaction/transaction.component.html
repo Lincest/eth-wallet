@@ -1,0 +1,82 @@
+<p-card header="创建新交易">
+  <div class="p-fluid">
+    <div class="field grid mb-6">
+      <label class="col-1 text-lg mb-0">网络</label>
+      <div class="col-10">
+        <input pInputText type="text" placeholder="Disabled" disabled [(ngModel)]="network"/>
+      </div>
+      <div class="col-1">
+        <button pButton label="切换网络" [routerLink]="['/home/network']"></button>
+      </div>
+    </div>
+    <div class="field grid mb-6">
+      <label class="col-1 text-lg mb-0">源账户地址</label>
+      <div class="col-11">
+        <p-autoComplete placeholder="( from address ) 下拉可从账户中选择" [dropdown]="true" [multiple]="false"
+                        [suggestions]="filteredFromAccounts" (completeMethod)="filterFromAddress($event)"
+                        field="address" [(ngModel)]="selectedFromAccount"></p-autoComplete>
+      </div>
+    </div>
+    <div class="field grid mb-6">
+      <label class="col-1 text-lg mb-0">源账户私钥</label>
+      <div class="col-11">
+        <p-password placeholder="( from private key ) 下拉可从账户中选择" [(ngModel)]="selectedFromAccount.private_key_hex"
+                    [toggleMask]="true" [feedback]="false"></p-password>
+      </div>
+    </div>
+    <div class="field grid mb-6">
+      <label class="col-1 text-lg mb-0">目的账户地址</label>
+      <div class="col-11">
+        <p-autoComplete placeholder="( to address )" [dropdown]="true" [multiple]="false"
+                        [suggestions]="filteredToAccounts" (completeMethod)="filterToAddress($event)" field="address"
+                        [(ngModel)]="selectedToAccount"></p-autoComplete>
+      </div>
+    </div>
+    <div class="field grid mb-6 justify-content-start">
+      <label class="col-1 text-lg mb-0">转账金额</label>
+      <div class="col-4">
+        <div class="p-inputgroup">
+          <span class="p-inputgroup-addon">ETH </span>
+          <input type="text" pInputText placeholder="value" [(ngModel)]='transferValue' pattern="^\d*\.?\d+$"
+                 #transferVal="ngModel">
+        </div>
+        <small *ngIf="transferVal.invalid" class="p-error block">请输入正确的ETH单位</small>
+        <small class="block">1 ETH = 1000000000000000000 Wei</small>
+      </div>
+      <div class="col-7">
+        <div class="p-inputgroup">
+          <span class="p-inputgroup-addon">Wei </span>
+          <input type="text" pInputText placeholder="value" [value]='transferValue | ethWei: "wei"' disabled>
+        </div>
+      </div>
+    </div>
+    <div class="field grid mb-6">
+      <label class="col-1 text-lg">Gas Limit</label>
+      <div class="col-11">
+        <input pInputText type="text" placeholder="Disabled" disabled value="21000"/>
+        <small class="block">标准的 ETH 转账一般要求 gas 限额为 21,000 单位。</small>
+      </div>
+    </div>
+    <div class="field grid mb-6">
+      <label class="col-1 text-lg">Gas Price</label>
+      <div class="col-7">
+        <div class="p-inputgroup">
+          <span class="p-inputgroup-addon">GWei </span>
+          <input type="text" pInputText [placeholder]="suggestGasPrice" [(ngModel)]='gasPrice' pattern="^\d*\.?\d+$"
+                 #transferGas="ngModel">
+        </div>
+        <small *ngIf="transferGas.invalid" class="p-error block">请输入正确的GWei单位</small>
+        <small class="block">1 ETH = 1000000000 GWei, 建议值:
+          <font class="text-green-600"> {{suggestGasPrice}} </font>
+          <i class="pi pi-question-circle text-xs" pTooltip="建议值根据过去多个区块的gas price取平均值"></i>
+        </small>
+      </div>
+      <div class="col-4">
+        <div class="p-inputgroup">
+          <span class="p-inputgroup-addon">ETH </span>
+          <input type="text" pInputText placeholder="value" [value]='gasPrice | ethWei: "gwei"' disabled>
+        </div>
+      </div>
+    </div>
+  </div>
+</p-card>

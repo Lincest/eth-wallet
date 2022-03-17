@@ -1,5 +1,6 @@
 import {Injectable} from '@angular/core';
 import * as bip39 from 'bip39';
+import Web3 from 'web3'
 
 @Injectable({
   providedIn: 'root'
@@ -51,5 +52,14 @@ export class WalletService {
     console.log('ge by len: ', this.generateMnemonicByLen(12));
     console.log('ge by len: ', this.generateMnemonicByLen(12));
     console.log('validate: ', this.validateMnemonic(['omit', 'sock', 'rail', 'lunch', 'spend', 'rough', 'ship', 'artwork', 'range', 'similar', 'grow', 'velvet']));
+  }
+
+  // 测试获取节点所有账户信息
+  testAccountList() {
+    let web3 = new Web3("http://localhost:7545")
+    web3.eth.getGasPrice().then(console.log)
+    const addr = "0xC57a18405D7F8CC1CffE838FCb0343Fe17135866"
+    web3.eth.getAccounts().then(data => console.log(data.includes(addr)))
+    web3.eth.getBalance(addr).then(console.log)
   }
 }

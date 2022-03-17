@@ -36,6 +36,9 @@ import {ToolbarModule} from "primeng/toolbar";
 import {FileUpload, FileUploadModule} from "primeng/fileupload";
 import {ProgressBarModule} from "primeng/progressbar";
 import { EthWeiPipe } from './pipes/eth-wei.pipe';
+import { TransactionComponent } from './components/transaction/transaction.component';
+import {AutoCompleteModule} from "primeng/autocomplete";
+import {InputNumberModule} from "primeng/inputnumber";
 
 @NgModule({
   declarations: [
@@ -49,7 +52,8 @@ import { EthWeiPipe } from './pipes/eth-wei.pipe';
     MenuItemComponent,
     NetworkComponent,
     AccountComponent,
-    EthWeiPipe
+    EthWeiPipe,
+    TransactionComponent
   ],
     imports: [
         BrowserModule,
@@ -77,7 +81,9 @@ import { EthWeiPipe } from './pipes/eth-wei.pipe';
         TableModule,
         ToolbarModule,
         FileUploadModule,
-        ProgressBarModule
+        ProgressBarModule,
+        AutoCompleteModule,
+        InputNumberModule
     ],
   providers: [],
   bootstrap: [AppComponent],

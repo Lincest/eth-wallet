@@ -64,7 +64,9 @@
             <td>
               <span class="balance-badge">{{product.balance | ethWei: 'eth'}} ETH</span>
             </td>
-            <td>123</td>
+            <td>
+              <button pButton pRipple type="button" icon="pi pi-search" class="p-button p-component p-button-text p-button-icon-only" (click)="showPrivateKey(product)"></button>
+            </td>
           </tr>
         </ng-template>
         <!--  <ng-template pTemplate="rowexpansion" let-product>-->

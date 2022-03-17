@@ -4,6 +4,7 @@ import {AccountService} from "../../services/account.service";
 import {MsgService} from "../../services/msg.service";
 import {Code} from "../../models/resp";
 import Web3 from 'web3';
+import {access} from "fs";
 
 @Component({
   selector: 'app-account',
@@ -134,5 +135,13 @@ export class AccountComponent implements OnInit {
         }
       })
     })
+  }
+
+  showPrivateKey(acc: Account) {
+    this.msgService.confirm(`
+      您的私钥是: <br>
+      <div class="text-900 font-medium text-2xl mt-2 mb-2"> ${acc.private_key_hex} </div>
+      <small class="block text-xs text-orange-500">请注意千万不要泄露私钥</small>
+    `, () => (console.log("private key")))
   }
 }
