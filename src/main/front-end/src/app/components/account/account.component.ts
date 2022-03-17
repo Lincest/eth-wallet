@@ -3,6 +3,7 @@ import {Account} from "../../models/account";
 import {AccountService} from "../../services/account.service";
 import {MsgService} from "../../services/msg.service";
 import {Code} from "../../models/resp";
+import Web3 from 'web3';
 
 @Component({
   selector: 'app-account',
@@ -36,10 +37,18 @@ export class AccountComponent implements OnInit {
   privateKeyImportVisible = false;
   privateKey = ""
 
+  // 总余额
+
+  totalBalance = ""
+
   constructor(
     private accountService: AccountService,
     private msgService: MsgService
   ) {
+  }
+
+  ngOnInit(): void {
+    this.load()
   }
 
   load() {
@@ -48,14 +57,21 @@ export class AccountComponent implements OnInit {
       this.loading = false;
       if (resp.code === Code.ok) {
         this.accounts = resp.data as Account[];
+        this.getTotalBalance();
       } else {
         this.msgService.addError("获取账户信息失败")
       }
     })
   }
 
-  ngOnInit(): void {
-    this.load()
+  // 获取账户总余额
+  getTotalBalance() {
+    let value = Web3.utils.toBN('0')
+    this.accounts.forEach(account => {
+      const rightValue = Web3.utils.toBN(account.balance)
+      value = value.add(rightValue)
+    })
+    this.totalBalance = value.toString()
   }
 
   uploadKeyStoreHandler(event: any) {

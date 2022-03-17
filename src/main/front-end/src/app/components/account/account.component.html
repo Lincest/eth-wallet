@@ -1,6 +1,22 @@
 <p-progressBar  mode="indeterminate" [style]="{'height': '6px'}" [hidden]="!loading"></p-progressBar>
 <div class="grid">
   <div class="col-12">
+    <div class="card mb-0">
+      <div class="flex justify-content-between mb-3">
+        <div>
+          <span class="block text-xl font-medium mb-3">账户总余额</span>
+          <div class="text-900 font-medium text-2xl">{{totalBalance | ethWei: 'eth'}} ETH</div>
+        </div>
+        <div class="flex align-items-center justify-content-center bg-blue-100 border-round" [ngStyle]="{width: '2.5rem', height: '2.5rem'}">
+          <i class="pi pi-wallet text-blue-500 text-xl"></i>
+        </div>
+      </div>
+      <span class="text-green-500 font-medium">{{totalBalance}}  </span>
+      <span class="text-500">as wei</span>
+    </div>
+  </div>
+
+  <div class="col-12">
     <p-card header="账户管理">
       <p-toolbar>
         <div class="p-toolbar-group-left flex flex-wrap">
