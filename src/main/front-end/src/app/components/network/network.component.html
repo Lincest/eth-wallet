@@ -1,3 +1,4 @@
+<p-progressBar  mode="indeterminate" [style]="{'height': '6px'}" [hidden]="!loading"></p-progressBar>
 <p-card header="网络">
   <p-divider align="right">
     <p-button label="添加网络" icon="pi pi-plus" styleClass="p-button-outlined" (onClick)="addNet()"></p-button>
@@ -36,7 +37,7 @@
   </p-accordion>
 </p-card>
 
-<p-dialog [(visible)]="modifyDialogVisible" [modal]="true" header="添加网络">
+<p-dialog [(visible)]="modifyDialogVisible" [modal]="true" header="网络管理">
   <div class="grid p-fluid">
     <div class="col-12">
       <p-chip label="网络名称" icon="pi pi-info"></p-chip>

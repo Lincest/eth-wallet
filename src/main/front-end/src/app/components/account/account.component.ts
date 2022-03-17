@@ -7,7 +7,21 @@ import {Code} from "../../models/resp";
 @Component({
   selector: 'app-account',
   templateUrl: './account.component.html',
-  providers: [MsgService]
+  providers: [MsgService],
+  styles: [
+    `
+      .balance-badge {
+        border-radius: var(--border-radius);
+        padding: .25em .5rem;
+        text-transform: uppercase;
+        font-weight: 700;
+        font-size: 12px;
+        letter-spacing: .3px;
+        background: #C8E6C9;
+        color: #256029;
+      }
+    `
+  ]
 })
 export class AccountComponent implements OnInit {
 
@@ -59,12 +73,12 @@ export class AccountComponent implements OnInit {
   }
 
   exportKeyStore() {
-    this.loading = true;
     this.msgService.confirm(`
         您将导出您的全部账户到keystore文件,
         导出格式为<font class="text-orange-500">zip压缩包</font>,
         keystore密钥为<font class="text-orange-500">您的钱包账户密码</font>, 确认导出?`,
       () => {
+        this.loading = true;
         this.accountService.exportKeyStoreFile().subscribe(res => {
           this.loading = false;
           let dataType = res.type;

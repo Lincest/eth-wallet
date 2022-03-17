@@ -12,6 +12,7 @@ import * as lodash from 'lodash';
 })
 export class NetworkComponent implements OnInit {
 
+  loading = false;
   items: Network[] = [];
   newNet: Network = {name: "", url: "", chain_id: ""};
   modifyDialogVisible: boolean = false;
@@ -28,6 +29,7 @@ export class NetworkComponent implements OnInit {
 
   // 加载所有网络
   loadNetWorks() {
+    this.loading = true;
     this.networkService.getNetWorks().subscribe(res => {
       if (res.code === Code.err) {
         this.msgService.addError('获取网络节点信息失败')
@@ -35,6 +37,7 @@ export class NetworkComponent implements OnInit {
         // this.msgService.addSuccess('获取网络节点信息成功')
         this.items = res.data as Network[]
       }
+      this.loading = false;
     })
   }
 
