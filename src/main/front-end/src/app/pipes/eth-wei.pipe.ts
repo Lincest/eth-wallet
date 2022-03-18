@@ -13,7 +13,7 @@ export class EthWeiPipe implements PipeTransform {
       } else if (to == 'eth') {
         return Web3.utils.fromWei(value, 'ether') // wei => eth
       } else if (to == 'gwei') {
-        return Web3.utils.fromWei(value, 'gwei') // gwei => eth
+        return Web3.utils.fromWei(Web3.utils.toWei(value, 'gwei')) // gwei => eth
       }
       return "error"
     } catch (e) {

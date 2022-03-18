@@ -54,3 +54,9 @@ func TestTransactionService_CheckTransaction(t *testing.T) {
 	}
 	t.Logf("%#v", tx)
 }
+
+func TestWalletService_AccelerateTransaction(t *testing.T) {
+	if err := Transaction.AccelerateTransaction(13, "10023971430"); err != nil {
+		t.Error(err)
+	}
+}

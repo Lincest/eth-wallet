@@ -107,7 +107,7 @@ func (srv *transactionService) CreateTransaction(uid uint, fromAddress common.Ad
 		Nonce:       strconv.FormatUint(nonce, 10),
 		FromAddress: fromAddress,
 		ToAddress:   toAddress,
-		Network: network,
+		Network:     network,
 	}
 	if err := db.Create(&newTransaction).Error; err != nil {
 		return "", err
@@ -133,6 +133,16 @@ func (srv *transactionService) GetAndUpdateTransactionByHash(transactionHash str
 	tx, isPending, err := client.TransactionByHash(context.Background(), common.HexToHash(transactionHash))
 	if err != nil {
 		return transaction, err
+	}
+	// 如果在pending就不查收据直接返回
+	if isPending {
+		transaction.IsPending = isPending
+		transaction.GasUsed = strconv.FormatUint(tx.Gas(), 10)
+		transaction.Cost = tx.Cost().String()
+		if err := db.Save(&transaction).Error; err != nil {
+			return transaction, err
+		}
+		return transaction, nil
 	}
 	receipt, err := client.TransactionReceipt(context.Background(), tx.Hash())
 	if err != nil {
@@ -170,4 +180,65 @@ func (srv *transactionService) GetAndUpdateTransactionByHash(transactionHash str
 	//fmt.Println("收据block number: ", receipt.BlockNumber)
 	//fmt.Println("收据block hash: ", receipt.BlockHash)
 	// above is for debug... ============================================================
+}
+
+// AccelerateTransaction 根据transaction的id和新的gasPrice加速transaction
+func (srv *transactionService) AccelerateTransaction(id uint, newGasPrice string) error {
+	transaction := model.Transaction{}
+	if err := db.First(&transaction, id).Error; err != nil {
+		return err
+	}
+	client, err := ethclient.Dial(transaction.Network)
+	if err != nil {
+		return err
+	}
+	defer client.Close()
+	// 查询交易
+	_, isPending, err := client.TransactionByHash(context.Background(), common.HexToHash(transaction.Hash))
+	if !isPending {
+		return fmt.Errorf("交易已经完成, 不可修改")
+	}
+	nonceInt, err := strconv.Atoi(transaction.Nonce)
+	if err != nil {
+		return err
+	}
+	nonce := uint64(nonceInt)
+	gasLimitInt, err := strconv.Atoi(transaction.GasLimit)
+	if err != nil {
+		return err
+	}
+	gasLimit := uint64(gasLimitInt)
+	transVal := big.NewInt(0)
+	transVal.SetString(transaction.Value, 10)
+	gasPrice := big.NewInt(0)
+	gasPrice.SetString(newGasPrice, 10)
+	newTx := types.NewTransaction(nonce, transaction.ToAddress, transVal, gasLimit, gasPrice, nil)
+	fmt.Printf("cost: %v \n", utils.Wallet.Wei2Eth(newTx.Cost()))
+	chainID, err := client.ChainID(context.Background())
+	if err != nil {
+		return err
+	}
+	account := model.Account{Address: transaction.FromAddress}
+	if err := db.Where(&account).First(&account).Error; err != nil {
+		return err
+	}
+	privKey, err := crypto.HexToECDSA(account.PrivateKeyHex)
+	if err != nil {
+		return err
+	}
+	signedTx, err := types.SignTx(newTx, types.NewEIP155Signer(chainID), privKey)
+	if err != nil {
+		return err
+	}
+	// 8 - 利用SendTransaction将已签名的事务广播到整个网络
+	if err := client.SendTransaction(context.Background(), signedTx); err != nil {
+		return err
+	}
+	fmt.Printf("Transaction Hex: (%#v) 已经被广播", signedTx.Hash().Hex())
+	transaction.Hash = signedTx.Hash().Hex() // 更新后哈希值和gasPrice是改变量
+	transaction.GasPrice = newGasPrice
+	if err := db.Save(&transaction).Error; err != nil {
+		return err
+	}
+	return nil
 }
