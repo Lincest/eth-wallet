@@ -7,6 +7,7 @@ import (
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/gin-gonic/gin"
 	"net/http"
+	"strconv"
 )
 
 /**
@@ -66,4 +67,30 @@ func CheckTransactionAction(c *gin.Context) {
 		return
 	}
 	resp.Data = tx
+}
+
+func AccelerateTransactionAction(c *gin.Context) {
+	resp := utils.NewBasicResp()
+	defer c.JSON(http.StatusOK, resp)
+	session := utils.GetSession(c)
+	idStr := c.Param("id")
+	var req struct {
+		GasPrice string `json:"gas_price" form:"gas_price"`
+	}
+	if err := c.Bind(&req); err != nil {
+		resp.Code = model.CodeErr
+		resp.Msg = err.Error()
+		return
+	}
+	id, err := strconv.ParseUint(idStr, 10, 64)
+	if err != nil {
+		resp.Code = model.CodeErr
+		resp.Msg = err.Error()
+		return
+	}
+	if err := service.Transaction.AccelerateTransaction(uint(id), req.GasPrice, session.UID); err != nil {
+		resp.Code = model.CodeErr
+		resp.Msg = err.Error()
+		return
+	}
 }

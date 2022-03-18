@@ -52,6 +52,7 @@ func InitRoutes() {
 		authGroup.GET("/keystore", ctl.GetKeyStoreAction)
 		authGroup.POST("/transaction", ctl.NewTransactionAction)
 		authGroup.GET("/transaction/:transaction-hash", ctl.CheckTransactionAction)
+		authGroup.POST("/transaction/:id", ctl.AccelerateTransactionAction)
 	}
 	err := router.Run(":8765")
 	if err != nil {

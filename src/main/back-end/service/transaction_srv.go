@@ -182,11 +182,15 @@ func (srv *transactionService) GetAndUpdateTransactionByHash(transactionHash str
 	// above is for debug... ============================================================
 }
 
-// AccelerateTransaction 根据transaction的id和新的gasPrice加速transaction
-func (srv *transactionService) AccelerateTransaction(id uint, newGasPrice string) error {
+// AccelerateTransaction 根据transaction的id和新的gasPrice加速(更新)transaction
+// 原理: 更改gas price, 并用原来的nonce值重新将交易上链
+func (srv *transactionService) AccelerateTransaction(id uint, newGasPrice string, uid uint) error {
 	transaction := model.Transaction{}
 	if err := db.First(&transaction, id).Error; err != nil {
 		return err
+	}
+	if transaction.UID != uid {
+		return fmt.Errorf("没有权限修改")
 	}
 	client, err := ethclient.Dial(transaction.Network)
 	if err != nil {

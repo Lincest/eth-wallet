@@ -59,25 +59,25 @@
 - `BASE_URL`: `/api/v1` 
 - `AUTH_URL`: `/api/v1/auth` 鉴权后url
 
-|                             url                              |                 method                 |                   description                    |
-| :----------------------------------------------------------: | :------------------------------------: | :----------------------------------------------: |
-|                   `{{BASE_URL}}/register`                    |                 `POST`                 |                     用户注册                     |
-|                     `{{BASE_URL}}/login`                     |        `POST {name, password}`         |                     用户登录                     |
-|                    `{{AUTH_URL}}/logout`                     |                 `POST`                 |                     用户登出                     |
-|                   `{{AUTH_URL}}/mnemonic`                    |           `POST {mnemonic}`            |                    更新助记词                    |
-|                    `{{AUTH_URL}}/network`                    |                 `GET`                  |            查询当前用户保存的网络节点            |
-|                    `{{AUTH_URL}}/network`                    |    `POST {chain_id, url, name, ID}`    |               新增当前用户网络节点               |
-|                    `{{AUTH_URL}}/network`                    |                `DELETE`                |               删除当前用户网络节点               |
-|                    `{{AUTH_URL}}/network`                    |    `PUT {chain_id, url, name, ID}`     |               更新当前用户网络节点               |
-|      `{{BASE_URL}}/test-rpc?url=url&chain-id=chain-id`       |                 `GET`                  |                  测试网络连通性                  |
-|                `{{AUTH_URL}}/current-network`                |                 `GET`                  |               获取当前用户使用网络               |
-|                `{{AUTH_URL}}/current-network`                |              `POST {ID}`               |               更新当前用户使用网络               |
-|                    `{{AUTH_URL}}/account`                    |                 `POST`                 |         当前用户基于衍生路径新增account          |
-|                    `{{AUTH_URL}}/account`                    |                 `GET`                  |             获取当前用户所有account              |
-|                   `{{AUTH_URL}}/keystore`                    | `POST form{passphrase keystore(file)}` |       基于keystore和passphrase新增account        |
-|                   `{{AUTH_URL}}/keystore`                    |                 `GET`                  | 导出该用户所有的account为zip文件, 密码是用户密码 |
-|                    `{{AUTH_URL}}/account`                    |        `POST {private_key_hex}`        |            基于private key新增account            |
-|                  `{{AUTH_URL}}/transaction`                  |       `POST {from_address ...}`        |                    创建新交易                    |
-| `{{{{AUTH_URL}}/transaction/{transaction-hash=transaction-hash}` |                 `GET`                  |                查询并更新交易状态                |
-|                                                              |                                        |                                                  |
+|                        url                        |                 method                 |                   description                    |
+| :-----------------------------------------------: | :------------------------------------: | :----------------------------------------------: |
+|              `{{BASE_URL}}/register`              |                 `POST`                 |                     用户注册                     |
+|               `{{BASE_URL}}/login`                |        `POST {name, password}`         |                     用户登录                     |
+|               `{{AUTH_URL}}/logout`               |                 `POST`                 |                     用户登出                     |
+|              `{{AUTH_URL}}/mnemonic`              |           `POST {mnemonic}`            |                    更新助记词                    |
+|              `{{AUTH_URL}}/network`               |                 `GET`                  |            查询当前用户保存的网络节点            |
+|              `{{AUTH_URL}}/network`               |    `POST {chain_id, url, name, ID}`    |               新增当前用户网络节点               |
+|              `{{AUTH_URL}}/network`               |                `DELETE`                |               删除当前用户网络节点               |
+|              `{{AUTH_URL}}/network`               |    `PUT {chain_id, url, name, ID}`     |               更新当前用户网络节点               |
+| `{{BASE_URL}}/test-rpc?url=url&chain-id=chain-id` |                 `GET`                  |                  测试网络连通性                  |
+|          `{{AUTH_URL}}/current-network`           |                 `GET`                  |               获取当前用户使用网络               |
+|          `{{AUTH_URL}}/current-network`           |              `POST {ID}`               |               更新当前用户使用网络               |
+|              `{{AUTH_URL}}/account`               |                 `POST`                 |         当前用户基于衍生路径新增account          |
+|              `{{AUTH_URL}}/account`               |                 `GET`                  |             获取当前用户所有account              |
+|              `{{AUTH_URL}}/keystore`              | `POST form{passphrase keystore(file)}` |       基于keystore和passphrase新增account        |
+|              `{{AUTH_URL}}/keystore`              |                 `GET`                  | 导出该用户所有的account为zip文件, 密码是用户密码 |
+|              `{{AUTH_URL}}/account`               |        `POST {private_key_hex}`        |            基于private key新增account            |
+|            `{{AUTH_URL}}/transaction`             |       `POST {from_address ...}`        |                    创建新交易                    |
+|  `{{{{AUTH_URL}}/transaction/:transaction-hash`   |                 `GET`                  |                查询并更新交易状态                |
+|          `{{AUTH_URL}}/transaction/:id`           |           `POST {gas_price}`           |             根据交易id更新/加速交易              |
 

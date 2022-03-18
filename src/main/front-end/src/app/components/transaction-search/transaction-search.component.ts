@@ -11,6 +11,7 @@ import {MsgService} from "../../services/msg.service";
 })
 export class TransactionSearchComponent implements OnInit {
 
+  loading = false;
   transactionHash: string;
 
   constructor(
@@ -29,7 +30,9 @@ export class TransactionSearchComponent implements OnInit {
   }
 
   checkTransaction() {
+    this.loading = true;
     this.transactionService.getTransactionByHash(this.transactionHash).subscribe(res => {
+      this.loading = false;
       if (res.code === Code.ok) {
         this.msgService.addSuccess()
         this.router.navigate([this.transactionHash], {relativeTo: this.route}).then()
