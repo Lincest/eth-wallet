@@ -9,28 +9,31 @@ import {TransactionResp} from "../../../models/transaction";
   selector: 'app-transaction-item',
   templateUrl: './transaction-item.component.html',
   providers: [MsgService],
-  styles: [    `
-      .badge {
-        border-radius: var(--border-radius);
-        padding: .25em .5rem;
-        text-transform: uppercase;
-        font-weight: 700;
-        font-size: 12px;
-        letter-spacing: .3px;
-        &.success {
-          background: #C8E6C9;
-          color: #256029;
-        }
-        &.fail {
-          background: #FFCDD2;
-          color: #C63737;
-        }
-        &.pending {
-          background: #FEEDAF;
-          color: #8A5340;
-        }
+  styles: [`
+    .badge {
+      border-radius: var(--border-radius);
+      padding: .25em .5rem;
+      text-transform: uppercase;
+      font-weight: 700;
+      font-size: 12px;
+      letter-spacing: .3px;
+
+      &.success {
+        background: #C8E6C9;
+        color: #256029;
       }
-    `]
+
+      &.fail {
+        background: #FFCDD2;
+        color: #C63737;
+      }
+
+      &.pending {
+        background: #FEEDAF;
+        color: #8A5340;
+      }
+    }
+  `]
 })
 export class TransactionItemComponent implements OnInit {
 

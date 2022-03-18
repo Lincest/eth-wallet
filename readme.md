@@ -26,6 +26,8 @@
 ### 外部API
 
 - https://min-api.cryptocompare.com/
+- [Ethereum (ETH) Blockchain Explorer (etherscan.io)](https://etherscan.io/)
+- [Ropsten Ethereum (rETH) Faucet (dimensions.network)](https://faucet.dimensions.network/) (Ropsten测试网水龙头)
 - 
 
 ## file structure 文件结构
@@ -78,5 +80,4 @@
 |                  `{{AUTH_URL}}/transaction`                  |       `POST {from_address ...}`        |                    创建新交易                    |
 | `{{{{AUTH_URL}}/transaction/{transaction-hash=transaction-hash}` |                 `GET`                  |                查询并更新交易状态                |
 |                                                              |                                        |                                                  |
-
 

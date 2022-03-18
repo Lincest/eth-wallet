@@ -39,8 +39,10 @@ import { EthWeiPipe } from './pipes/eth-wei.pipe';
 import { TransactionComponent } from './components/transaction/transaction.component';
 import {AutoCompleteModule} from "primeng/autocomplete";
 import {InputNumberModule} from "primeng/inputnumber";
-import { TransactionItemComponent } from './components/transaction/transaction-item/transaction-item.component';
+import { TransactionItemComponent } from './components/transaction-search/transaction-item/transaction-item.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import { HomeDefaultComponent } from './components/home-default/home-default.component';
+import { TransactionSearchComponent } from './components/transaction-search/transaction-search.component';
 
 @NgModule({
   declarations: [
@@ -57,7 +59,9 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
     EthWeiPipe,
     TransactionComponent,
     TransactionItemComponent,
-    PageNotFoundComponent
+    PageNotFoundComponent,
+    HomeDefaultComponent,
+    TransactionSearchComponent
   ],
     imports: [
         BrowserModule,

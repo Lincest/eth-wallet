@@ -1,0 +1,7 @@
+<div class="card">
+  <div class="p-inputgroup">
+    <button type="button" pButton pRipple label="查询交易" (click)="checkTransaction()"></button>
+    <input type="text" pInputText placeholder="请输入交易哈希值  please input transaction hash" [(ngModel)]="transactionHash">
+  </div>
+</div>
+<router-outlet></router-outlet>

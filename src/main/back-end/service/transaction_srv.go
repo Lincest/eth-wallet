@@ -107,6 +107,7 @@ func (srv *transactionService) CreateTransaction(uid uint, fromAddress common.Ad
 		Nonce:       strconv.FormatUint(nonce, 10),
 		FromAddress: fromAddress,
 		ToAddress:   toAddress,
+		Network: network,
 	}
 	if err := db.Create(&newTransaction).Error; err != nil {
 		return "", err
