@@ -23,6 +23,7 @@ const routes: Routes = [
   {path: 'mnemonic', component: MnemonicComponent, canActivate: [LoginService]},
   // default
   {path: '', redirectTo: 'home', pathMatch: 'full'},
+  {path: '404', component: PageNotFoundComponent},
   {path: '**', component: PageNotFoundComponent}
 ];
 

@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {TransactionService} from "../../../services/transaction.service";
 import {Code} from "../../../models/resp";
 import {MsgService} from "../../../services/msg.service";
@@ -42,6 +42,7 @@ export class TransactionItemComponent implements OnInit {
     private route: ActivatedRoute,
     private transactionService: TransactionService,
     private msgService: MsgService,
+    private router: Router
   ) {
   }
 
@@ -52,7 +53,7 @@ export class TransactionItemComponent implements OnInit {
       this.transactionService.getTransactionByHash(this.transactionHash).subscribe(res => {
         this.loading = false;
         if (res.code === Code.err) {
-          this.msgService.addError(`获取交易失败, ${res.msg}`)
+          this.router.navigate(['/404']).then()
         } else {
           this.data = res.data
         }
