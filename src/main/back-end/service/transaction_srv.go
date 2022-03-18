@@ -10,6 +10,7 @@ import (
 	"github.com/ethereum/go-ethereum/core/types"
 	"github.com/ethereum/go-ethereum/crypto"
 	"github.com/ethereum/go-ethereum/ethclient"
+	"log"
 	"math/big"
 	"strconv"
 )
@@ -115,6 +116,7 @@ func (srv *transactionService) CreateTransaction(uid uint, fromAddress common.Ad
 
 // GetAndUpdateTransactionByHash 检查并更新交易状态
 func (srv *transactionService) GetAndUpdateTransactionByHash(transactionHash string, network string) (*model.Transaction, error) {
+	log.Print("find transaction: ", transactionHash)
 	// 数据库查找该交易
 	transaction := &model.Transaction{Hash: transactionHash}
 	if err := db.Where(transaction).First(transaction).Error; err != nil {

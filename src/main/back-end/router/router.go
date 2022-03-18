@@ -31,7 +31,7 @@ func InitRoutes() {
 	{
 		v1.POST("/register", ctl.RegisterAction)
 		v1.POST("/login", ctl.LoginAction)
-		v1.GET("/test-rpc", ctl.RpcTestAction)
+		v1.GET("/test-rpc", ctl.RpcTestAction) // param: url, chain-id
 	}
 	// after auth group
 	authGroup := v1.Group("auth")
@@ -50,6 +50,8 @@ func InitRoutes() {
 		authGroup.GET("/account", ctl.GetAccountAction)
 		authGroup.POST("/keystore", ctl.AddAccountByKeyStoreAction)
 		authGroup.GET("/keystore", ctl.GetKeyStoreAction)
+		authGroup.POST("/transaction", ctl.NewTransactionAction)
+		authGroup.GET("/transaction/:transaction-hash", ctl.CheckTransactionAction)
 	}
 	err := router.Run(":8765")
 	if err != nil {
