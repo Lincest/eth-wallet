@@ -1,0 +1,116 @@
+<p-progressBar mode="indeterminate" [style]="{'height': '6px'}" [hidden]="!loading"></p-progressBar>
+<div class="card">
+  <div class="flex align-items-center justify-content-between mb-4">
+    <h5>交易 {{transactionHash}} 的详细信息</h5>
+  </div>
+
+  <span class="block text-600 font-medium mb-3">ADDRESS</span>
+  <ul class="p-0 mx-0 mt-0 mb-4 list-none">
+    <li class="flex align-items-center py-2 border-bottom-1 surface-border">
+      <div
+        class="w-3rem h-3rem flex align-items-center justify-content-center bg-blue-100 border-circle mr-3 flex-shrink-0">
+        <i class="pi pi-sign-out text-xl text-blue-500"></i>
+      </div>
+      <span class="text-700 line-height-3">源地址: <span class="text-blue-700">{{data.from_address}}</span></span>
+    </li>
+    <li class="flex align-items-center py-2 border-bottom-1 surface-border">
+      <div
+        class="w-3rem h-3rem flex align-items-center justify-content-center bg-orange-100 border-circle mr-3 flex-shrink-0">
+        <i class="pi pi-sign-in text-xl text-orange-500"></i>
+      </div>
+      <span class="text-700 line-height-3">目的地址:<span class="text-blue-700"> {{data.to_address}}</span></span>
+    </li>
+    <li class="flex align-items-center py-2">
+      <div
+        class="w-3rem h-3rem flex align-items-center justify-content-center bg-green-100 border-circle mr-3 flex-shrink-0">
+        <i class="pi pi-calendar text-xl text-green-500"></i>
+      </div>
+      <span class="text-700 line-height-3">创建时间:<span class="text-blue-700"> {{data.CreatedAt | date:'yyyy-MM-dd HH:mm:ss'}}</span></span>
+    </li>
+  </ul>
+
+  <span class="block text-600 font-medium mb-3">DETAIL</span>
+  <ul class="p-0 mx-0 mt-0 mb-4 list-none">
+    <li class="flex align-items-center py-2 border-bottom-1 surface-border">
+      <div
+        class="w-3rem h-3rem flex align-items-center justify-content-center bg-blue-100 border-circle mr-3 flex-shrink-0">
+        <i class="pi pi-dollar text-xl text-blue-500"></i>
+      </div>
+      <span class="text-700 line-height-3">Gas Price:
+                    <span class="text-blue-700">{{data.gas_price | ethWei: 'eth'}} <span
+                      class="text-blue-500"> ETH</span></span>
+                </span>
+    </li>
+    <li class="flex align-items-center py-2 border-bottom-1 surface-border">
+      <div
+        class="w-3rem h-3rem flex align-items-center justify-content-center bg-pink-100 border-circle mr-3 flex-shrink-0">
+        <i class="pi pi-dollar text-xl text-pink-500"></i>
+      </div>
+      <span class="text-700 line-height-3">Gas Limit:
+                    <span class="text-blue-700">{{data.gas_limit}}</span>
+                </span>
+    </li>
+    <li class="flex align-items-center py-2 border-bottom-1 surface-border">
+      <div
+        class="w-3rem h-3rem flex align-items-center justify-content-center bg-orange-100 border-circle mr-3 flex-shrink-0">
+        <i class="pi pi-dollar text-xl text-orange-500"></i>
+      </div>
+      <span class="text-700 line-height-3">Gas Used:
+                    <span class="text-blue-700">{{data.gas_used}}</span>
+                </span>
+    </li>
+    <li class="flex align-items-center py-2 border-bottom-1 surface-border">
+      <div
+        class="w-3rem h-3rem flex align-items-center justify-content-center bg-green-100 border-circle mr-3 flex-shrink-0">
+        <i class="pi pi-dollar text-xl text-green-500"></i>
+      </div>
+      <span class="text-700 line-height-3">转账金额:
+                    <span class="text-blue-700">{{data.value | ethWei: 'eth'}} <span
+                      class="text-blue-500"> ETH</span></span>
+                </span>
+    </li>
+    <li class="flex align-items-center py-2">
+      <div
+        class="w-3rem h-3rem flex align-items-center justify-content-center bg-cyan-100 border-circle mr-3 flex-shrink-0">
+        <i class="pi pi-dollar text-xl text-cyan-500"></i>
+      </div>
+      <span class="text-700 line-height-3">总花费金额 <span class="text-orange-500">(Gas Used * Gas Price + 转账金额) </span>:
+                    <span class="text-blue-700">{{data.cost | ethWei: 'eth'}} <span
+                      class="text-blue-500"> ETH</span></span>
+                </span>
+    </li>
+  </ul>
+
+    <span class="block text-600 font-medium mb-3">STATUS</span>
+    <ul class="p-0  mx-0 mt-0 mb-4 list-none">
+      <li class="flex align-items-center py-2">
+        <div
+          class="w-3rem h-3rem flex align-items-center justify-content-center bg-blue-100 border-circle mr-3 flex-shrink-0">
+          <i class="pi pi-info-circle text-xl text-blue-500"></i>
+        </div>
+        <span class="text-700 line-height-3">交易状态:
+												<span *ngIf="data.status && !data.is_pending" class="badge success">&nbsp;&nbsp;成功交易&nbsp;&nbsp;</span>
+												<span *ngIf="!data.status && !data.is_pending" class="badge fail">&nbsp;&nbsp;交易失败&nbsp;&nbsp;</span>
+												<span *ngIf="data.is_pending" class="badge pending">&nbsp;&nbsp;正在等待&nbsp;&nbsp;</span>
+        </span>
+      </li>
+    </ul>
+
+  <span class="block text-600 font-medium mb-3">BLOCK</span>
+  <ul class="p-0 m-0 list-none">
+    <li class="flex align-items-center py-2 border-bottom-1 surface-border">
+      <div
+        class="w-3rem h-3rem flex align-items-center justify-content-center bg-blue-100 border-circle mr-3 flex-shrink-0">
+        <i class="pi pi-server text-xl text-blue-500"></i>
+      </div>
+      <span class="text-700 line-height-3"> Block Hash: <span class="text-blue-700">{{data.block_hash}}</span></span>>
+    </li>
+    <li class="flex align-items-center py-2">
+      <div
+        class="w-3rem h-3rem flex align-items-center justify-content-center bg-green-100 border-circle mr-3 flex-shrink-0">
+        <i class="pi pi-server text-xl text-green-500"></i>
+      </div>
+      <span class="text-700 line-height-3"> Block Number: <span class="text-blue-700">{{data.block_number}}</span></span>
+    </li>
+  </ul>
+</div>

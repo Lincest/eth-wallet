@@ -20,6 +20,10 @@ export class TransactionComponent implements OnInit {
   // 网络
   network: string;
 
+  // finished?
+  finishedTransaction = false;
+  transactionHash = "";
+
   // 地址
   accounts: Account[] = [];
   // from
@@ -111,20 +115,22 @@ export class TransactionComponent implements OnInit {
       from_private_key_hex: this.selectedFromAccount.private_key_hex,
       to_address: this.selectedToAccount.address,
       value: Web3.utils.toWei(this.transferValue, 'ether'),
-      gas_price: Web3.utils.toWei(this.transferValue, 'gwei'),
+      gas_price: Web3.utils.toWei(this.gasPrice, 'gwei'),
       gas_limit: this.gasLimit
     }
     this.msgService.confirm(`
         确认提交交易?
        `, () => {
       this.loading = true;
+      this.finishedTransaction = false;
       this.transactionService.createTransaction(req).subscribe(res => {
         this.loading = false;
         if (res.code === Code.err) {
           this.msgService.addError(res.msg)
         } else {
-          // TODO: 后续待交易查看界面写好后改为跳转到对应的交易
-          this.msgService.addSuccess(`交易成功, 交易哈希: ${res.data as string}`)
+          this.msgService.addSuccess(`发起交易成功`)
+          this.transactionHash = res.data
+          this.finishedTransaction = true;
         }
       })
     })

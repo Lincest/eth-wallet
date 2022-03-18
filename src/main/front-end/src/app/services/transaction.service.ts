@@ -17,4 +17,8 @@ export class TransactionService {
   createTransaction(req: TransactionReq): Observable<Resp> {
     return this.http.post<Resp>(AUTH_URL + "/transaction", req)
   }
+
+  getTransactionByHash(hash: string): Observable<Resp> {
+    return this.http.get<Resp>(AUTH_URL + `/transaction/${hash}`)
+  }
 }

@@ -85,5 +85,9 @@
                 (click)="submitTransaction()"></button>
       </div>
     </div>
+    <div class="field grid mb-6 col-12 justify-content-center">
+      <a [routerLink]="'/home/transaction/' + this.transactionHash"><span class="text-xl" *ngIf="finishedTransaction" >交易成功, 点击查看交易 {{this.transactionHash}}</span>
+      </a>
+    </div>
   </div>
 </p-card>

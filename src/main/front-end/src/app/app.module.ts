@@ -39,6 +39,8 @@ import { EthWeiPipe } from './pipes/eth-wei.pipe';
 import { TransactionComponent } from './components/transaction/transaction.component';
 import {AutoCompleteModule} from "primeng/autocomplete";
 import {InputNumberModule} from "primeng/inputnumber";
+import { TransactionItemComponent } from './components/transaction/transaction-item/transaction-item.component';
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 
 @NgModule({
   declarations: [
@@ -53,7 +55,9 @@ import {InputNumberModule} from "primeng/inputnumber";
     NetworkComponent,
     AccountComponent,
     EthWeiPipe,
-    TransactionComponent
+    TransactionComponent,
+    TransactionItemComponent,
+    PageNotFoundComponent
   ],
     imports: [
         BrowserModule,

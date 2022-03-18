@@ -7,6 +7,8 @@ import {MnemonicComponent} from "./mnemonic/mnemonic.component";
 import {NetworkComponent} from "./components/network/network.component";
 import {AccountComponent} from "./components/account/account.component";
 import {TransactionComponent} from "./components/transaction/transaction.component";
+import {TransactionItemComponent} from "./components/transaction/transaction-item/transaction-item.component";
+import {PageNotFoundComponent} from "./page-not-found/page-not-found.component";
 
 const routes: Routes = [
   {path: 'login', component: LoginComponent},
@@ -14,12 +16,14 @@ const routes: Routes = [
     path: 'home', component: HomeComponent, canActivate: [LoginService], children: [
       {path: 'network', component: NetworkComponent},
       {path: 'account', component: AccountComponent},
-      {path: 'transaction', component: TransactionComponent}
+      {path: 'transaction', component: TransactionComponent},
+      {path: 'transaction/:hash', component: TransactionItemComponent}
     ]
   },
   {path: 'mnemonic', component: MnemonicComponent, canActivate: [LoginService]},
   // default
-  {path: '**', redirectTo: 'home'}
+  {path: '', redirectTo: 'home', pathMatch: 'full'},
+  {path: '**', component: PageNotFoundComponent}
 ];
 
 @NgModule({
