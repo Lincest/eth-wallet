@@ -1,3 +1,4 @@
+<p-progressBar mode="indeterminate" [style]="{'height': '6px'}" [hidden]="!loading"></p-progressBar>
 <p-card header="创建新交易">
   <div class="p-fluid">
     <div class="field grid mb-6">
@@ -53,7 +54,7 @@
     <div class="field grid mb-6">
       <label class="col-1 text-lg">Gas Limit</label>
       <div class="col-11">
-        <input pInputText type="text" placeholder="Disabled" disabled value="21000"/>
+        <input pInputText type="text" placeholder="Disabled" disabled [(ngModel)]="gasLimit"/>
         <small class="block">标准的 ETH 转账一般要求 gas 限额为 21,000 单位。</small>
       </div>
     </div>
@@ -76,6 +77,12 @@
           <span class="p-inputgroup-addon">ETH </span>
           <input type="text" pInputText placeholder="value" [value]='gasPrice | ethWei: "gwei"' disabled>
         </div>
+      </div>
+    </div>
+    <div class="field grid mb-6 col-12 justify-content-center">
+      <div class="col-6">
+        <button pButton pRipple type="button" label="提交" class="p-button-rounded mr-2 mb-2"
+                (click)="submitTransaction()"></button>
       </div>
     </div>
   </div>

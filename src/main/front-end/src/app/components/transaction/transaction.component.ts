@@ -1,15 +1,21 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {NetworkService} from "../../services/network.service";
 import {Account, defaultAccount} from "../../models/account";
 import {AccountService} from "../../services/account.service";
 import {Code} from "../../models/resp";
 import Web3 from 'web3';
+import {TransactionReq} from "../../models/transaction";
+import {TransactionService} from "../../services/transaction.service";
+import {MsgService} from "../../services/msg.service";
 
 @Component({
   selector: 'app-transaction',
   templateUrl: './transaction.component.html',
+  providers: [MsgService],
 })
 export class TransactionComponent implements OnInit {
+
+  loading = false;
 
   // 网络
   network: string;
@@ -30,9 +36,14 @@ export class TransactionComponent implements OnInit {
   gasPrice: string = "0";
   suggestGasPrice: string = "0";
 
+  // Gas Limit
+  gasLimit: string = "21000";
+
   constructor(
     private networkService: NetworkService,
-    private accountService: AccountService
+    private accountService: AccountService,
+    private transactionService: TransactionService,
+    private msgService: MsgService,
   ) {
     this.selectedFromAccount = {...defaultAccount}
     this.selectedToAccount = {...defaultAccount}
@@ -55,10 +66,10 @@ export class TransactionComponent implements OnInit {
   // for auto complete选择: from address
   filterFromAddress(event: any) {
     //in a real application, make a request to a remote url with the query and return filtered results, for demo we filter at client side
-    let filtered : Account[] = [];
+    let filtered: Account[] = [];
     let query = event.query;
 
-    for(let i = 0; i < this.accounts.length; i++) {
+    for (let i = 0; i < this.accounts.length; i++) {
       let account = this.accounts[i];
       if (account.address.toLowerCase().indexOf(query.toLowerCase()) == 0) {
         filtered.push(account);
@@ -70,10 +81,10 @@ export class TransactionComponent implements OnInit {
   // for auto complete选择: to address
   filterToAddress(event: any) {
     //in a real application, make a request to a remote url with the query and return filtered results, for demo we filter at client side
-    let filtered : Account[] = [];
+    let filtered: Account[] = [];
     let query = event.query;
 
-    for(let i = 0; i < this.accounts.length; i++) {
+    for (let i = 0; i < this.accounts.length; i++) {
       let account = this.accounts[i];
       if (account.address.toLowerCase().indexOf(query.toLowerCase()) == 0) {
         filtered.push(account);
@@ -91,5 +102,31 @@ export class TransactionComponent implements OnInit {
         this.gasPrice = Web3.utils.fromWei(res, 'gwei');
       }
     )
+  }
+
+  // 提交
+  submitTransaction() {
+    const req: TransactionReq = {
+      from_address: this.selectedFromAccount.address,
+      from_private_key_hex: this.selectedFromAccount.private_key_hex,
+      to_address: this.selectedToAccount.address,
+      value: Web3.utils.toWei(this.transferValue, 'ether'),
+      gas_price: Web3.utils.toWei(this.transferValue, 'gwei'),
+      gas_limit: this.gasLimit
+    }
+    this.msgService.confirm(`
+        确认提交交易?
+       `, () => {
+      this.loading = true;
+      this.transactionService.createTransaction(req).subscribe(res => {
+        this.loading = false;
+        if (res.code === Code.err) {
+          this.msgService.addError(res.msg)
+        } else {
+          // TODO: 后续待交易查看界面写好后改为跳转到对应的交易
+          this.msgService.addSuccess(`交易成功, 交易哈希: ${res.data as string}`)
+        }
+      })
+    })
   }
 }
