@@ -23,6 +23,11 @@
 - `ganache`: [Ganache | Overview - Truffle Suite](https://trufflesuite.com/docs/ganache/)
 - `geth`: [Go Ethereum](https://geth.ethereum.org/)
 
+### 外部API
+
+- https://min-api.cryptocompare.com/
+- 
+
 ## file structure 文件结构
 
 `./doc/*`: 开发过程的记录文档

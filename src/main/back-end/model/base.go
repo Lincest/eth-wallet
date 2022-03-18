@@ -19,6 +19,7 @@ var Models = []interface{}{
 	&Network{},
 	&Wallet{},
 	&Account{},
+	&Transaction{},
 }
 
 // Model represents meta data of entity.
