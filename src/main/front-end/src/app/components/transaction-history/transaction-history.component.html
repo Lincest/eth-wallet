@@ -1,0 +1,37 @@
+<p-card header="最新交易记录">
+  <div class="col-5 align-items-center justify-content-center">
+    <p class="line-height-3 m-0">
+      本部分展示最新的交易记录, 按时间降序排列, 点击<span class="text-blue-600">Transaction Hash</span>可以跳转查看此交易的具体信息
+    </p>
+  </div>
+  <p-divider layout="horizontal" align="center">
+    <span class="p-tag">最新创建交易列表</span>
+  </p-divider>
+  <p-table [value]="data" [lazy]="true" (onLazyLoad)="loadData($event)" dataKey="ID" responsiveLayout="scroll"
+           [paginator]="true" [rows]="5" [totalRecords]="totalRecords" [loading]="loading" styleClass="p-datatable-striped">
+    <ng-template pTemplate="header">
+      <tr>
+        <th>Transaction Hash</th>
+        <th>From Address</th>
+        <th>To Address</th>
+        <th>转账金额</th>
+        <th>交易创建时间</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-tx>
+      <tr>
+        <td>
+          <a routerLink="/home/transaction-search/{{tx.hash}}">
+            <span class="text-blue-600">{{tx.hash}}</span>
+          </a>
+        </td>
+        <td>{{tx.from_address}}</td>
+        <td>{{tx.to_address}}</td>
+        <td>
+          <span class="text-blue-600">{{tx.value | ethWei: 'eth'}} ETH</span>
+        </td>
+        <td>{{tx.CreatedAt | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+      </tr>
+    </ng-template>
+  </p-table>
+</p-card>

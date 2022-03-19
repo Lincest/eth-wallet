@@ -53,6 +53,8 @@ func InitRoutes() {
 		authGroup.POST("/transaction", ctl.NewTransactionAction)
 		authGroup.GET("/transaction/:transaction-hash", ctl.CheckTransactionAction)
 		authGroup.POST("/transaction/:id", ctl.AccelerateTransactionAction)
+		authGroup.GET("/transaction/latest", ctl.GetLatestTransactionAction)
+		authGroup.GET("/transaction/count", ctl.GetTransactionCountAction)
 	}
 	err := router.Run(":8765")
 	if err != nil {

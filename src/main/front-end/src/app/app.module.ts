@@ -43,6 +43,7 @@ import { TransactionItemComponent } from './components/transaction-search/transa
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { HomeDefaultComponent } from './components/home-default/home-default.component';
 import { TransactionSearchComponent } from './components/transaction-search/transaction-search.component';
+import { TransactionHistoryComponent } from './components/transaction-history/transaction-history.component';
 
 @NgModule({
   declarations: [
@@ -61,7 +62,8 @@ import { TransactionSearchComponent } from './components/transaction-search/tran
     TransactionItemComponent,
     PageNotFoundComponent,
     HomeDefaultComponent,
-    TransactionSearchComponent
+    TransactionSearchComponent,
+    TransactionHistoryComponent
   ],
     imports: [
         BrowserModule,

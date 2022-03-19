@@ -132,7 +132,7 @@ func GetLatestTransactionAction(c *gin.Context) {
 	}
 }
 
-func GetTransactionCount(c *gin.Context) {
+func GetTransactionCountAction(c *gin.Context) {
 	resp := utils.NewBasicResp()
 	defer c.JSON(http.StatusOK, resp)
 	session := utils.GetSession(c)
