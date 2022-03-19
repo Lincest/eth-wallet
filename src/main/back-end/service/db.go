@@ -39,3 +39,16 @@ func ConnectDB() {
 	sqlDB.SetConnMaxLifetime(time.Duration(dbConf.MaxLifeTime) * time.Second) // 可复用连接最大时间
 	log.Print("连接数据库成功")
 }
+
+// Paginate 分页器
+// page: 页(从1开始), pageSize: 每页记录数
+// usage: db.Scopes(Paginate(page, pageSize))
+func Paginate(page int, pageSize int) func(db *gorm.DB) *gorm.DB {
+	return func(db *gorm.DB) *gorm.DB {
+		if page == 0 {
+			page = 1
+		}
+		offset := (page - 1) * pageSize
+		return db.Offset(offset).Limit(pageSize)
+	}
+}

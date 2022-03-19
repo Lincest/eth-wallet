@@ -247,3 +247,43 @@ func (srv *transactionService) AccelerateTransaction(id uint, newGasPrice string
 	}
 	return transaction.Hash, nil
 }
+
+// GetTransactionListByUIDAndNetwork 根据uid和network查找用户对应的交易
+// 按按时间倒序排序
+func (srv *transactionService) GetTransactionListByUIDAndNetwork(uid uint, network string) ([]model.Transaction, error) {
+	var transactions []model.Transaction
+	if err := db.Where("uid = ? and network = ?", uid, network).Order("created_at desc").Find(&transactions).Error; err != nil {
+		return nil, err
+	}
+	return transactions, nil
+}
+
+// GetTransactionListByAddressAndNetwork 根据 address 查找交易 (不管是作为from还是to)
+// 按按时间倒序排序
+func (srv *transactionService) GetTransactionListByAddressAndNetwork(address common.Address, network string) ([]model.Transaction, error) {
+	var transactions []model.Transaction
+	if err := db.Where("(from_address = ? OR to_address = ?) AND network = ?", address, address, network).Order("created_at desc").Find(&transactions).Error; err != nil {
+		return nil, err
+	}
+	return transactions, nil
+}
+
+// GetTransactionListByAddressAndNetworkWithPage 根据 address 查找交易 (不管是作为from还是to)
+// 分页, 按按时间倒序排序
+func (srv *transactionService) GetTransactionListByAddressAndNetworkWithPage(address common.Address, network string, page int, pageSize int) ([]model.Transaction, error) {
+	var transactions []model.Transaction
+	if err := db.Scopes(Paginate(page, pageSize)).Where("(from_address = ? OR to_address = ?) AND network = ?", address, address, network).Order("created_at desc").Find(&transactions).Error; err != nil {
+		return nil, err
+	}
+	return transactions, nil
+}
+
+// GetTransactionListByUIDAndNetworkWithPage 根据uid和network查找用户对应的交易
+// 分页, 按按时间倒序排序
+func (srv *transactionService) GetTransactionListByUIDAndNetworkWithPage(uid uint, network string, page int, pageSize int) ([]model.Transaction, error) {
+	var transactions []model.Transaction
+	if err := db.Scopes(Paginate(page, pageSize)).Where("uid = ? and network = ?", uid, network).Order("created_at desc").Find(&transactions).Error; err != nil {
+		return nil, err
+	}
+	return transactions, nil
+}

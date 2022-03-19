@@ -55,8 +55,49 @@ func TestTransactionService_CheckTransaction(t *testing.T) {
 	t.Logf("%#v", tx)
 }
 
-func TestWalletService_AccelerateTransaction(t *testing.T) {
-	if err := Transaction.AccelerateTransaction(13, "10023971430", 15); err != nil {
+func TestTransactionService_AccelerateTransaction(t *testing.T) {
+	if _, err := Transaction.AccelerateTransaction(13, "10023971430", 15); err != nil {
 		t.Error(err)
+	}
+}
+
+func TestTransactionService_GetTransactionListByAddress(t *testing.T) {
+	address := common.HexToAddress("0xc06ebc7f2d398c156c811a16e89db3d0aba61d9e")
+	transactions, err := Transaction.GetTransactionListByAddressAndNetwork(address, "https://ropsten.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161")
+	if err != nil {
+		t.Error(err)
+	}
+	for _, tx := range transactions {
+		t.Logf("from = %x, to = %x", tx.FromAddress, tx.ToAddress)
+	}
+}
+
+func TestTransactionService_GetTransactionListByUIDAndNetwork(t *testing.T) {
+	uid := uint(15)
+	transactions, err := Transaction.GetTransactionListByUIDAndNetwork(uid, "https://ropsten.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161")
+	if err != nil {
+		t.Error(err)
+	}
+	for _, tx := range transactions {
+		t.Logf("uid = %d, from = %x, to = %x, time = %s", tx.UID, tx.FromAddress, tx.ToAddress, tx.CreatedAt)
+	}
+	t.Logf("\n ===  Local Transaction === \n")
+	localTransactions, err := Transaction.GetTransactionListByUIDAndNetwork(uid, "http://localhost:7545")
+	if err != nil {
+		t.Error(err)
+	}
+	for _, tx := range localTransactions {
+		t.Logf("uid = %d, from = %x, to = %x, time = %s", tx.UID, tx.FromAddress, tx.ToAddress, tx.CreatedAt)
+	}
+}
+
+func TestTransactionService_GetTransactionListByAddressAndNetworkWithPage(t *testing.T) {
+	address := common.HexToAddress("0xc06ebc7f2d398c156c811a16e89db3d0aba61d9e")
+	transactions, err := Transaction.GetTransactionListByAddressAndNetworkWithPage(address, "https://ropsten.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161", 1, 5)
+	if err != nil {
+		t.Error(err)
+	}
+	for _, tx := range transactions {
+		t.Logf("from = %x, to = %x, created_at: %s", tx.FromAddress, tx.ToAddress, tx.CreatedAt)
 	}
 }
