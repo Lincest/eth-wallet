@@ -75,9 +75,9 @@ func AccelerateTransactionAction(c *gin.Context) {
 	session := utils.GetSession(c)
 	idStr := c.Param("id")
 	var req struct {
-		GasPrice string `json:"gas_price" form:"gas_price"`
+		GasPrice string `json:"gas_price" form:"gas_price" binding:"required"`
 	}
-	if err := c.Bind(&req); err != nil {
+	if err := c.ShouldBind(&req); err != nil {
 		resp.Code = model.CodeErr
 		resp.Msg = err.Error()
 		return
@@ -88,9 +88,11 @@ func AccelerateTransactionAction(c *gin.Context) {
 		resp.Msg = err.Error()
 		return
 	}
-	if err := service.Transaction.AccelerateTransaction(uint(id), req.GasPrice, session.UID); err != nil {
+	if txHash, err := service.Transaction.AccelerateTransaction(uint(id), req.GasPrice, session.UID); err != nil {
 		resp.Code = model.CodeErr
 		resp.Msg = err.Error()
 		return
+	} else {
+		resp.Data = txHash
 	}
 }

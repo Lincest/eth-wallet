@@ -56,6 +56,8 @@
 
 ## API
 
+具体见`backend/router/router.go`
+
 - `BASE_URL`: `/api/v1` 
 - `AUTH_URL`: `/api/v1/auth` 鉴权后url
 

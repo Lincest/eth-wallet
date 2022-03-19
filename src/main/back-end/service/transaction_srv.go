@@ -184,32 +184,33 @@ func (srv *transactionService) GetAndUpdateTransactionByHash(transactionHash str
 
 // AccelerateTransaction 根据transaction的id和新的gasPrice加速(更新)transaction
 // 原理: 更改gas price, 并用原来的nonce值重新将交易上链
-func (srv *transactionService) AccelerateTransaction(id uint, newGasPrice string, uid uint) error {
+// 返回新交易的 tx hash
+func (srv *transactionService) AccelerateTransaction(id uint, newGasPrice string, uid uint) (string, error) {
 	transaction := model.Transaction{}
 	if err := db.First(&transaction, id).Error; err != nil {
-		return err
+		return "", err
 	}
 	if transaction.UID != uid {
-		return fmt.Errorf("没有权限修改")
+		return "", fmt.Errorf("没有权限修改")
 	}
 	client, err := ethclient.Dial(transaction.Network)
 	if err != nil {
-		return err
+		return "", err
 	}
 	defer client.Close()
 	// 查询交易
 	_, isPending, err := client.TransactionByHash(context.Background(), common.HexToHash(transaction.Hash))
 	if !isPending {
-		return fmt.Errorf("交易已经完成, 不可修改")
+		return "", fmt.Errorf("交易已经完成, 不可修改")
 	}
 	nonceInt, err := strconv.Atoi(transaction.Nonce)
 	if err != nil {
-		return err
+		return "", err
 	}
 	nonce := uint64(nonceInt)
 	gasLimitInt, err := strconv.Atoi(transaction.GasLimit)
 	if err != nil {
-		return err
+		return "", err
 	}
 	gasLimit := uint64(gasLimitInt)
 	transVal := big.NewInt(0)
@@ -220,29 +221,29 @@ func (srv *transactionService) AccelerateTransaction(id uint, newGasPrice string
 	fmt.Printf("cost: %v \n", utils.Wallet.Wei2Eth(newTx.Cost()))
 	chainID, err := client.ChainID(context.Background())
 	if err != nil {
-		return err
+		return "", err
 	}
 	account := model.Account{Address: transaction.FromAddress}
 	if err := db.Where(&account).First(&account).Error; err != nil {
-		return err
+		return "", err
 	}
 	privKey, err := crypto.HexToECDSA(account.PrivateKeyHex)
 	if err != nil {
-		return err
+		return "", err
 	}
 	signedTx, err := types.SignTx(newTx, types.NewEIP155Signer(chainID), privKey)
 	if err != nil {
-		return err
+		return "", err
 	}
 	// 8 - 利用SendTransaction将已签名的事务广播到整个网络
 	if err := client.SendTransaction(context.Background(), signedTx); err != nil {
-		return err
+		return "", err
 	}
 	fmt.Printf("Transaction Hex: (%#v) 已经被广播", signedTx.Hash().Hex())
 	transaction.Hash = signedTx.Hash().Hex() // 更新后哈希值和gasPrice是改变量
 	transaction.GasPrice = newGasPrice
 	if err := db.Save(&transaction).Error; err != nil {
-		return err
+		return "", err
 	}
-	return nil
+	return transaction.Hash, nil
 }

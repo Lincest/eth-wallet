@@ -26,4 +26,5 @@ export interface TransactionResp {
   is_pending: boolean;
   block_number: string;
   block_hash: string;
+  network: string;
 }

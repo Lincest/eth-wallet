@@ -53,7 +53,9 @@ export class MnemonicComponent implements OnInit {
               this.router.navigate(['/home']).then();
             }, 500)
           } else {
-            this.msgService.add(errorPop);
+            const err = {...errorPop};
+            err.detail = res.msg;
+            this.msgService.add(err);
           }
         })
       }

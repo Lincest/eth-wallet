@@ -5,6 +5,7 @@ import {MsgService} from "../../services/msg.service";
 import {Code} from "../../models/resp";
 import Web3 from 'web3';
 import {access} from "fs";
+import {ActivatedRoute} from "@angular/router";
 
 @Component({
   selector: 'app-account',
@@ -39,12 +40,15 @@ export class AccountComponent implements OnInit {
   privateKey = ""
 
   // 总余额
-
   totalBalance = ""
+
+  // address from url
+  checkAddress = ""
 
   constructor(
     private accountService: AccountService,
-    private msgService: MsgService
+    private msgService: MsgService,
+    public route: ActivatedRoute
   ) {
   }
 
@@ -54,11 +58,20 @@ export class AccountComponent implements OnInit {
 
   load() {
     this.loading = true;
+    this.checkAddress = "";
     this.accountService.getAllAccounts().subscribe(resp => {
       this.loading = false;
       if (resp.code === Code.ok) {
         this.accounts = resp.data as Account[];
         this.getTotalBalance();
+        // check for query params
+        this.route.queryParams.subscribe(re => {
+          this.checkAddress = re['address']
+          console.log(this.checkAddress)
+          if (this.checkAddress) {
+            this.accounts = this.accounts.filter(x => x.address === this.checkAddress)
+          }
+        })
       } else {
         this.msgService.addError("获取账户信息失败")
       }

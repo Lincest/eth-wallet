@@ -26,11 +26,21 @@ func (srv *mnemonicService) NewFromMnemonic(mnemonic string) (*hdwallet.Wallet, 
 }
 
 // UpdateMnemonicByName 更新用户助记词
+// 只允许向没有助记词的用户添加助记词, 不允许更改已有用户的助记词
 func (srv *mnemonicService) UpdateMnemonicByName(mnemonic string, name string) error {
 	// 检查助记词合法性
 	if ok := bip39.IsMnemonicValid(mnemonic); !ok {
 		return fmt.Errorf("助记词[%s]不合法", mnemonic)
 	}
+	// 检查是否已经有合法助记词
+	oldMnemonic, err := Mnemonic.GetMnemonicByName(name)
+	if err != nil {
+		return err
+	}
+	if bip39.IsMnemonicValid(oldMnemonic) {
+		return fmt.Errorf("本用户已经存在助记词, 请新建用户导入新助记词")
+	}
+	// 更新助记词
 	if err := db.Model(&model.User{}).Where("name = ?", name).Update("mnemonic", mnemonic).Error; err != nil {
 		return fmt.Errorf("更新助记词失败: %s", err)
 	}

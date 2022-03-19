@@ -32,7 +32,8 @@
         class="w-3rem h-3rem flex align-items-center justify-content-center bg-green-100 border-circle mr-3 flex-shrink-0">
         <i class="pi pi-calendar text-xl text-green-500"></i>
       </div>
-      <span class="text-700 line-height-3">创建时间:<span class="text-blue-700"> {{data.CreatedAt | date:'yyyy-MM-dd HH:mm:ss'}}</span></span>
+      <span class="text-700 line-height-3">创建时间:<span
+        class="text-blue-700"> {{data.CreatedAt | date:'yyyy-MM-dd HH:mm:ss'}}</span></span>
     </li>
   </ul>
 
@@ -88,20 +89,26 @@
     </li>
   </ul>
 
-    <span class="block text-600 font-medium mb-3">STATUS</span>
-    <ul class="p-0  mx-0 mt-0 mb-4 list-none">
-      <li class="flex align-items-center py-2">
-        <div
-          class="w-3rem h-3rem flex align-items-center justify-content-center bg-blue-100 border-circle mr-3 flex-shrink-0">
-          <i class="pi pi-info-circle text-xl text-blue-500"></i>
-        </div>
-        <span class="text-700 line-height-3">交易状态:
-												<span *ngIf="data.status && !data.is_pending" class="badge success">&nbsp;&nbsp;成功交易&nbsp;&nbsp;</span>
-												<span *ngIf="!data.status && !data.is_pending" class="badge fail">&nbsp;&nbsp;交易失败&nbsp;&nbsp;</span>
+  <span class="block text-600 font-medium mb-3">STATUS</span>
+  <ul class="p-0  mx-0 mt-0 mb-4 list-none">
+    <li class="flex align-items-center py-2">
+      <div
+        class="w-3rem h-3rem flex align-items-center justify-content-center bg-blue-100 border-circle mr-3 flex-shrink-0">
+        <i class="pi pi-info-circle text-xl text-blue-500"></i>
+      </div>
+      <span class="text-700 line-height-3">交易状态:
+												<span *ngIf="data.status && !data.is_pending"
+                              class="badge success">&nbsp;&nbsp;成功交易&nbsp;&nbsp;</span>
+												<span *ngIf="!data.status && !data.is_pending"
+                              class="badge fail">&nbsp;&nbsp;交易失败&nbsp;&nbsp;</span>
 												<span *ngIf="data.is_pending" class="badge pending">&nbsp;&nbsp;正在等待&nbsp;&nbsp;</span>
         </span>
-      </li>
-    </ul>
+      <span class="ml-7">
+        <button *ngIf="data.is_pending" pButton pRipple type="button" label="加速交易"
+                class="p-button-outlined p-button-help" (click)="accelerateTransaction()"></button>
+        </span>
+    </li>
+  </ul>
 
   <span class="block text-600 font-medium mb-3">BLOCK</span>
   <ul class="p-0 m-0 list-none">
@@ -117,7 +124,39 @@
         class="w-3rem h-3rem flex align-items-center justify-content-center bg-green-100 border-circle mr-3 flex-shrink-0">
         <i class="pi pi-server text-xl text-green-500"></i>
       </div>
-      <span class="text-700 line-height-3"> Block Number: <span class="text-blue-700">{{data.block_number}}</span></span>
+      <span class="text-700 line-height-3"> Block Number: <span
+        class="text-blue-700">{{data.block_number}}</span></span>
     </li>
   </ul>
 </div>
+
+<p-dialog header="加速交易" [(visible)]="accDialogVisible" [style]="{width: '50vw'}" [modal]="true">
+  <div class="mb-5">
+    <span class="text-700 mb-5">请在下面输入新的gas price 值, 之前的gas price值为: <span class="text-blue-600">{{data.gas_price | ethWei: 'wei2gwei'}} Gwei</span></span>
+  </div>
+  <div class="field grid mb-6">
+    <label class="col-1 text-lg">New Gas Price</label>
+    <div class="col-7">
+      <div class="p-inputgroup">
+        <span class="p-inputgroup-addon">GWei </span>
+        <input type="text" pInputText [placeholder]="suggestGasPrice" [(ngModel)]='gasPrice' pattern="^\d*\.?\d+$"
+               #transferGas="ngModel">
+      </div>
+      <small *ngIf="transferGas.invalid" class="p-error block">请输入正确的GWei单位</small>
+      <small class="block">1 ETH = 1000000000 GWei, 建议值:
+        <font class="text-green-600"> {{suggestGasPrice}} </font>
+        <i class="pi pi-question-circle text-xs" pTooltip="建议值根据过去多个区块的gas price取平均值"></i>
+      </small>
+    </div>
+    <div class="col-4">
+      <div class="p-inputgroup">
+        <span class="p-inputgroup-addon">ETH </span>
+        <input type="text" pInputText placeholder="value" [value]='gasPrice | ethWei: "gwei"' disabled>
+      </div>
+    </div>
+  </div>
+  <div class="filed grid">
+    <button *ngIf="data.is_pending" pButton pRipple type="button" label="确认加速"
+            (click)="saveAccelerate()"></button>
+    </div>
+</p-dialog>

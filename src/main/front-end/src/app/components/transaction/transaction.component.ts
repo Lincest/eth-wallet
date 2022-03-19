@@ -97,10 +97,10 @@ export class TransactionComponent implements OnInit {
     this.filteredToAccounts = filtered;
   }
 
-  // 获取建议web3
+  // 获取建议gas price
   getSuggestGasPrice() {
     let web3 = new Web3(this.network)
-    const suggestGasPrice = web3.eth.getGasPrice().then(
+    web3.eth.getGasPrice().then(
       res => {
         this.suggestGasPrice = Web3.utils.fromWei(res, 'gwei');
         this.gasPrice = Web3.utils.fromWei(res, 'gwei');
