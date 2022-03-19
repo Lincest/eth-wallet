@@ -96,3 +96,57 @@ func AccelerateTransactionAction(c *gin.Context) {
 		resp.Data = txHash
 	}
 }
+
+func GetLatestTransactionAction(c *gin.Context) {
+	resp := utils.NewBasicResp()
+	defer c.JSON(http.StatusOK, resp)
+	session := utils.GetSession(c)
+	page := c.Query("page")
+	pageSize := c.Query("page_size")
+	network, err := service.Wallet.GetNetWorkByID(session.NetworkID)
+	if err != nil {
+		resp.Code = model.CodeErr
+		resp.Msg = err.Error()
+		return
+	}
+	if page == "" || pageSize == "" {
+		transactions, err := service.Transaction.GetTransactionListByUIDAndNetwork(session.UID, network.Url)
+		if err != nil {
+			resp.Code = model.CodeErr
+			resp.Msg = err.Error()
+			return
+		}
+		resp.Data = transactions
+		return
+	} else {
+		pageInt, _ := strconv.Atoi(page)
+		pageSizeInt, _ := strconv.Atoi(pageSize)
+		transactions, err := service.Transaction.GetTransactionListByUIDAndNetworkWithPage(session.UID, network.Url, pageInt, pageSizeInt)
+		if err != nil {
+			resp.Code = model.CodeErr
+			resp.Msg = err.Error()
+			return
+		}
+		resp.Data = transactions
+		return
+	}
+}
+
+func GetTransactionCount(c *gin.Context) {
+	resp := utils.NewBasicResp()
+	defer c.JSON(http.StatusOK, resp)
+	session := utils.GetSession(c)
+	network, err := service.Wallet.GetNetWorkByID(session.NetworkID)
+	if err != nil {
+		resp.Code = model.CodeErr
+		resp.Msg = err.Error()
+		return
+	}
+	if count, err := service.Transaction.GetTransactionCountByUIDAndNetwork(session.UID, network.Url); err != nil {
+		resp.Code = model.CodeErr
+		resp.Msg = err.Error()
+		return
+	} else {
+		resp.Data = count
+	}
+}

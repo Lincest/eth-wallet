@@ -287,3 +287,12 @@ func (srv *transactionService) GetTransactionListByUIDAndNetworkWithPage(uid uin
 	}
 	return transactions, nil
 }
+
+// GetTransactionCountByUIDAndNetwork 查询交易数量
+func (srv *transactionService) GetTransactionCountByUIDAndNetwork(uid uint, network string) (int64, error) {
+	var count int64
+	if err := db.Model(&model.Transaction{}).Where("uid = ? AND network = ?", uid, network).Count(&count).Error; err != nil {
+		return count, err
+	}
+	return count, nil
+}
