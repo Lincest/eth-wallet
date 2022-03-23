@@ -28,7 +28,6 @@
 - https://min-api.cryptocompare.com/
 - [Ethereum (ETH) Blockchain Explorer (etherscan.io)](https://etherscan.io/)
 - [Ropsten Ethereum (rETH) Faucet (dimensions.network)](https://faucet.dimensions.network/) (Ropsten测试网水龙头)
-- 
 
 ## file structure 文件结构
 
@@ -47,8 +46,8 @@
 ### Wallet
 
 - [x] 用户助记词管理
-- [ ] 账户管理
-- [ ] 交易管理
+- [x] 账户管理
+- [x] 交易管理
 - [x] keystore 导入
 - [x] keystore 导出
 - [x] privatekey 导入

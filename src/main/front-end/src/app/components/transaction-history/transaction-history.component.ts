@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {TransactionResp} from "../../models/transaction";
 import {TransactionService} from "../../services/transaction.service";
 import {Code} from "../../models/resp";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-transaction-history',
@@ -14,6 +15,7 @@ export class TransactionHistoryComponent implements OnInit {
   totalRecords: number = 100;
 
   constructor(
+    private router: Router,
     private transactionService: TransactionService
   ) { }
 
@@ -37,5 +39,9 @@ export class TransactionHistoryComponent implements OnInit {
         })
       }
     })
+  }
+
+  toAddress(address: string) {
+    this.router.navigate(['/home/account'], {queryParams: {address}})
   }
 }

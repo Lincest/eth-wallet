@@ -1,7 +1,7 @@
 <p-card header="最新交易记录">
-  <div class="col-5 align-items-center justify-content-center">
+  <div class="col-12 align-items-center justify-content-center">
     <p class="line-height-3 m-0">
-      本部分展示最新的交易记录, 按时间降序排列, 点击<span class="text-blue-600">Transaction Hash</span>可以跳转查看此交易的具体信息
+      本部分展示<span class="text-orange-600">本用户本网络下</span>最新的交易记录, 按时间降序排列, 点击<span class="text-blue-600">Transaction Hash</span>可以跳转查看此交易的具体信息
     </p>
   </div>
   <p-divider layout="horizontal" align="center">
@@ -25,10 +25,18 @@
             <span class="text-blue-600">{{tx.hash}}</span>
           </a>
         </td>
-        <td>{{tx.from_address}}</td>
-        <td>{{tx.to_address}}</td>
         <td>
-          <span class="text-blue-600">{{tx.value | ethWei: 'eth'}} ETH</span>
+          <a href="javascript:;" (click)="toAddress(tx.from_address)">
+            {{tx.from_address}}
+          </a>
+        </td>
+        <td>
+          <a href="javascript:;" (click)="toAddress(tx.to_address)">
+            {{tx.to_address}}
+          </a>
+        </td>
+        <td>
+          <span class="text-green-600 font-medium">{{tx.value | ethWei: 'eth'}} ETH</span>
         </td>
         <td>{{tx.CreatedAt | date:'yyyy-MM-dd HH:mm:ss'}}</td>
       </tr>

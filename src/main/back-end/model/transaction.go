@@ -25,7 +25,7 @@ type Transaction struct {
 	IsPending   bool           `json:"is_pending" form:"is_pending"`                              // 交易是否正在等待
 	BlockNumber string         `gorm:"size:255" json:"block_number" form:"block_number"`          // block number
 	BlockHash   string         `gorm:"size:255" json:"block_hash" form:"block_hash"`              // block hash
-	Network     string           `gorm:"size:255" json:"network" form:"network"`                    // network raw url e.g. http://localhost:7545
+	Network     string         `gorm:"size:255" json:"network" form:"network"`                    // network raw url e.g. http://localhost:7545
 }
 
 // TransactionReq create transaction request
