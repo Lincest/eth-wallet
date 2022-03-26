@@ -32,6 +32,7 @@ func InitRoutes() {
 		v1.POST("/register", ctl.RegisterAction)
 		v1.POST("/login", ctl.LoginAction)
 		v1.GET("/test-rpc", ctl.RpcTestAction) // param: url, chain-id
+		v1.GET("/sse-test", ctl.SSETestAction) // test for server sent event
 	}
 	// after auth group
 	authGroup := v1.Group("auth")

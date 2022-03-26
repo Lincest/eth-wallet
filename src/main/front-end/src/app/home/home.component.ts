@@ -1,6 +1,7 @@
 import {AfterViewInit, Component, OnInit} from '@angular/core';
 import {WalletService} from "../services/wallet.service";
 import {ConfirmationService, MessageService} from "primeng/api";
+import {SseService} from "../services/sse.service";
 
 @Component({
   selector: 'app-home',
@@ -16,12 +17,14 @@ export class HomeComponent implements AfterViewInit, OnInit {
 
   constructor(
     private wallet: WalletService,
-    private msgService: MessageService
+    private msgService: MessageService,
+    private sse: SseService,
   ) {
   }
 
   ngOnInit(): void {
     // this.wallet.testAccountList()
+    this.sse.test()
   }
 
   ngAfterViewInit() {
