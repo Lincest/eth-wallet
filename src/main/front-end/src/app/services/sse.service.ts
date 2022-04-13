@@ -18,8 +18,8 @@ export class SseService {
 
   // SSE support
   getServerSentEvent(url: string) {
+    const eventSource = this.getEventSource(url);
     return new Observable(obs => {
-      const eventSource = this.getEventSource(url);
 
       eventSource.onmessage = event => {
         this._zone.run(() => obs.next(event))
@@ -27,6 +27,7 @@ export class SseService {
 
       eventSource.onerror = err => {
         this._zone.run(() => obs.error(err))
+        eventSource.close()
       }
     })
   }

@@ -136,8 +136,9 @@ func (srv *walletService) InitWallet(uid uint) error {
 // AddNewAccount 根据wallet last account index衍生路径生成新的账户, 如果没有就新建钱包
 func (srv *walletService) AddNewAccount(uid uint) error {
 	wallet := model.Wallet{UID: uid}
+	fmt.Printf("(AddNewAccount)钱包: %#v", wallet)
 	// 没有钱包时, 首先新增钱包
-	if err := db.First(&wallet).Error; err != nil {
+	if err := db.First(&wallet, "uid = ?", uid).Error; err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
 			if err = srv.InitWallet(uid); err != nil {
 				return err
