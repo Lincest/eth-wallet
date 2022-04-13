@@ -30,8 +30,8 @@ export class TransactionComponent implements OnInit {
   filteredFromAccounts: Account[] = [];
   selectedFromAccount: Account;
   // to
-  filteredToAccounts: Account[] = [];
-  selectedToAccount: Account;
+  filteredToAddresses: string[] = [];
+  selectedToAddress: string;
 
   // transfer value
   transferValue: string = "0";
@@ -50,7 +50,7 @@ export class TransactionComponent implements OnInit {
     private msgService: MsgService,
   ) {
     this.selectedFromAccount = {...defaultAccount}
-    this.selectedToAccount = {...defaultAccount}
+    this.selectedToAddress = ""
   }
 
   ngOnInit(): void {
@@ -85,16 +85,16 @@ export class TransactionComponent implements OnInit {
   // for auto complete选择: to address
   filterToAddress(event: any) {
     //in a real application, make a request to a remote url with the query and return filtered results, for demo we filter at client side
-    let filtered: Account[] = [];
+    let filtered: string[] = [];
     let query = event.query;
 
     for (let i = 0; i < this.accounts.length; i++) {
       let account = this.accounts[i];
       if (account.address.toLowerCase().indexOf(query.toLowerCase()) == 0) {
-        filtered.push(account);
+        filtered.push(account.address);
       }
     }
-    this.filteredToAccounts = filtered;
+    this.filteredToAddresses = filtered;
   }
 
   // 获取建议gas price
@@ -113,7 +113,7 @@ export class TransactionComponent implements OnInit {
     const req: TransactionReq = {
       from_address: this.selectedFromAccount.address,
       from_private_key_hex: this.selectedFromAccount.private_key_hex,
-      to_address: this.selectedToAccount.address,
+      to_address: this.selectedToAddress,
       value: Web3.utils.toWei(this.transferValue, 'ether'),
       gas_price: Web3.utils.toWei(this.gasPrice, 'gwei'),
       gas_limit: this.gasLimit

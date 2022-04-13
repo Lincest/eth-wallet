@@ -29,8 +29,8 @@
       <label class="col-1 text-lg mb-0">目的账户地址</label>
       <div class="col-11">
         <p-autoComplete placeholder="( to address )" [dropdown]="true" [multiple]="false"
-                        [suggestions]="filteredToAccounts" (completeMethod)="filterToAddress($event)" field="address"
-                        [(ngModel)]="selectedToAccount"></p-autoComplete>
+                        [suggestions]="filteredToAddresses" (completeMethod)="filterToAddress($event)"
+                        [(ngModel)]="selectedToAddress"></p-autoComplete>
       </div>
     </div>
     <div class="field grid mb-6 justify-content-start">
