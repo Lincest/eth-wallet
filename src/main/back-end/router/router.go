@@ -13,6 +13,7 @@ import (
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-contrib/sessions/cookie"
 	"github.com/gin-gonic/gin"
+	csrf "github.com/utrack/gin-csrf"
 	"log"
 )
 
@@ -37,6 +38,14 @@ func InitRoutes() {
 	// after auth group
 	authGroup := v1.Group("auth")
 	authGroup.Use(ctl.LoginCheck) // auth中间件检查用户是否登录
+	// csrf
+	authGroup.Use(csrf.Middleware(csrf.Options{
+		Secret:conf.Config.Csrf.Secret,
+		ErrorFunc: func(c *gin.Context) {
+			c.String(400, "CSRF token mismatch")
+			c.Abort()
+		},
+	}))
 	{
 		authGroup.GET("/hello-world", ctl.HelloWorldAction)
 		authGroup.POST("/logout", ctl.LogoutAction)

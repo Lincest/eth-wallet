@@ -16,6 +16,7 @@ type Conf struct {
 	DB      MySQL   `yaml:"mysql"`
 	Session Session `yaml:"session"`
 	Wallet  Wallet  `yaml:"wallet"`
+	Csrf    Csrf    `yaml:"csrf"`
 }
 
 type MySQL struct {
@@ -31,6 +32,10 @@ type MySQL struct {
 type Session struct {
 	Secret string `yaml:"secret"`
 	Name   string `yaml:"name"`
+}
+
+type Csrf struct {
+	Secret string `yaml:"secret"`
 }
 
 type Wallet struct {

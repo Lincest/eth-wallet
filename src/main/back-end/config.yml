@@ -16,3 +16,7 @@ session:
 # wallet
 wallet:
   base_path: m/44'/60'/0'/0
+
+# csrf
+csrf:
+  secret: eth-wallet-csrf

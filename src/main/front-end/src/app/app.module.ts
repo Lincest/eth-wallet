@@ -5,7 +5,7 @@ import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
 import {ButtonModule} from 'primeng/button';
 import {HomeComponent} from './home/home.component';
-import {HttpClientModule} from '@angular/common/http';
+import {HttpClientModule, HttpClientXsrfModule} from '@angular/common/http';
 import {LoginComponent} from './login/login.component';
 import {PasswordModule} from "primeng/password";
 import {FormsModule} from "@angular/forms";
@@ -93,7 +93,11 @@ import { TransactionHistoryComponent } from './components/transaction-history/tr
         FileUploadModule,
         ProgressBarModule,
         AutoCompleteModule,
-        InputNumberModule
+        InputNumberModule,
+        HttpClientXsrfModule.withOptions({
+          cookieName: 'CSRF-TOKEN',
+          headerName: 'X-CSRF-TOKEN'
+        })
     ],
   providers: [],
   bootstrap: [AppComponent],

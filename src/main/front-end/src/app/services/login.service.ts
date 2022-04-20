@@ -4,6 +4,7 @@ import {AUTH_URL, BASE_URL} from "../models/global";
 import {map, Observable} from "rxjs";
 import {Code, Resp} from "../models/resp";
 import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot} from "@angular/router";
+import { CookieService } from 'ngx-cookie-service';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +13,8 @@ export class LoginService implements CanActivate {
 
   constructor(
     private http: HttpClient,
-    private router: Router
+    private router: Router,
+    private cookieService: CookieService,
   ) {
   }
 
@@ -49,6 +51,7 @@ export class LoginService implements CanActivate {
     return this.http.post<Resp>(AUTH_URL + "/logout", {}).pipe(map(x => {
       if (x.code === Code.ok) {
         localStorage.removeItem("wallet-login");
+        this.cookieService.delete('CSRF-TOKEN');
       }
       return x;
     }));
@@ -59,6 +62,12 @@ export class LoginService implements CanActivate {
     return this.http.post<Resp>(BASE_URL + "/login", {name, password}).pipe(map(x => {
       if (x.code === Code.ok) {
         localStorage.setItem("wallet-login", JSON.stringify({name, password}));
+        // set token
+        this.http.get<Resp>(AUTH_URL + "/hello-world").subscribe(res => {
+          if (res.code === Code.ok) {
+            this.cookieService.set('CSRF-TOKEN', res.data.token);
+          }
+        })
       }
       return x;
     }))

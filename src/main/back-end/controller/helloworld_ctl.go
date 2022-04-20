@@ -4,6 +4,7 @@ import (
 	"back-end/model"
 	"back-end/utils"
 	"github.com/gin-gonic/gin"
+	csrf "github.com/utrack/gin-csrf"
 	"net/http"
 )
 
@@ -21,5 +22,5 @@ func HelloWorldAction(c *gin.Context) {
 		resp.Code = model.CodeErr
 		resp.Msg = "you are not login"
 	}
-	resp.Data = gin.H{"name": session.UName}
+	resp.Data = gin.H{"name": session.UName, "token": csrf.GetToken(c)}
 }
