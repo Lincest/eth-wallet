@@ -39,7 +39,7 @@ export class LoginService implements CanActivate {
 
   // check if logged in
   isLoggedIn(): Observable<boolean> {
-    return this.http.get<Resp>(AUTH_URL + "/hello-world").pipe(
+    return this.http.get<Resp>(AUTH_URL + "/token").pipe(
       map(x => {
         return x.code === Code.ok
       })
@@ -63,7 +63,7 @@ export class LoginService implements CanActivate {
       if (x.code === Code.ok) {
         localStorage.setItem("wallet-login", JSON.stringify({name, password}));
         // set token
-        this.http.get<Resp>(AUTH_URL + "/hello-world").subscribe(res => {
+        this.http.get<Resp>(AUTH_URL + "/token").subscribe(res => {
           if (res.code === Code.ok) {
             this.cookieService.set('CSRF-TOKEN', res.data.token);
           }

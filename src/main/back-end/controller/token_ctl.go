@@ -14,7 +14,7 @@ import (
     @desc: hello world (you know)
 **/
 
-func HelloWorldAction(c *gin.Context) {
+func TokenAction(c *gin.Context) {
 	resp := utils.NewBasicResp()
 	defer c.JSON(http.StatusOK, resp)
 	session := utils.GetSession(c)

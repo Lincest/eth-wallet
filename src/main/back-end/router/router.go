@@ -40,14 +40,14 @@ func InitRoutes() {
 	authGroup.Use(ctl.LoginCheck) // auth中间件检查用户是否登录
 	// csrf
 	authGroup.Use(csrf.Middleware(csrf.Options{
-		Secret:conf.Config.Csrf.Secret,
+		Secret: conf.Config.Csrf.Secret,
 		ErrorFunc: func(c *gin.Context) {
 			c.String(400, "CSRF token mismatch")
 			c.Abort()
 		},
 	}))
 	{
-		authGroup.GET("/hello-world", ctl.HelloWorldAction)
+		authGroup.GET("/token", ctl.TokenAction)
 		authGroup.POST("/logout", ctl.LogoutAction)
 		authGroup.GET("/mnemonic", ctl.GetMnemonicAction)
 		authGroup.POST("/mnemonic", ctl.MnemonicAction)

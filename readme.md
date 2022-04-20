@@ -64,6 +64,7 @@
 | :----------------------------------------------------------: | :------------------------------------: | :----------------------------------------------: |
 |                   `{{BASE_URL}}/register`                    |                 `POST`                 |                     用户注册                     |
 |                     `{{BASE_URL}}/login`                     |        `POST {name, password}`         |                     用户登录                     |
+|                     `{{AUTH_URL}}/token`                     |        `GET`         |                     获取csrf token                     |
 |                    `{{AUTH_URL}}/logout`                     |                 `POST`                 |                     用户登出                     |
 |                   `{{AUTH_URL}}/mnemonic`                    |           `POST {mnemonic}`            |                    更新助记词                    |
 |                   `{{AUTH_URL}}/mnemonic`                    |           `GET {mnemonic}`            |                    查询助记词                    |
