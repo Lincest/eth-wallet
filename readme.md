@@ -66,6 +66,7 @@
 |                     `{{BASE_URL}}/login`                     |        `POST {name, password}`         |                     用户登录                     |
 |                    `{{AUTH_URL}}/logout`                     |                 `POST`                 |                     用户登出                     |
 |                   `{{AUTH_URL}}/mnemonic`                    |           `POST {mnemonic}`            |                    更新助记词                    |
+|                   `{{AUTH_URL}}/mnemonic`                    |           `GET {mnemonic}`            |                    查询助记词                    |
 |                    `{{AUTH_URL}}/network`                    |                 `GET`                  |            查询当前用户保存的网络节点            |
 |                    `{{AUTH_URL}}/network`                    |    `POST {chain_id, url, name, ID}`    |               新增当前用户网络节点               |
 |                    `{{AUTH_URL}}/network`                    |                `DELETE`                |               删除当前用户网络节点               |

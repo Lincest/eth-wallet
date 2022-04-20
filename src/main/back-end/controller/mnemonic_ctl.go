@@ -30,3 +30,16 @@ func MnemonicAction(c *gin.Context) {
 	}
 }
 
+func GetMnemonicAction(c *gin.Context) {
+	resp := utils.NewBasicResp()
+	defer c.JSON(http.StatusOK, resp)
+	session := utils.GetSession(c)
+	uid := session.UID
+	mnemonic, err := service.Mnemonic.GetMnemonicByUid(uid)
+	if err != nil {
+		resp.Code = model.CodeErr
+		resp.Msg = fmt.Sprintf("助记词查询错误, error: [%s]", err)
+	}
+	resp.Data = mnemonic
+}
+

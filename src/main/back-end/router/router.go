@@ -40,6 +40,7 @@ func InitRoutes() {
 	{
 		authGroup.GET("/hello-world", ctl.HelloWorldAction)
 		authGroup.POST("/logout", ctl.LogoutAction)
+		authGroup.GET("/mnemonic", ctl.GetMnemonicAction)
 		authGroup.POST("/mnemonic", ctl.MnemonicAction)
 		authGroup.GET("/network", ctl.GetNetworkAction)
 		authGroup.DELETE("/network", ctl.DeleteNetworkAction)

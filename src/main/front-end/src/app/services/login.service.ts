@@ -23,6 +23,13 @@ export class LoginService implements CanActivate {
           this.router.navigate(['/login'], {queryParams: {returnUrl: state.url}}).then();
           return false;
         }
+        this.checkMnemonic().subscribe(flag => {
+          if (!flag) {
+            this.router.navigate(['/mnemonic'], {queryParams: {returnUrl: state.url}}).then();
+            return false;
+          }
+          return true;
+        })
         return true;
       }
     ))
@@ -65,5 +72,15 @@ export class LoginService implements CanActivate {
   // 注册助记词
   updateMnemonic(mnemonic: string): Observable<Resp> {
     return this.http.post<Resp>(AUTH_URL + "/mnemonic", {mnemonic})
+  }
+
+  // 查询助记词是否创建
+  checkMnemonic(): Observable<boolean> {
+    return this.http.get<Resp>(AUTH_URL + "/mnemonic")
+      .pipe(
+        map (res => {
+          return res.code === Code.ok && res.data !== "";
+        })
+      )
   }
 }
