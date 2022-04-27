@@ -9,12 +9,16 @@ package router
 import (
 	"back-end/conf"
 	ctl "back-end/controller"
+	"back-end/model"
+	"back-end/utils"
+	"fmt"
 	"github.com/gin-contrib/cors"
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-contrib/sessions/cookie"
 	"github.com/gin-gonic/gin"
 	csrf "github.com/utrack/gin-csrf"
 	"log"
+	"net/http"
 )
 
 func InitRoutes() {
@@ -42,7 +46,17 @@ func InitRoutes() {
 	authGroup.Use(csrf.Middleware(csrf.Options{
 		Secret: conf.Config.Csrf.Secret,
 		ErrorFunc: func(c *gin.Context) {
-			c.String(400, "CSRF token mismatch")
+			resp := utils.NewBasicResp()
+			defer c.JSON(http.StatusOK, resp)
+			session := sessions.Default(c)
+			session.Options(sessions.Options{
+				Path:   "/",
+				MaxAge: -1,
+			})
+			session.Clear()
+			_ = session.Save()
+			resp.Code = model.CodeErr
+			resp.Msg = fmt.Sprintf("CSRF token mismatch")
 			c.Abort()
 		},
 	}))

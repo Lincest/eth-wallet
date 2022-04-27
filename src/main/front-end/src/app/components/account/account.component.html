@@ -1,4 +1,4 @@
-<p-progressBar  mode="indeterminate" [style]="{'height': '6px'}" [hidden]="!loading"></p-progressBar>
+<p-progressBar mode="indeterminate" [style]="{'height': '6px'}" [hidden]="!loading"></p-progressBar>
 <div class="grid">
   <div class="col-12">
     <div class="card mb-0">
@@ -7,7 +7,8 @@
           <span class="block text-xl font-medium mb-3">账户总余额</span>
           <div class="text-900 font-medium text-2xl">{{totalBalance | ethWei: 'eth'}} ETH</div>
         </div>
-        <div class="flex align-items-center justify-content-center bg-blue-100 border-round" [ngStyle]="{width: '2.5rem', height: '2.5rem'}">
+        <div class="flex align-items-center justify-content-center bg-blue-100 border-round"
+             [ngStyle]="{width: '2.5rem', height: '2.5rem'}">
           <i class="pi pi-wallet text-blue-500 text-xl"></i>
         </div>
       </div>
@@ -22,13 +23,15 @@
         <div class="p-toolbar-group-left flex flex-wrap">
           <p-button label="从keystore导入账户" icon="pi pi-plus" class="mr-2"
                     (click)="this.keystoreImportVisible = true"></p-button>
-          <button pButton pRipple label="导出全部账户为keystore文件" icon="pi pi-upload" class="p-button-help mr-2" (click)="exportKeyStore()"></button>
+          <button pButton pRipple label="导出全部账户为keystore文件" icon="pi pi-upload" class="p-button-help mr-2"
+                  (click)="exportKeyStore()"></button>
         </div>
 
         <div class="p-toolbar-group-right flex flex-wrap">
           <p-button label="从私钥导入账户" icon="pi pi-plus" class="mr-2"
                     (click)="this.privateKeyImportVisible = true"></p-button>
-          <button pButton pRipple label="基于衍生路径新增账户" icon="pi pi-plus" class="p-button-success mr-2" (click)="newAccount()"></button>
+          <button pButton pRipple label="基于衍生路径新增账户" icon="pi pi-plus" class="p-button-success mr-2"
+                  (click)="newAccount()"></button>
         </div>
       </p-toolbar>
     </p-card>
@@ -36,10 +39,10 @@
 
   <div class="col-12">
     <p-card header="账户查看">
-      <p-table [value]="accounts" dataKey="name" responsiveLayout="scroll">
+      <p-table [value]="accounts" dataKey="address" responsiveLayout="scroll">
         <ng-template pTemplate="header">
           <tr>
-            <th style="width: 3rem"></th>
+            <th >二维码</th>
             <th pSortableColumn="address">账户地址
               <p-sortIcon field="address"></p-sortIcon>
             </th>
@@ -65,45 +68,40 @@
               <span class="balance-badge">{{product.balance | ethWei: 'eth'}} ETH</span>
             </td>
             <td>
-              <button pButton pRipple type="button" icon="pi pi-search" class="p-button p-component p-button-text p-button-icon-only" (click)="showPrivateKey(product)"></button>
+              <button pButton pRipple type="button" icon="pi pi-search"
+                      class="p-button p-component p-button-text p-button-icon-only"
+                      (click)="showPrivateKey(product)"></button>
             </td>
           </tr>
         </ng-template>
-        <!--  <ng-template pTemplate="rowexpansion" let-product>-->
-        <!--    <tr>-->
-        <!--      <td colspan="7">-->
-        <!--        <div class="p-3">-->
-        <!--          <p-table [value]="product.orders" dataKey="id">-->
-        <!--            <ng-template pTemplate="header">-->
-        <!--    <tr>-->
-        <!--      <th pSortableColumn="id">Id <p-sortIcon field="price"></p-sortIcon></th>-->
-        <!--      <th pSortableColumn="customer">Customer <p-sortIcon field="customer"></p-sortIcon></th>-->
-        <!--      <th pSortableColumn="date">Date <p-sortIcon field="date"></p-sortIcon></th>-->
-        <!--      <th pSortableColumn="amount">Amount <p-sortIcon field="amount"></p-sortIcon></th>-->
-        <!--      <th pSortableColumn="status">Status <p-sortIcon field="status"></p-sortIcon></th>-->
-        <!--      <th style="width: 4rem"></th>-->
-        <!--    </tr>-->
-        <!--  </ng-template>-->
-        <!--  <ng-template pTemplate="body" let-order>-->
-        <!--    <tr>-->
-        <!--      <td>{{order.id}}</td>-->
-        <!--      <td>{{order.customer}}</td>-->
-        <!--      <td>{{order.id}}</td>-->
-        <!--      <td>{{order.amount | currency:'USD'}}</td>-->
-        <!--      <td><span [class]="'order-badge order-' + order.status.toLowerCase()">{{order.status}}</span></td>-->
-        <!--      <td><p-button type="button" icon="pi pi-search"></p-button></td>-->
-        <!--    </tr>-->
-        <!--  </ng-template>-->
-        <!--  <ng-template pTemplate="emptymessage">-->
-        <!--    <tr>-->
-        <!--      <td colspan="6">There are no order for this product yet.</td>-->
-        <!--    </tr>-->
-        <!--  </ng-template>-->
-        <!--</p-table>-->
-        <!--</div>-->
-        <!--</td>-->
-        <!--</tr>-->
-        <!--</ng-template>-->
+        <ng-template pTemplate="rowexpansion" let-product>
+          <tr>
+            <td colspan="7">
+              <div class="flex align-items-center justify-content-center">
+                <div class="qrcodeImage">
+                  <qrcode
+                    [qrdata]="product.address"
+                    [allowEmptyString]="true"
+                    [ariaLabel]="'ethereum address..'"
+                    [cssClass]="'center'"
+                    [colorDark]="'#000000ff'"
+                    [colorLight]="'#ffffffff'"
+                    [elementType]="'canvas'"
+                    [errorCorrectionLevel]="'H'"
+                    [imageSrc]="'assets/avatar.jpg'"
+                    [imageHeight]="75"
+                    [imageWidth]="75"
+                    [margin]="4"
+                    [scale]="1"
+                    [title]="'ethereum'"
+                    [width]="300"
+                  ></qrcode>
+                </div>
+              </div>
+            </td>
+          </tr>
+        </ng-template>
+
       </p-table>
     </p-card>
   </div>
@@ -144,7 +142,8 @@
       <small id="privateKey-help" class="block text-xs text-orange-500">请注意通过私钥导入的账户不与您的助记词相关联</small>
     </div>
     <div class="col-6">
-      <button pButton pRipple type="button" label="保存" class="p-button-rounded mr-2 mb-2" (click)="importPrivateKey()"></button>
+      <button pButton pRipple type="button" label="保存" class="p-button-rounded mr-2 mb-2"
+              (click)="importPrivateKey()"></button>
     </div>
   </div>
 </p-dialog>

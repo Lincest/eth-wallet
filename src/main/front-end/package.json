@@ -21,6 +21,7 @@
     "@angular/platform-browser-dynamic": "~13.2.0",
     "@angular/router": "~13.2.0",
     "@types/lodash": "^4.14.179",
+    "angularx-qrcode": "^13.0.14",
     "bip39": "^3.0.4",
     "cipher-base": "^1.0.4",
     "lodash": "^4.17.21",

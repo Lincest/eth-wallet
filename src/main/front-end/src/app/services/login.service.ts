@@ -41,6 +41,7 @@ export class LoginService implements CanActivate {
   isLoggedIn(): Observable<boolean> {
     return this.http.get<Resp>(AUTH_URL + "/token").pipe(
       map(x => {
+        this.cookieService.set('CSRF-TOKEN', x.data.token);
         return x.code === Code.ok
       })
     )
@@ -62,12 +63,6 @@ export class LoginService implements CanActivate {
     return this.http.post<Resp>(BASE_URL + "/login", {name, password}).pipe(map(x => {
       if (x.code === Code.ok) {
         localStorage.setItem("wallet-login", JSON.stringify({name, password}));
-        // set token
-        this.http.get<Resp>(AUTH_URL + "/token").subscribe(res => {
-          if (res.code === Code.ok) {
-            this.cookieService.set('CSRF-TOKEN', res.data.token);
-          }
-        })
       }
       return x;
     }))

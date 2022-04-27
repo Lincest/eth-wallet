@@ -30,20 +30,21 @@ import {NetworkComponent} from './components/network/network.component';
 import {AccordionModule} from "primeng/accordion";
 import {DividerModule} from "primeng/divider";
 import {DialogModule} from "primeng/dialog";
-import { AccountComponent } from './components/account/account.component';
+import {AccountComponent} from './components/account/account.component';
 import {TableModule} from "primeng/table";
 import {ToolbarModule} from "primeng/toolbar";
-import {FileUpload, FileUploadModule} from "primeng/fileupload";
+import {FileUploadModule} from "primeng/fileupload";
 import {ProgressBarModule} from "primeng/progressbar";
-import { EthWeiPipe } from './pipes/eth-wei.pipe';
-import { TransactionComponent } from './components/transaction/transaction.component';
+import {EthWeiPipe} from './pipes/eth-wei.pipe';
+import {TransactionComponent} from './components/transaction/transaction.component';
 import {AutoCompleteModule} from "primeng/autocomplete";
 import {InputNumberModule} from "primeng/inputnumber";
-import { TransactionItemComponent } from './components/transaction-search/transaction-item/transaction-item.component';
-import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
-import { HomeDefaultComponent } from './components/home-default/home-default.component';
-import { TransactionSearchComponent } from './components/transaction-search/transaction-search.component';
-import { TransactionHistoryComponent } from './components/transaction-history/transaction-history.component';
+import {TransactionItemComponent} from './components/transaction-search/transaction-item/transaction-item.component';
+import {PageNotFoundComponent} from './page-not-found/page-not-found.component';
+import {HomeDefaultComponent} from './components/home-default/home-default.component';
+import {TransactionSearchComponent} from './components/transaction-search/transaction-search.component';
+import {TransactionHistoryComponent} from './components/transaction-history/transaction-history.component';
+import {QRCodeModule} from 'angularx-qrcode';
 
 @NgModule({
   declarations: [
@@ -65,41 +66,43 @@ import { TransactionHistoryComponent } from './components/transaction-history/tr
     TransactionSearchComponent,
     TransactionHistoryComponent
   ],
-    imports: [
-        BrowserModule,
-        BrowserAnimationsModule,
-        MessageModule,
-        MessagesModule,
-        ToastModule,
-        HttpClientModule,
-        AppRoutingModule,
-        PasswordModule,
-        FormsModule,
-        InputTextModule,
-        ButtonModule,
-        RippleModule,
-        ChipsModule,
-        ConfirmDialogModule,
-        OverlayPanelModule,
-        MenuModule,
-        ChipModule,
-        CardModule,
-        AccordionModule,
-        DividerModule,
-        InputTextModule,
-        DialogModule,
-        TableModule,
-        ToolbarModule,
-        FileUploadModule,
-        ProgressBarModule,
-        AutoCompleteModule,
-        InputNumberModule,
-        HttpClientXsrfModule.withOptions({
-          cookieName: 'CSRF-TOKEN',
-          headerName: 'X-CSRF-TOKEN'
-        })
-    ],
+  imports: [
+    BrowserModule,
+    BrowserAnimationsModule,
+    MessageModule,
+    MessagesModule,
+    ToastModule,
+    HttpClientModule,
+    AppRoutingModule,
+    PasswordModule,
+    FormsModule,
+    InputTextModule,
+    ButtonModule,
+    RippleModule,
+    ChipsModule,
+    ConfirmDialogModule,
+    OverlayPanelModule,
+    MenuModule,
+    ChipModule,
+    CardModule,
+    AccordionModule,
+    DividerModule,
+    InputTextModule,
+    DialogModule,
+    TableModule,
+    ToolbarModule,
+    FileUploadModule,
+    ProgressBarModule,
+    AutoCompleteModule,
+    InputNumberModule,
+    QRCodeModule,
+    HttpClientXsrfModule.withOptions({
+      cookieName: 'CSRF-TOKEN',
+      headerName: 'X-CSRF-TOKEN'
+    })
+  ],
   providers: [],
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule {
+}
