@@ -41,7 +41,9 @@ export class LoginService implements CanActivate {
   isLoggedIn(): Observable<boolean> {
     return this.http.get<Resp>(AUTH_URL + "/token").pipe(
       map(x => {
-        this.cookieService.set('CSRF-TOKEN', x.data.token);
+        if (x.code === Code.ok) {
+          this.cookieService.set('CSRF-TOKEN', x.data.token);
+        }
         return x.code === Code.ok
       })
     )
