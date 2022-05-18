@@ -27,8 +27,9 @@ export class TransactionComponent implements OnInit {
   // 地址
   accounts: Account[] = [];
   // from
-  filteredFromAccounts: Account[] = [];
-  selectedFromAccount: Account;
+  filteredFromAddresses: string[] = [];
+  selectedFromAddress: string;
+  selectedFromPrivateKeyHex: string;
   // to
   filteredToAddresses: string[] = [];
   selectedToAddress: string;
@@ -49,7 +50,7 @@ export class TransactionComponent implements OnInit {
     private transactionService: TransactionService,
     private msgService: MsgService,
   ) {
-    this.selectedFromAccount = {...defaultAccount}
+    this.selectedFromAddress = ""
     this.selectedToAddress = ""
   }
 
@@ -69,22 +70,20 @@ export class TransactionComponent implements OnInit {
 
   // for auto complete选择: from address
   filterFromAddress(event: any) {
-    //in a real application, make a request to a remote url with the query and return filtered results, for demo we filter at client side
-    let filtered: Account[] = [];
+    let filtered: string[] = [];
     let query = event.query;
 
     for (let i = 0; i < this.accounts.length; i++) {
       let account = this.accounts[i];
       if (account.address.toLowerCase().indexOf(query.toLowerCase()) == 0) {
-        filtered.push(account);
+        filtered.push(account.address);
       }
     }
-    this.filteredFromAccounts = filtered;
+    this.filteredFromAddresses = filtered;
   }
 
   // for auto complete选择: to address
   filterToAddress(event: any) {
-    //in a real application, make a request to a remote url with the query and return filtered results, for demo we filter at client side
     let filtered: string[] = [];
     let query = event.query;
 
@@ -96,6 +95,12 @@ export class TransactionComponent implements OnInit {
     }
     this.filteredToAddresses = filtered;
   }
+
+  // 选取form账户的时候绑定fromPrivateKeyHex
+  setSelectedFromPrivateKeyHex(address: any) {
+    this.selectedFromPrivateKeyHex = this.accounts.find(account => account.address === address)?.private_key_hex || '';
+  }
+
 
   // 获取建议gas price
   getSuggestGasPrice() {
@@ -111,8 +116,8 @@ export class TransactionComponent implements OnInit {
   // 提交
   submitTransaction() {
     const req: TransactionReq = {
-      from_address: this.selectedFromAccount.address,
-      from_private_key_hex: this.selectedFromAccount.private_key_hex,
+      from_address: this.selectedFromAddress,
+      from_private_key_hex: this.selectedFromPrivateKeyHex,
       to_address: this.selectedToAddress,
       value: Web3.utils.toWei(this.transferValue, 'ether'),
       gas_price: Web3.utils.toWei(this.gasPrice, 'gwei'),

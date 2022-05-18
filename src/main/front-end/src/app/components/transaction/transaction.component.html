@@ -14,14 +14,14 @@
       <label class="col-1 text-lg mb-0">源账户地址</label>
       <div class="col-11">
         <p-autoComplete placeholder="( from address ) 下拉可从账户中选择" [dropdown]="true" [multiple]="false"
-                        [suggestions]="filteredFromAccounts" (completeMethod)="filterFromAddress($event)"
-                        field="address" [(ngModel)]="selectedFromAccount"></p-autoComplete>
+                        [suggestions]="filteredFromAddresses" (completeMethod)="filterFromAddress($event)" (onSelect)="setSelectedFromPrivateKeyHex($event)"
+                        [(ngModel)]="selectedFromAddress"></p-autoComplete>
       </div>
     </div>
     <div class="field grid mb-6">
       <label class="col-1 text-lg mb-0">源账户私钥</label>
       <div class="col-11">
-        <p-password placeholder="( from private key )" [(ngModel)]="selectedFromAccount.private_key_hex"
+        <p-password placeholder="( from private key )" [(ngModel)]="selectedFromPrivateKeyHex"
                     [toggleMask]="true" [feedback]="false"></p-password>
       </div>
     </div>
