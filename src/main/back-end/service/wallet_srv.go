@@ -163,6 +163,17 @@ func (srv *walletService) AddNewAccount(uid uint) error {
 	if err != nil {
 		return err
 	}
+	// 检查账户是否已经创建, 如果已经存在该账户且账户属于该用户, 直接删除该账户, 然后redo
+	existAccount := &model.Account{Address: newAccount.Address}
+	if err := db.Where(existAccount).First(existAccount).Error; err == nil {
+		if existAccount.UID == uid {
+			if err := db.Unscoped().Delete(existAccount).Error; err != nil {
+				return err
+			}
+			return srv.AddNewAccount(uid)
+		}
+		return fmt.Errorf("基于助记词新增账户已经存在, 且不属于您, 您的助记词可能已经泄漏, 建议检查")
+	}
 	tx := db.Begin()
 	if err := tx.Create(&model.Account{UID: uid, DerivationPath: newPath, Address: newAccount.Address, PrivateKeyHex: privateKeyHex}).Error; err != nil {
 		tx.Rollback()
